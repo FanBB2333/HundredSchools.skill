@@ -17,6 +17,8 @@ when the user does not specify `--school` explicitly.
 | Efficiency/compression needed | "optimize", "compress", "shorter", "minimal", "efficient", "brief" | mohist |
 | Logic/reasoning/fact-checking | "prove", "logic", "verify", "fact-check", "contradiction", "analyze argument" | logician |
 
+> **Note:** Keyword matching is a weak signal. For stronger routing, combine with the task type, output goal, and risk level dimensions below.
+
 ---
 
 ## Decision Flowchart
@@ -38,6 +40,53 @@ The router follows this priority sequence:
 4. **Ambiguous intent**: If no single school dominates, default to the agent's
    standard behavior (no school override). Optionally, suggest relevant schools
    to the user.
+
+---
+
+## Enhanced Routing Layers
+
+The following three layers provide stronger routing signals than keyword matching alone.
+
+### Layer 1: Task Type Classification
+
+| Task Type | Signal Patterns | Primary School |
+|-----------|----------------|---------------|
+| Generation | "write", "create", "generate", "build", "implement" | Depends on goal (see Layer 2) |
+| Review | "review", "check", "audit", "verify", "analyze" | logician or legal |
+| Planning | "plan", "design", "architect", "break down", "strategy" | military |
+| Extraction | "summarize", "extract", "compress", "key points" | mohist |
+| Communication | "explain to", "write for", "document for", "present to" | confucian |
+| Diagnosis | "debug", "diagnose", "why is", "root cause", "investigate" | logician |
+
+### Layer 2: Output Goal Classification
+
+| Output Goal | Signal Patterns | Primary School |
+|-------------|----------------|---------------|
+| Creative / divergent | "alternatives", "options", "brainstorm", "explore" | dao |
+| Precise / exact | "exact", "strict", "conform", "match schema" | legal |
+| Compliant / rule-based | "comply", "RFC", "standard", "regulation" | legal |
+| Executable / actionable | "action items", "next steps", "plan", "timeline" | military |
+| Minimal / dense | "brief", "short", "concise", "TL;DR" | mohist |
+
+### Layer 3: Risk Level Assessment
+
+| Risk Indicator | Signal Patterns | Recommendation |
+|---------------|----------------|---------------|
+| Normal | Default for most requests | Use best single school |
+| High constraint | "production", "schema", "migration", "compliance" | Include legal in pipeline |
+| High risk | "security", "payment", "authentication", "incident" | Pipeline with logician -> legal |
+
+---
+
+## Updated Priority Sequence
+
+The router now follows this enhanced priority:
+
+1. **Explicit school parameter**: If `--school` is provided, use it directly.
+2. **Risk level assessment**: If high-risk indicators are detected, recommend a pipeline (e.g., `logician -> legal`).
+3. **Task type + output goal**: Combine Layer 1 and Layer 2 to identify the best school.
+4. **Keyword fallback**: Use the keyword heuristics table as a weak signal when other layers are ambiguous.
+5. **Ambiguous intent**: If no signal dominates, default to standard behavior or suggest top 2 candidates.
 
 ---
 

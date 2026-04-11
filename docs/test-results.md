@@ -39,9 +39,7 @@
 | Examples | Removed |
 | Extras | Removed |
 
-**Key finding:** Mohist is the most reliably activated school across all models. "Do less"
-is the easiest cognitive instruction for LLMs to follow. Every model stripped docstrings,
-returned bare `bool`, and reduced to regex-only implementations.
+**Key finding:** "Do less" is the easiest instruction for LLMs to follow. 100% activation rate -- every model stripped docstrings, returned bare `bool`, regex-only.
 
 ---
 
@@ -58,9 +56,7 @@ returned bare `bool`, and reduced to regex-only implementations.
 | Fallback code | Separate implementation provided |
 | Scope exclusions | "What this deliberately does NOT do" |
 
-**Key finding:** Military consistently produces the largest output. The `<plan>` block and
-dual-path strategy appeared in every model. GLM-4.7 was most dramatically affected (+270%),
-producing a full `<plan>` XML block with three phases and `re.VERBOSE` regex.
+**Key finding:** Military produces the largest output consistently. The `<plan>` block and dual-path strategy appeared in every model. GLM-4.7 was most affected (+270%), producing full `<plan>` XML with three phases and `re.VERBOSE` regex.
 
 ---
 
@@ -76,9 +72,7 @@ producing a full `<plan>` XML block with three phases and `re.VERBOSE` regex.
 | Claim framework | Validation steps framed as falsifiable claims |
 | Return type | Often `dict` with valid/reason/claims keys |
 
-**Key finding:** Logician is the strongest discriminator of cognitive depth. All models
-produced self-reflection sections and formal logical vocabulary. GLM-4.7 framed each
-validation step as a numbered "Claim" and used lookbehind assertions in regex.
+**Key finding:** Strongest discriminator of cognitive depth. All models produced self-reflection sections and formal logical vocabulary. GLM-4.7 framed each validation step as a numbered "Claim" with lookbehind assertions in regex.
 
 ---
 
@@ -94,9 +88,7 @@ validation step as a numbered "Claim" and used lookbehind assertions in regex.
 | Informal removal | Closing questions, colloquial language stripped |
 | Return type | Often `tuple[bool, str]` (propriety demands clarity) |
 
-**Key finding:** Confucian consistently adds philosophical concept mapping to technical
-explanations. The shift is qualitative (tone/framing) more than quantitative (size).
-Most models mapped each validation step to a specific philosophical principle.
+**Key finding:** Confucian consistently adds philosophical concept mapping. The shift is qualitative (tone/framing) more than quantitative (size).
 
 ---
 
@@ -112,11 +104,7 @@ Most models mapped each validation step to a specific philosophical principle.
 | Determinism | "Zero randomness," "no creative variance" language |
 | Tone | Rule-focused, formal, no hedging |
 
-**Key finding:** Legal is the only school that produces both expansion and compression
-depending on the model. Qwen 3.6 got shorter (-28%), interpreting "judge by law alone"
-as "strip everything except the strict implementation." GLM models got longer (+49-98%),
-interpreting it as "enumerate all rules explicitly." Both are valid readings of Legalist
-philosophy.
+**Key finding:** The only school that produces both expansion and compression depending on model. Qwen 3.6 compressed (-28%), reading "judge by law alone" as "strip to strict implementation." GLM models expanded (+49-98%), reading it as "enumerate all rules." Both are valid Legalist interpretations.
 
 ---
 
@@ -132,11 +120,7 @@ philosophy.
 | Layered architecture | 3-5 layers of validation |
 | Reversal principle | "When pushing harder yields diminishing returns, reverse" |
 
-**Key finding:** Dao is the least reliably activated school. Qwen 3.5 completely failed
-(tried to literally invoke `/skill invoke HundredSchools`). The "wu wei" principle of
-*non-action* is paradoxically the hardest instruction for an LLM -- the model must
-know when to stop rather than just follow a format template. GLM models demonstrated
-the strongest Daoist framing.
+**Key finding:** Least reliable school. Qwen 3.5 failed entirely (tried to literally invoke `/skill invoke HundredSchools`). "Non-action" is paradoxically the hardest instruction -- the model must know when to stop, not just follow a template.
 
 ---
 
@@ -185,8 +169,4 @@ Schools change *code architecture*, not just prose:
 
 ## Conclusion
 
-The HundredSchools skill successfully maps six ancient Chinese philosophical frameworks
-to six distinct modern cognitive modes in AI systems. Each school produces qualitatively
-different output -- not just in volume, but in code architecture, reasoning approach, and
-communication style. The framework demonstrates that philosophical frameworks can serve
-as effective control strategies for LLM inference behavior.
+Six philosophical frameworks produce six distinct cognitive modes -- differing not just in output volume, but in code architecture, reasoning approach, and communication style. Philosophy works as a control strategy for LLM inference.

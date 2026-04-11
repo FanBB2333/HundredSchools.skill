@@ -1,6 +1,6 @@
 # HundredSchools Case Studies -- Before vs. After Skill Activation
 
-These case studies demonstrate how the HundredSchools skill changes agent behavior on real coding problems. Each case targets a specific philosophical school and shows the contrast between default agent behavior and school-activated behavior.
+Side-by-side comparisons of default agent behavior vs. school-activated behavior on real coding problems.
 
 ---
 

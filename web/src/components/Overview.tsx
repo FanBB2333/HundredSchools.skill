@@ -148,7 +148,8 @@ export function Overview() {
 
         <div className="space-y-3">
           {caseStudies.map((cs, i) => {
-            const school = schools.find(s => s.id === cs.school)!
+            const school = schools.find(s => s.id === cs.school)
+            const schoolColor = school ? school.color : '#A890B5'
             const isExpanded = expandedCase === cs.id
 
             return (
@@ -159,8 +160,13 @@ export function Overview() {
                     className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-muted/50"
                   >
                     <span className="flex items-center gap-2 text-sm font-medium">
-                      <SchoolDot school={cs.school} />
+                      <SchoolDot school={school ? cs.school as SchoolId : 'mohist'} />
                       {lang === 'en' ? cs.titleEn : cs.titleZh}
+                      {cs.domain && (
+                        <span className="ml-2 rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
+                          {lang === 'en' ? cs.domain.en : cs.domain.zh}
+                        </span>
+                      )}
                     </span>
                     <motion.span
                       className="text-muted-foreground text-xs"
@@ -194,8 +200,8 @@ export function Overview() {
                               <TableRow>
                                 <TableHead className="w-28 text-xs">{lang === 'en' ? 'Aspect' : '方面'}</TableHead>
                                 <TableHead className="text-xs">{t('case.without', lang)}</TableHead>
-                                <TableHead className="text-xs" style={{ color: schoolColors[cs.school] }}>
-                                  {t('case.with', lang)} ({lang === 'en' ? school.nameEn : school.nameZh})
+                                <TableHead className="text-xs" style={{ color: schoolColor }}>
+                                  {t('case.with', lang)} ({lang === 'en' ? (school?.nameEn ?? 'Pipeline') : (school?.nameZh ?? '流水线')})
                                 </TableHead>
                               </TableRow>
                             </TableHeader>
@@ -215,6 +221,32 @@ export function Overview() {
                               ))}
                             </TableBody>
                           </Table>
+                          {cs.metrics && cs.metrics.length > 0 && (
+                            <div className="mt-3 border-t pt-3">
+                              <p className="mb-1 text-xs font-medium">{lang === 'en' ? 'Observable Metrics' : '可观察指标'}</p>
+                              <ul className="list-disc pl-4 text-xs text-muted-foreground">
+                                {cs.metrics.map((m, mi) => (
+                                  <li key={mi}>{lang === 'en' ? m.en : m.zh}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          {(cs.recommendedUse || cs.notRecommendedUse) && (
+                            <div className="mt-3 border-t pt-3 grid gap-2 sm:grid-cols-2">
+                              {cs.recommendedUse && (
+                                <div>
+                                  <p className="text-xs font-medium text-green-600 dark:text-green-400">{lang === 'en' ? 'Recommended For' : '推荐用于'}</p>
+                                  <p className="text-xs text-muted-foreground">{lang === 'en' ? cs.recommendedUse.en : cs.recommendedUse.zh}</p>
+                                </div>
+                              )}
+                              {cs.notRecommendedUse && (
+                                <div>
+                                  <p className="text-xs font-medium text-orange-600 dark:text-orange-400">{lang === 'en' ? 'Not Recommended For' : '不推荐用于'}</p>
+                                  <p className="text-xs text-muted-foreground">{lang === 'en' ? cs.notRecommendedUse.en : cs.notRecommendedUse.zh}</p>
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </motion.div>
                     )}

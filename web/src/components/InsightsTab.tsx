@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { SchoolDot } from './SchoolDot'
 import { AnimatedCard } from './AnimatedCard'
+import { EvaluationTable } from './EvaluationTable'
 
 const spectrumRows = [
   { dir: { en: 'Compression', zh: '压缩' }, school: 'mohist' as SchoolId, avg: '-63%', strat: { en: 'Strip everything non-essential', zh: '去除一切非必要内容' } },
@@ -32,6 +33,24 @@ const signatureData = [
   { school: 'legal' as SchoolId, q: { en: 'What are the exact rules?', zh: '确切的规则是什么？' } },
   { school: 'military' as SchoolId, q: { en: "What's the strategy and fallback?", zh: '策略和后备方案是什么？' } },
   { school: 'logician' as SchoolId, q: { en: 'How do I know this is correct?', zh: '我怎么知道这是对的？' } },
+]
+
+// Decision guide data
+const decisionRows = [
+  { workEn: 'Need creative exploration', workZh: '需要创意探索', primary: 'dao' as SchoolId, secondary: 'military' as SchoolId, evidenceEn: 'Alternative Count metric, Case 8', evidenceZh: '方案分支数指标, 案例 8' },
+  { workEn: 'Need concept clarification', workZh: '需要概念澄清', primary: 'logician' as SchoolId, secondary: 'legal' as SchoolId, evidenceEn: 'Type system & data diagnosis (Case 10, P5)', evidenceZh: '类型系统与数据诊断（案例 10, P5）' },
+  { workEn: 'Need strict formatted output', workZh: '需要严格格式输出', primary: 'legal' as SchoolId, secondary: 'logician' as SchoolId, evidenceEn: 'Schema/migration/defense (Case 3, 9, 14)', evidenceZh: 'Schema/迁移/防御（案例 3, 9, 14）' },
+  { workEn: 'Need complex planning', workZh: '需要复杂规划', primary: 'military' as SchoolId, secondary: 'legal' as SchoolId, evidenceEn: 'Plan Structure metric, Case 4, 13', evidenceZh: '计划结构指标, 案例 4, 13' },
+  { workEn: 'Need multi-audience expression', workZh: '需要多受众表达', primary: 'confucian' as SchoolId, secondary: 'military' as SchoolId, evidenceEn: 'Documentation (Case 11), Tone Quality', evidenceZh: '文档写作（案例 11），语调质量' },
+  { workEn: 'Need high-density extraction', workZh: '需要高密度提炼', primary: 'mohist' as SchoolId, secondary: 'legal' as SchoolId, evidenceEn: 'Meeting minutes (Case 12), Compression Ratio', evidenceZh: '会议纪要（案例 12），压缩比' },
+]
+
+const pipelineRows = [
+  { scenarioEn: 'Secure code review', scenarioZh: '安全代码审查', pipelineEn: 'Logician -> Legal -> Confucian', pipelineZh: '名家 -> 法家 -> 儒家', whyEn: 'Logical analysis -> rule enforcement -> audience communication', whyZh: '逻辑分析 -> 规则执行 -> 受众沟通' },
+  { scenarioEn: 'System architecture', scenarioZh: '系统架构', pipelineEn: 'Military -> Mohist -> Legal', pipelineZh: '兵家 -> 墨家 -> 法家', whyEn: 'Strategic planning -> lean implementation -> strict output', whyZh: '战略规划 -> 精益实现 -> 严格输出' },
+  { scenarioEn: 'Creative with quality gate', scenarioZh: '创意+质量把关', pipelineEn: 'Dao -> Confucian -> Logician', pipelineZh: '道家 -> 儒家 -> 名家', whyEn: 'Exploration -> tone alignment -> claim verification', whyZh: '探索 -> 语调对齐 -> 论点验证' },
+  { scenarioEn: 'Incident response', scenarioZh: '事故响应', pipelineEn: 'Military -> Legal', pipelineZh: '兵家 -> 法家', whyEn: 'Strategic assessment -> rule-based execution', whyZh: '战略评估 -> 规则执行' },
+  { scenarioEn: 'Safety-critical tasks', scenarioZh: '安全关键任务', pipelineEn: 'Logician -> Legal -> Confucian -> XGuard', pipelineZh: '名家 -> 法家 -> 儒家 -> XGuard', whyEn: 'Boundary judgment -> rule constraint -> safe expression -> safety scoring', whyZh: '边界判断 -> 规则约束 -> 安全表达 -> 安全评分' },
 ]
 
 export function InsightsTab() {
@@ -133,19 +152,122 @@ export function InsightsTab() {
   ]
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-foreground">{t('insights.title', lang)}</h2>
+    <div className="space-y-10">
+      {/* Section 1: Multi-Dimensional Evaluation */}
+      <EvaluationTable />
 
-      {insightCards.map((card, i) => (
-        <AnimatedCard key={i} index={i}>
+      {/* Section 2: Decision Guide */}
+      <section className="space-y-6">
+        <div>
+          <h2 className="mb-2 text-xl font-semibold text-foreground">
+            {lang === 'en' ? 'Which School Should You Use?' : '你应该用哪家？'}
+          </h2>
+          <p className="mb-6 text-sm text-muted-foreground">
+            {lang === 'en'
+              ? 'Data-driven recommendations based on case studies and evaluation metrics. Each recommendation links back to specific evidence.'
+              : '基于案例研究和评测指标的数据驱动推荐。每条推荐都关联到具体证据。'}
+          </p>
+        </div>
+
+        {/* Quick Decision Table */}
+        <AnimatedCard index={0}>
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm">{card.title}</CardTitle>
+              <CardTitle className="text-sm">
+                {lang === 'en' ? 'Quick Decision Table' : '快速决策表'}
+              </CardTitle>
             </CardHeader>
-            <CardContent>{card.content}</CardContent>
+            <CardContent className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-xs">{lang === 'en' ? 'Work Type' : '工作类型'}</TableHead>
+                    <TableHead className="text-xs">{lang === 'en' ? 'Primary' : '首选'}</TableHead>
+                    <TableHead className="text-xs">{lang === 'en' ? 'Secondary' : '次选'}</TableHead>
+                    <TableHead className="text-xs">{lang === 'en' ? 'Evidence' : '依据'}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {decisionRows.map((row, i) => {
+                    const primary = schools.find(s => s.id === row.primary)!
+                    const secondary = schools.find(s => s.id === row.secondary)!
+                    return (
+                      <TableRow key={i}>
+                        <TableCell className="text-xs font-medium">{lang === 'en' ? row.workEn : row.workZh}</TableCell>
+                        <TableCell className="text-xs">
+                          <span className="flex items-center gap-1">
+                            <SchoolDot school={row.primary} />
+                            <span style={{ color: schoolColors[row.primary] }}>{lang === 'en' ? primary.nameEn : primary.nameZh}</span>
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-xs">
+                          <span className="flex items-center gap-1">
+                            <SchoolDot school={row.secondary} />
+                            <span className="text-muted-foreground">{lang === 'en' ? secondary.nameEn : secondary.nameZh}</span>
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-xs text-muted-foreground">{lang === 'en' ? row.evidenceEn : row.evidenceZh}</TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </Table>
+            </CardContent>
           </Card>
         </AnimatedCard>
-      ))}
+
+        {/* Pipeline Recommendations */}
+        <AnimatedCard index={1}>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">
+                {lang === 'en' ? 'Pipeline Recommendations' : '流水线推荐'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="overflow-x-auto">
+              <p className="mb-3 text-xs text-muted-foreground">
+                {lang === 'en'
+                  ? 'For complex tasks, combining schools in a pipeline produces stronger results than any single school.'
+                  : '对于复杂任务，将学派组合成流水线比使用单一学派效果更好。'}
+              </p>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-xs">{lang === 'en' ? 'Scenario' : '场景'}</TableHead>
+                    <TableHead className="text-xs">{lang === 'en' ? 'Pipeline' : '流水线'}</TableHead>
+                    <TableHead className="text-xs">{lang === 'en' ? 'Why' : '原因'}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {pipelineRows.map((row, i) => (
+                    <TableRow key={i}>
+                      <TableCell className="text-xs font-medium">{lang === 'en' ? row.scenarioEn : row.scenarioZh}</TableCell>
+                      <TableCell className="text-xs font-mono">{lang === 'en' ? row.pipelineEn : row.pipelineZh}</TableCell>
+                      <TableCell className="text-xs text-muted-foreground">{lang === 'en' ? row.whyEn : row.whyZh}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </AnimatedCard>
+      </section>
+
+      {/* Section 3: Key Insights */}
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold text-foreground">{t('insights.title', lang)}</h2>
+
+        {insightCards.map((card, i) => (
+          <AnimatedCard key={i} index={i}>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm">{card.title}</CardTitle>
+              </CardHeader>
+              <CardContent>{card.content}</CardContent>
+            </Card>
+          </AnimatedCard>
+        ))}
+      </section>
     </div>
   )
 }

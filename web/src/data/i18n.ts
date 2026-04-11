@@ -76,6 +76,38 @@ const translations = {
   'compare.analysis': { en: 'Analysis', zh: '分析' },
   'compare.planning': { en: 'Planning', zh: '规划' },
 
+  // Case study domain labels
+  'case.metrics': { en: 'Observable Metrics', zh: '可观察指标' },
+  'case.recommended': { en: 'Recommended For', zh: '推荐用于' },
+  'case.notRecommended': { en: 'Not Recommended For', zh: '不推荐用于' },
+
+  // Decision guide
+  'guide.title': { en: 'Which School Should You Use?', zh: '你应该用哪家？' },
+  'guide.desc': {
+    en: 'Data-driven recommendations based on case studies and evaluation metrics.',
+    zh: '基于案例研究和评测指标的数据驱动推荐。',
+  },
+  'guide.quickTable': { en: 'Quick Decision Table', zh: '快速决策表' },
+  'guide.workType': { en: 'Work Type', zh: '工作类型' },
+  'guide.primary': { en: 'Primary', zh: '首选' },
+  'guide.secondary': { en: 'Secondary', zh: '次选' },
+  'guide.evidence': { en: 'Evidence', zh: '依据' },
+  'guide.pipelines': { en: 'Pipeline Recommendations', zh: '流水线推荐' },
+  'guide.scenario': { en: 'Scenario', zh: '场景' },
+  'guide.pipeline': { en: 'Pipeline', zh: '流水线' },
+  'guide.why': { en: 'Why', zh: '原因' },
+
+  // Evaluation
+  'eval.title': { en: 'Multi-Dimensional Evaluation', zh: '多维度评测' },
+  'eval.desc': {
+    en: 'Each school evaluated across multiple prompts and observable dimensions.',
+    zh: '每个学派在多个提示词和可观察维度上的评测。',
+  },
+  'eval.dimension': { en: 'Dimension', zh: '维度' },
+  'eval.baseline': { en: 'Baseline', zh: '基准' },
+  'eval.dimDefs': { en: 'Dimension Definitions', zh: '维度定义' },
+  'eval.pending': { en: 'Evaluation data for this prompt is pending.', zh: '该提示词的评测数据待补充。' },
+
   // Footer
   'footer.text': { en: 'HundredSchools.skill — tested via CLIppet — 2026-04-11', zh: 'HundredSchools.skill — 通过CLIppet测试 — 2026-04-11' },
 

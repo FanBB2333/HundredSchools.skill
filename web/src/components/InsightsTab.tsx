@@ -50,7 +50,8 @@ const pipelineRows = [
   { scenarioEn: 'System architecture', scenarioZh: '系统架构', pipelineEn: 'Military -> Mohist -> Legal', pipelineZh: '兵家 -> 墨家 -> 法家', whyEn: 'Strategic planning -> lean implementation -> strict output', whyZh: '战略规划 -> 精益实现 -> 严格输出' },
   { scenarioEn: 'Creative with quality gate', scenarioZh: '创意+质量把关', pipelineEn: 'Dao -> Confucian -> Logician', pipelineZh: '道家 -> 儒家 -> 名家', whyEn: 'Exploration -> tone alignment -> claim verification', whyZh: '探索 -> 语调对齐 -> 论点验证' },
   { scenarioEn: 'Incident response', scenarioZh: '事故响应', pipelineEn: 'Military -> Legal', pipelineZh: '兵家 -> 法家', whyEn: 'Strategic assessment -> rule-based execution', whyZh: '战略评估 -> 规则执行' },
-  { scenarioEn: 'Safety-critical tasks', scenarioZh: '安全关键任务', pipelineEn: 'Logician -> Legal -> Confucian -> XGuard', pipelineZh: '名家 -> 法家 -> 儒家 -> XGuard', whyEn: 'Boundary judgment -> rule constraint -> safe expression -> safety scoring', whyZh: '边界判断 -> 规则约束 -> 安全表达 -> 安全评分' },
+  { scenarioEn: 'Safety-critical (0.6B)', scenarioZh: '安全关键（0.6B）', pipelineEn: 'Legal (single)', pipelineZh: '法家（单独）', whyEn: 'Empirically best: 0% over-refusal + 100% harmful refusal', whyZh: '实证最优：0% 过度拒绝 + 100% 有害拒绝' },
+  { scenarioEn: 'Safety-critical (8B+)', scenarioZh: '安全关键（8B+）', pipelineEn: 'Logician -> Legal -> Confucian', pipelineZh: '名家 -> 法家 -> 儒家', whyEn: 'Multi-stage may benefit from larger model capacity (untested)', whyZh: '多阶段可能受益于更大模型容量（待验证）' },
 ]
 
 export function InsightsTab() {
@@ -229,6 +230,11 @@ export function InsightsTab() {
                 {lang === 'en'
                   ? 'For complex tasks, combining schools in a pipeline produces stronger results than any single school.'
                   : '对于复杂任务，将学派组合成流水线比使用单一学派效果更好。'}
+              </p>
+              <p className="mb-3 text-xs font-medium text-amber-600 dark:text-amber-400">
+                {lang === 'en'
+                  ? 'Note: XGuard-Reason-0.6B empirical study (108 evals) found single Legal school outperforms all pipelines for safety evaluation. Multi-stage pipelines may work better with 8B+ models.'
+                  : '注：XGuard-Reason-0.6B 实证研究（108 次评测）发现单一法家在安全评测中优于所有流水线方案。多阶段流水线可能在 8B+ 模型上更有效。'}
               </p>
               <Table>
                 <TableHeader>

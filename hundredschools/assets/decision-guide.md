@@ -17,6 +17,7 @@
 | Need high-density extraction | Mohist (墨家) | Legal (法家) | Meeting minutes case (Case 12), Compression Ratio metric |
 | Need secure code review | Pipeline: Logician -> Legal -> Confucian | Legal -> Confucian | Pipeline case (Case 15) |
 | Need incident response | Military -> Legal (兵家 -> 法家) | Military (兵家) | Incident response case (Case 13) |
+| Need safety-critical evaluation | Legal (法家) | Logician (名家) | XGuard study: 0% over-refusal, 100% harmful refusal |
 
 ---
 
@@ -51,7 +52,7 @@ When the table above doesn't directly apply, use these three dimensions to guide
 |------------|---------------|
 | Normal | Use the best single school for the task type |
 | High constraint (schema, compliance) | Legal, or Legal at the end of a pipeline |
-| High risk (production, security) | Pipeline: Logician -> Legal, or Military -> Legal |
+| High risk (production, security) | Legal (single) — empirically validated for 0.6B safety models |
 
 ---
 
@@ -80,7 +81,10 @@ For complex tasks, combining schools produces stronger results than any single s
 | Creative with quality gate | Dao -> Confucian -> Logician | Exploration -> tone alignment -> claim verification |
 | Data pipeline with strict output | Logician -> Mohist -> Legal | Semantic analysis -> compression -> format enforcement |
 | Incident response | Military -> Legal | Strategic assessment -> rule-based execution |
-| Safety-critical tasks | Logician -> Legal -> Confucian -> XGuard | Boundary judgment -> rule constraint -> safe expression -> safety scoring |
+| Safety-critical tasks (0.6B model) | **Legal (single)** | Empirically best: 0% over-refusal + 100% harmful refusal |
+| Safety-critical tasks (8B+ model) | Logician -> Legal -> Confucian | Multi-stage may benefit from larger model capacity (untested) |
+
+> **Note on safety pipelines**: Empirical evaluation with XGuard-Reason-0.6B (108 evaluations, 12 prompts x 9 conditions) showed that the Logician -> Legal -> Confucian pipeline **regresses to baseline performance** (50% borderline over-refusal) on the 0.6B model. The single Legal school achieved the best results: 100% harmful refusal with 0% borderline over-refusal. Multi-stage pipelines may work better with larger models (8B+) that have more capacity for compound instructions. See `docs/safety-report.md` for full analysis.
 
 ---
 

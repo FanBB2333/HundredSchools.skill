@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HundredSchools - Multi-Model Test Results</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f8f9fa;
+    color: #2c3e50;
+    line-height: 1.6;
+    padding: 0 0 60px;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-bottom: 1px solid #e9ecef;
+    padding: 36px 0 28px;
+    text-align: center;
+    color: #fff;
+  }
+
+  header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  header p {
+    margin-top: 8px;
+    color: #a8b2c1;
+    font-size: 15px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* -- nav tabs -- */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin: 28px 0 0;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0;
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    padding: 10px 18px;
+    border: none;
+    background: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover { color: #495057; }
+  .tab-btn.active { color: #3a6ea5; border-bottom-color: #3a6ea5; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* -- summary cards -- */
+  .summary-section { margin-top: 28px; }
+  .summary-section h2 { font-size: 20px; margin-bottom: 16px; color: #1a1a2e; }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .summary-card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+
+  .summary-card h3 {
+    font-size: 15px;
+    color: #3a6ea5;
+    margin-bottom: 12px;
+  }
+
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 13px;
+    border-bottom: 1px solid #f1f3f5;
+  }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-label { color: #6c757d; }
+  .metric-value { font-weight: 600; }
+  .positive { color: #27ae60; }
+  .negative { color: #c0392b; }
+  .neutral  { color: #7f8c8d; }
+
+  /* -- comparison table -- */
+  .comparison-section { margin-top: 36px; }
+  .comparison-section h2 { font-size: 20px; margin-bottom: 16px; color: #1a1a2e; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+    font-size: 13px;
+  }
+
+  th {
+    background: #f1f3f5;
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    color: #495057;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-top: 1px solid #f1f3f5;
+    vertical-align: top;
+  }
+
+  tr:hover td { background: #f8f9fa; }
+
+  /* -- detail panels -- */
+  .detail-section { margin-top: 36px; }
+  .detail-section h2 { font-size: 20px; margin-bottom: 16px; color: #1a1a2e; }
+
+  .detail-card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .detail-header h4 {
+    font-size: 14px;
+    color: #1a1a2e;
+  }
+
+  .detail-toggle {
+    font-size: 12px;
+    color: #6c757d;
+    transition: transform .2s;
+  }
+
+  .detail-body {
+    display: none;
+    padding: 0;
+  }
+
+  .detail-body.open { display: block; }
+
+  .detail-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .detail-col {
+    padding: 16px 20px;
+    font-size: 13px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+    line-height: 1.5;
+    overflow-x: auto;
+  }
+
+  .detail-col:first-child { border-right: 1px solid #f1f3f5; }
+
+  .col-label {
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #adb5bd;
+    margin-bottom: 10px;
+  }
+
+  /* -- badge -- */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .badge-green  { background: #d4edda; color: #155724; }
+  .badge-red    { background: #f8d7da; color: #721c24; }
+  .badge-blue   { background: #cce5ff; color: #004085; }
+  .badge-yellow { background: #fff3cd; color: #856404; }
+  .badge-purple { background: #e8d5f5; color: #4a1270; }
+
+  /* -- observation -- */
+  .observation {
+    background: #f0f7ff;
+    border-left: 3px solid #3a6ea5;
+    padding: 14px 18px;
+    margin: 16px 20px 20px;
+    font-size: 13px;
+    color: #34495e;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .observation strong { color: #1a1a2e; }
+
+  /* -- analysis section -- */
+  .analysis-section { margin-top: 36px; }
+  .analysis-section h2 { font-size: 20px; margin-bottom: 16px; color: #1a1a2e; }
+  .analysis-card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .analysis-card h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #1a1a2e;
+  }
+  .analysis-card p {
+    font-size: 13px;
+    color: #495057;
+    margin-bottom: 10px;
+  }
+  .analysis-card ul {
+    font-size: 13px;
+    color: #495057;
+    margin-left: 20px;
+  }
+  .analysis-card li { margin-bottom: 6px; }
+
+  /* -- chart bar -- */
+  .bar-chart { margin: 16px 0; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+  .bar-label {
+    width: 120px;
+    text-align: right;
+    padding-right: 12px;
+    color: #6c757d;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    height: 22px;
+    background: #f1f3f5;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    min-width: 30px;
+    transition: width .4s ease;
+  }
+  .bar-fill.green { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+  .bar-fill.red { background: linear-gradient(90deg, #c0392b, #e74c3c); }
+  .bar-fill.blue { background: linear-gradient(90deg, #2980b9, #3498db); }
+  .bar-fill.purple { background: linear-gradient(90deg, #8e44ad, #9b59b6); }
+  .bar-fill.orange { background: linear-gradient(90deg, #d35400, #e67e22); }
+  .bar-fill.gray { background: linear-gradient(90deg, #7f8c8d, #95a5a6); }
+
+  /* -- radar-like score cards -- */
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .score-card {
+    text-align: center;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+  .score-card .score-num {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .score-card .score-label {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 4px;
+  }
+
+  /* footer */
+  .footer {
+    text-align: center;
+    color: #adb5bd;
+    font-size: 12px;
+    margin-top: 48px;
+  }
+
+  @media (max-width: 700px) {
+    .detail-columns { grid-template-columns: 1fr; }
+    .detail-col:first-child { border-right: none; border-bottom: 1px solid #f1f3f5; }
+    .summary-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>HundredSchools Multi-Model Test Results</h1>
+    <p>GLM-5.1 vs GLM-4.7 vs MiniMax-M2.5 vs Qwen 3.5-Plus vs Qwen 3.6-Plus &mdash; tested via CLIppet on 2026-04-11</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="mohist">Test 1: Mohist</button>
+    <button class="tab-btn" data-tab="logician">Test 2: Logician</button>
+    <button class="tab-btn" data-tab="confucian">Test 3: Confucian</button>
+    <button class="tab-btn" data-tab="analysis">Analysis</button>
+  </div>
+
+  <!-- ===== Overview Tab ===== -->
+  <div class="tab-panel active" id="overview">
+
+    <div class="summary-section">
+      <h2>Cross-Model Comparison Summary</h2>
+      <div class="summary-grid">
+
+        <div class="summary-card">
+          <h3>Mohist (Frugality Mode)</h3>
+          <div class="metric-row">
+            <span class="metric-label">GLM-5.1</span>
+            <span class="metric-value">3420 &rarr; 1741 bytes <span class="positive">-49%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">GLM-4.7</span>
+            <span class="metric-value">3400 &rarr; 917 bytes <span class="positive">-73%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">MiniMax-M2.5</span>
+            <span class="metric-value">1877 &rarr; 1334 bytes <span class="positive">-29%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Qwen 3.5-Plus</span>
+            <span class="metric-value">3817 &rarr; 2206 bytes <span class="positive">-42%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Qwen 3.6-Plus</span>
+            <span class="metric-value">2892 &rarr; 2482 bytes <span class="positive">-14%</span></span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <h3>Logician (Formal Analysis Mode)</h3>
+          <div class="metric-row">
+            <span class="metric-label">GLM-5.1</span>
+            <span class="metric-value">630 &rarr; 3021 bytes <span class="negative">+380%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">GLM-4.7</span>
+            <span class="metric-value">626 &rarr; 1363 bytes <span class="negative">+118%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">MiniMax-M2.5</span>
+            <span class="metric-value">1154 &rarr; 808 bytes <span class="positive">-30%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Qwen 3.5-Plus</span>
+            <span class="metric-value">949 &rarr; 1777 bytes <span class="negative">+87%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Qwen 3.6-Plus</span>
+            <span class="metric-value">406 &rarr; 1503 bytes <span class="negative">+270%</span></span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <h3>Confucian (Mentor Tone Mode)</h3>
+          <div class="metric-row">
+            <span class="metric-label">GLM-5.1</span>
+            <span class="metric-value">1330 &rarr; 2408 bytes <span class="negative">+81%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">GLM-4.7</span>
+            <span class="metric-value">801 &rarr; 831 bytes <span class="neutral">+4%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">MiniMax-M2.5</span>
+            <span class="metric-value">701 &rarr; 827 bytes <span class="negative">+18%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Qwen 3.5-Plus</span>
+            <span class="metric-value">1953 &rarr; 2182 bytes <span class="negative">+12%</span></span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Qwen 3.6-Plus</span>
+            <span class="metric-value">1226 &rarr; 2658 bytes <span class="negative">+117%</span></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="comparison-section">
+      <h2>Skill Responsiveness Rating</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Mohist (Compression)</th>
+            <th>Logician (Deep Analysis)</th>
+            <th>Confucian (Tone Shift)</th>
+            <th>Overall</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>GLM-5.1</strong></td>
+            <td><span class="badge badge-green">Strong</span> -49%, internalized "jie yong"</td>
+            <td><span class="badge badge-green">Strong</span> +380%, truth tables, fallacy naming</td>
+            <td><span class="badge badge-green">Strong</span> +81%, full mentor transformation</td>
+            <td><span class="badge badge-green">Excellent</span></td>
+          </tr>
+          <tr>
+            <td><strong>GLM-4.7</strong></td>
+            <td><span class="badge badge-green">Strong</span> -73%, aggressive stripping</td>
+            <td><span class="badge badge-blue">Good</span> +118%, structured analysis with zi-xing</td>
+            <td><span class="badge badge-yellow">Weak</span> +4%, minimal tone shift</td>
+            <td><span class="badge badge-blue">Good</span></td>
+          </tr>
+          <tr>
+            <td><strong>Qwen 3.6-Plus</strong></td>
+            <td><span class="badge badge-yellow">Weak</span> -14%, modest reduction</td>
+            <td><span class="badge badge-green">Strong</span> +270%, truth table, fallacy ID, verdict</td>
+            <td><span class="badge badge-green">Strong</span> +117%, full mentor with zheng ming</td>
+            <td><span class="badge badge-blue">Good</span></td>
+          </tr>
+          <tr>
+            <td><strong>Qwen 3.5-Plus</strong></td>
+            <td><span class="badge badge-blue">Moderate</span> -42%, explicit mohist acknowledgment</td>
+            <td><span class="badge badge-blue">Good</span> +87%, truth table + ambiguity analysis</td>
+            <td><span class="badge badge-yellow">Weak</span> +12%, partial zheng ming</td>
+            <td><span class="badge badge-blue">Moderate</span></td>
+          </tr>
+          <tr>
+            <td><strong>MiniMax-M2.5</strong></td>
+            <td><span class="badge badge-blue">Moderate</span> -29%, some reduction</td>
+            <td><span class="badge badge-red">Failed</span> -30%, output shrank instead of expanding</td>
+            <td><span class="badge badge-yellow">Weak</span> +18%, partial zheng ming reference</td>
+            <td><span class="badge badge-yellow">Fair</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="comparison-section">
+      <h2>Key Observations</h2>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h3>GLM-5.1 (Best Overall)</h3>
+          <p style="font-size:13px;color:#495057;">
+            Strongest skill responsiveness across all three schools. The model not only followed instructions but
+            <strong>internalized the philosophical principles</strong> -- citing "jie yong" in code comments,
+            producing formal truth tables for logician mode, and transforming its entire communication register
+            for confucian mode. All three schools produced qualitatively and quantitatively distinct behaviors.
+          </p>
+        </div>
+        <div class="summary-card">
+          <h3>Qwen 3.6-Plus (Strong on Analysis &amp; Tone)</h3>
+          <p style="font-size:13px;color:#495057;">
+            <strong>Best Logician expansion</strong> after GLM-5.1 at +270%. Produced truth tables, formal
+            "name-to-reality mapping" analysis, and clear fallacy identification. <strong>Best Confucian
+            transformation</strong> after GLM-5.1 at +117%, with genuine mentor tone shift including
+            "zheng ming" references and encouraging closing. <strong>Weakest Mohist compression</strong>
+            at -14%, retaining both implementations. Excels at analytical depth but struggles with restraint.
+          </p>
+        </div>
+        <div class="summary-card">
+          <h3>GLM-4.7 (Compression Champion)</h3>
+          <p style="font-size:13px;color:#495057;">
+            <strong>Best compression ratio</strong> of all models at -73% for Mohist. Logician mode produced
+            structured analysis with formal zi-xing (self-reflection) section. <strong>Weakest on Confucian</strong>
+            -- tone shift was negligible (+4%). Handles structural/format instructions better than persona/style.
+          </p>
+        </div>
+        <div class="summary-card">
+          <h3>Qwen 3.5-Plus (Balanced but Shallow)</h3>
+          <p style="font-size:13px;color:#495057;">
+            Moderate compression (-42%) with explicit acknowledgment of Mohist approach. <strong>Decent Logician</strong>
+            at +87% with truth table and ambiguity analysis, though less rigorous than GLM or Qwen 3.6. <strong>Weak
+            Confucian</strong> at +12% -- added zheng ming reference in naming section but overall tone remained
+            reviewer-focused rather than mentor-focused. The model understood the skill instructions but did not
+            deeply internalize the philosophical framework.
+          </p>
+        </div>
+        <div class="summary-card">
+          <h3>MiniMax-M2.5 (Limited Responsiveness)</h3>
+          <p style="font-size:13px;color:#495057;">
+            <strong>Logician mode failed</strong>: output shrank by 30% when it should have expanded with
+            deeper analysis. Mohist compression was modest at -29%. Confucian mode showed partial engagement
+            (cited "zheng ming") but lacked deep transformation. Overall, <strong>weakest skill adherence</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== Mohist Tab ===== -->
+  <div class="tab-panel" id="mohist">
+
+    <div class="summary-section">
+      <h2>Test 1: Mohist -- LRU Cache Implementation</h2>
+      <p style="font-size:14px;color:#6c757d;margin-bottom:16px;">
+        <strong>Prompt:</strong> "Explain how to implement LRU Cache and give me the code in Python."
+      </p>
+
+      <!-- Compression bar chart -->
+      <div class="analysis-card">
+        <h3>Compression Rate Comparison</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">GLM-4.7</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:73%">-73%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">GLM-5.1</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:49%">-49%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Qwen 3.5</span>
+            <div class="bar-track"><div class="bar-fill blue" style="width:42%">-42%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">MiniMax-M2.5</span>
+            <div class="bar-track"><div class="bar-fill orange" style="width:29%">-29%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Qwen 3.6</span>
+            <div class="bar-track"><div class="bar-fill gray" style="width:14%">-14%</div></div>
+          </div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>GLM-5.1</th>
+            <th>GLM-4.7</th>
+            <th>MiniMax-M2.5</th>
+            <th>Qwen 3.5-Plus</th>
+            <th>Qwen 3.6-Plus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Baseline size</td>
+            <td>3420 bytes</td>
+            <td>3400 bytes</td>
+            <td>1877 bytes</td>
+            <td>3817 bytes</td>
+            <td>2892 bytes</td>
+          </tr>
+          <tr>
+            <td>With Mohist size</td>
+            <td>1741 bytes</td>
+            <td>917 bytes</td>
+            <td>1334 bytes</td>
+            <td>2206 bytes</td>
+            <td>2482 bytes</td>
+          </tr>
+          <tr>
+            <td>Change</td>
+            <td><span class="badge badge-green">-49%</span></td>
+            <td><span class="badge badge-green">-73%</span></td>
+            <td><span class="badge badge-green">-29%</span></td>
+            <td><span class="badge badge-green">-42%</span></td>
+            <td><span class="badge badge-yellow">-14%</span></td>
+          </tr>
+          <tr>
+            <td>Explanation stripped</td>
+            <td>3 paragraphs &rarr; 2-line summary</td>
+            <td>Full guide &rarr; 1-line concept</td>
+            <td>How-it-works &rarr; approach note</td>
+            <td>Full sections &rarr; 3-line summary</td>
+            <td>3-line intro &rarr; 2-line intro</td>
+          </tr>
+          <tr>
+            <td>Code implementations</td>
+            <td>OrderedDict + functools</td>
+            <td>OrderedDict + from-scratch &rarr; OrderedDict only</td>
+            <td>OrderedDict + functools &rarr; OrderedDict only</td>
+            <td>From-scratch + OrderedDict &rarr; OrderedDict + from-scratch (both kept)</td>
+            <td>From-scratch + OrderedDict &rarr; __slots__ from-scratch + OrderedDict (both kept)</td>
+          </tr>
+          <tr>
+            <td>Code comments</td>
+            <td>Verbose &rarr; minimal</td>
+            <td>Verbose &rarr; minimal inline</td>
+            <td>Moderate &rarr; brief inline</td>
+            <td>Full comments &rarr; no comments</td>
+            <td>Docstrings &rarr; no comments</td>
+          </tr>
+          <tr>
+            <td>Philosophy reference</td>
+            <td>"jie yong" in code comment</td>
+            <td>None (behavioral only)</td>
+            <td>None</td>
+            <td>Explicit "I'll use the Mohist approach"</td>
+            <td>None (behavioral only)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="detail-section">
+      <h2>Full Responses</h2>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>GLM-5.1 (Baseline vs With Mohist) <span class="badge badge-green">-49%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> The mohist school's "jie yong" (frugality) mode cut response size by half.
+            The agent explicitly noted that <code>__slots__</code> on Node "reduces per-entry memory -- consistent
+            with jie yong (frugality)," showing it internalized the school's philosophy rather than just truncating output.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (3420 bytes)</span>
+3 paragraphs + table + complexity table + functools shortcut
+Verbose inline comments on every method
+Usage example, shortcut section, interview tips
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Mohist (1741 bytes)</span>
+2-line summary only
+No comments except `# sentinel`
+None of the extras
+__slots__ on Node with explicit "jie yong" reference
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>GLM-4.7 (Baseline vs With Mohist) <span class="badge badge-green">-73%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> GLM-4.7 achieved the most aggressive compression of all models (-73%).
+            It stripped the full explanation, the from-scratch implementation, and the usage example.
+            The resulting output is extremely lean -- just a 1-line concept description and
+            one OrderedDict implementation with a minimal usage block.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (3400 bytes)</span>
+## LRU Cache Explained
+
+Full explanation with How It Works, Time Complexity,
+two implementations (OrderedDict + from-scratch),
+7-line usage demo
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Mohist (917 bytes)</span>
+## LRU Cache Implementation
+
+1-line concept only
+OrderedDict implementation only
+4-line usage block
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>Qwen 3.5-Plus (Baseline vs With Mohist) <span class="badge badge-green">-42%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> Qwen 3.5 explicitly acknowledged the Mohist approach ("I'll use the Mohist
+            approach: minimal, efficient, no excess"), demonstrating <strong>meta-awareness</strong> of the skill. It stripped
+            the detailed "What is an LRU Cache?" section, usage examples, and the "Alternative" label, reducing output by 42%.
+            However, it retained <strong>both implementations</strong> (OrderedDict and from-scratch), suggesting it
+            interpreted "frugality" as "no prose" rather than "minimal code." Comments were fully stripped from code.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (3817 bytes)</span>
+# LRU Cache Implementation
+
+## What is an LRU Cache?
+[Full paragraph explanation]
+
+## Key Operations (O(1) time complexity)
+[Numbered list of operations]
+
+## Implementation Approach
+[Data structure description with bullet points]
+
+## Python Code
+[Full from-scratch with verbose docstrings + comments]
+
+## Usage Example
+[8-line annotated usage demo]
+
+## Alternative: Using OrderedDict
+[Full OrderedDict implementation]
+
+**Time Complexity**: O(1)...
+**Space Complexity**: O(capacity)
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Mohist (2206 bytes)</span>
+I'll use the Mohist approach: minimal, efficient, no excess.
+
+## LRU Cache Implementation
+
+**Core idea:** [1-line summary]
+
+**Operations:**
+- get(key): [1-line]
+- put(key, value): [1-line]
+
+[OrderedDict implementation -- no comments]
+
+**Manual doubly-linked list version** (no OrderedDict):
+
+[From-scratch implementation -- no comments, compact]
+
+**Complexity:** Both operations O(1). Space O(capacity).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>Qwen 3.6-Plus (Baseline vs With Mohist) <span class="badge badge-yellow">-14%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> Qwen 3.6 showed the <strong>weakest compression</strong> at -14%. While it
+            stripped comments and added <code>__slots__</code> for memory efficiency (an interesting structural
+            optimization aligned with "jie yong"), it retained both the from-scratch and OrderedDict implementations
+            plus the narrative intro. The model's baseline was already relatively concise (2892 bytes), and it achieved
+            minimal further compression. The <code>__slots__</code> addition suggests Qwen 3.6 understood the
+            <em>spirit</em> of Mohist frugality (optimize memory/performance) but did not apply it to the
+            <em>output format</em> (token reduction).
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (2892 bytes)</span>
+# LRU Cache
+
+[2-line explanation]
+
+[From-scratch with verbose docstrings]
+
+**Usage:**
+[5-line usage demo]
+
+**Complexity:** [1-line]
+
+---
+
+In practice, Python's OrderedDict...
+[Full OrderedDict implementation]
+
+The manual linked-list version is what interviewers typically want...
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Mohist (2482 bytes)</span>
+# LRU Cache Implementation
+
+[2-line explanation]
+
+## Design
+[2 bullet points]
+
+## Python Code
+[From-scratch with __slots__ -- no comments]
+
+## Complexity
+[3 bullet points]
+
+## Alternative (stdlib)
+[OrderedDict implementation]
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>MiniMax-M2.5 (Baseline vs With Mohist) <span class="badge badge-green">-29%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> MiniMax-M2.5's compression was modest at -29%. It removed
+            the functools alternative and __repr__ method but retained "Key mechanics" and
+            "Time complexity" notes that add bulk without functional value.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (1877 bytes)</span>
+How it works section + functools alternative
+OrderedDict impl with __repr__
+5-line usage block
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Mohist (1334 bytes)</span>
+1-line description
+OrderedDict implementation with inline comments
+Time complexity + Key mechanics notes retained
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Logician Tab ===== -->
+  <div class="tab-panel" id="logician">
+
+    <div class="summary-section">
+      <h2>Test 2: Logician -- Operator Precedence Bug</h2>
+      <p style="font-size:14px;color:#6c757d;margin-bottom:16px;">
+        <strong>Prompt:</strong> "This function should return true if a user has access. Is it correct? [has_access code]"
+      </p>
+
+      <!-- Expansion bar chart -->
+      <div class="analysis-card">
+        <h3>Analysis Expansion Rate Comparison</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">GLM-5.1</span>
+            <div class="bar-track"><div class="bar-fill red" style="width:95%">+380%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Qwen 3.6</span>
+            <div class="bar-track"><div class="bar-fill purple" style="width:68%">+270%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">GLM-4.7</span>
+            <div class="bar-track"><div class="bar-fill blue" style="width:30%">+118%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Qwen 3.5</span>
+            <div class="bar-track"><div class="bar-fill orange" style="width:22%">+87%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">MiniMax-M2.5</span>
+            <div class="bar-track"><div class="bar-fill gray" style="width:8%">-30% (FAIL)</div></div>
+          </div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>GLM-5.1</th>
+            <th>GLM-4.7</th>
+            <th>MiniMax-M2.5</th>
+            <th>Qwen 3.5-Plus</th>
+            <th>Qwen 3.6-Plus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Baseline size</td>
+            <td>630 bytes</td>
+            <td>626 bytes</td>
+            <td>1154 bytes</td>
+            <td>949 bytes</td>
+            <td>406 bytes</td>
+          </tr>
+          <tr>
+            <td>With Logician size</td>
+            <td>3021 bytes</td>
+            <td>1363 bytes</td>
+            <td>808 bytes</td>
+            <td>1777 bytes</td>
+            <td>1503 bytes</td>
+          </tr>
+          <tr>
+            <td>Change</td>
+            <td><span class="badge badge-green">+380%</span></td>
+            <td><span class="badge badge-green">+118%</span></td>
+            <td><span class="badge badge-red">-30%</span></td>
+            <td><span class="badge badge-blue">+87%</span></td>
+            <td><span class="badge badge-green">+270%</span></td>
+          </tr>
+          <tr>
+            <td>Truth table</td>
+            <td>Full 5-row truth table</td>
+            <td>3-row logic decomposition table</td>
+            <td>None (bullet list only)</td>
+            <td>5-row truth table with "Intended?" column</td>
+            <td>4-row table with "Correct?" column</td>
+          </tr>
+          <tr>
+            <td>Interpretations</td>
+            <td>Formally separated A vs B</td>
+            <td>Formally separated A vs B + hallucination detection</td>
+            <td>Listed as "What you likely intended"</td>
+            <td>"Current behavior" vs "Likely intent" formally separated</td>
+            <td>"Implicit Grouping Assumption" fallacy identified</td>
+          </tr>
+          <tr>
+            <td>Self-reflection (zi-xing)</td>
+            <td>Explicit section</td>
+            <td>Explicit section with nuanced verdict</td>
+            <td>None</td>
+            <td>Summary table with status icons</td>
+            <td>None (integrated into verdict)</td>
+          </tr>
+          <tr>
+            <td>Fallacy naming</td>
+            <td>"Concept substitution fallacy"</td>
+            <td>"Semantic ambiguity" identified</td>
+            <td>None</td>
+            <td>"Ambiguity" identified</td>
+            <td>"Implicit Grouping Assumption"</td>
+          </tr>
+          <tr>
+            <td>Philosophy references</td>
+            <td>"kong ming ze shi", "bai ma fei ma"</td>
+            <td>"kong ming ze shi", "zi-xing"</td>
+            <td>None</td>
+            <td>Explicit "Logician school" meta-reference</td>
+            <td>"Name-to-Reality Mapping" section header</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="detail-section">
+      <h2>Full Responses</h2>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>GLM-5.1 (Baseline vs With Logician) <span class="badge badge-green">+380%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> The logician school transformed a casual 630-byte bug report into a
+            3021-byte formal logic analysis with truth tables, named fallacies, and a philosophical framework
+            ("kong ming ze shi -- hold the name accountable to the reality"). The agent performed the "zi-xing"
+            (self-reflection) step described in the SKILL.md spec before finalizing its verdict.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (630 bytes)</span>
+Brief mention of operator precedence issue.
+No formal trace.
+2 one-liner fix options.
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Logician (3021 bytes)</span>
+Full 5-row truth table.
+Formally separated Interpretation A vs B.
+"Concept substitution fallacy" named.
+Explicit "bai ma fei ma" analysis + verdict section.
+3 fix options including structural refactor.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>Qwen 3.6-Plus (Baseline vs With Logician) <span class="badge badge-green">+270%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> Qwen 3.6 demonstrated the <strong>second-strongest Logician response</strong>
+            at +270% expansion. The baseline was notably minimal (406 bytes -- the shortest of all models), which
+            amplified the expansion ratio. The with-school output featured a "Name-to-Reality Mapping" analysis
+            directly inspired by "kong ming ze shi," a 4-row truth table, explicit
+            "Fallacy Identified: Implicit Grouping Assumption" categorization, and a clear verdict. Notably,
+            the model <strong>structured its analysis as a formal logical argument</strong> rather than a casual
+            code review, indicating genuine internalization of the logician framework.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (406 bytes)</span>
+No -- operator precedence makes `and` bind tighter than `or`
+
+[2-line precedence explanation]
+
+Admins always get access. Fix with parentheses:
+
+[1 fix option]
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Logician (1503 bytes)</span>
+**Logician school activated.**
+
+## Analysis: Name-to-Reality Mapping
+
+[Precedence explanation with code]
+
+| user.role | user.is_active | Returns | Correct? |
+[4-row truth table]
+
+## Fallacy Identified: Implicit Grouping Assumption
+
+[Formal analysis of intended vs actual logic]
+
+**Consequence:** [Impact analysis]
+
+## Verdict
+
+**Incorrect** (assuming inactive users should never have access).
+
+[Optimized fix using `in` operator]
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>GLM-4.7 (Baseline vs With Logician) <span class="badge badge-blue">+118%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> GLM-4.7's logician mode produced structured formal analysis with explicit
+            "kong ming ze shi" and "zi-xing" sections. The zi-xing provides a nuanced verdict
+            ("logically consistent but semantically ambiguous") rather than a simple correct/incorrect.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (626 bytes)</span>
+Operator precedence explanation.
+2 fix options (parentheses + if/elif).
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Logician (1363 bytes)</span>
+## Logical Analysis of `has_access()`
+
+### kong ming ze shi
+### Logic Decomposition [3-row table]
+### Hallucination Detection
+### zi-xing (Self-Reflection) with nuanced verdict
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>Qwen 3.5-Plus (Baseline vs With Logician) <span class="badge badge-blue">+87%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> Qwen 3.5 produced competent logician-mode output with a truth table,
+            ambiguity analysis, and a "Summary" table with status icons. However, it initially <strong>mis-analyzed
+            the baseline</strong> -- stating "the function is correct as written" before adding a caveat that
+            parentheses should be added for clarity. The Logician mode corrected this, properly identifying the
+            ambiguity as a logical flaw. This shows the school <strong>improved the model's analytical accuracy</strong>,
+            not just its output format.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (949 bytes)</span>
+The function has a **operator precedence bug**...
+
+"Actually, the function is correct as written"
+[Contradictory analysis]
+
+Should add parentheses for clarity.
+2 fix options.
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Logician (1777 bytes)</span>
+## Logical Analysis
+
+### The Problem
+[Precedence explanation with code]
+
+### Truth Table
+| user.role | user.is_active | Actual Result | Intended? |
+[5-row table]
+
+### The Ambiguity
+Current behavior vs Likely intent
+
+### Corrected Version
+[2 fix options]
+
+### Summary
+| Aspect | Status |
+[3-row status table]
+
+**Recommendation:** Clarify the business rule...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>MiniMax-M2.5 (Baseline vs With Logician) <span class="badge badge-red">-30%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> MiniMax-M2.5 <strong>failed</strong> the logician test. Output
+            shrank by 30% when it should have expanded. No truth table, no zi-xing, no fallacy naming.
+            The model interpreted logician instructions as a request for conciseness rather than analytical depth.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (1154 bytes)</span>
+The Issue, The Ambiguity, Recommendation
+2 fix versions
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Logician (808 bytes)</span>
+Analysis, What this actually does, What you likely intended
+Simpler than baseline
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Confucian Tab ===== -->
+  <div class="tab-panel" id="confucian">
+
+    <div class="summary-section">
+      <h2>Test 3: Confucian -- Code Review Tone</h2>
+      <p style="font-size:14px;color:#6c757d;margin-bottom:16px;">
+        <strong>Prompt:</strong> "A junior developer submitted this PR. Write a code review comment for [calc function]"
+      </p>
+
+      <!-- Tone shift bar chart -->
+      <div class="analysis-card">
+        <h3>Tone Transformation Depth (Output Expansion Rate)</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Qwen 3.6</span>
+            <div class="bar-track"><div class="bar-fill purple" style="width:95%">+117%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">GLM-5.1</span>
+            <div class="bar-track"><div class="bar-fill red" style="width:66%">+81%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">MiniMax-M2.5</span>
+            <div class="bar-track"><div class="bar-fill orange" style="width:15%">+18%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Qwen 3.5</span>
+            <div class="bar-track"><div class="bar-fill blue" style="width:10%">+12%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">GLM-4.7</span>
+            <div class="bar-track"><div class="bar-fill gray" style="width:3%">+4%</div></div>
+          </div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>GLM-5.1</th>
+            <th>GLM-4.7</th>
+            <th>MiniMax-M2.5</th>
+            <th>Qwen 3.5-Plus</th>
+            <th>Qwen 3.6-Plus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Baseline size</td>
+            <td>1330 bytes</td>
+            <td>801 bytes</td>
+            <td>701 bytes</td>
+            <td>1953 bytes</td>
+            <td>1226 bytes</td>
+          </tr>
+          <tr>
+            <td>With Confucian size</td>
+            <td>2408 bytes</td>
+            <td>831 bytes</td>
+            <td>827 bytes</td>
+            <td>2182 bytes</td>
+            <td>2658 bytes</td>
+          </tr>
+          <tr>
+            <td>Change</td>
+            <td><span class="badge badge-green">+81%</span></td>
+            <td><span class="badge badge-yellow">+4%</span></td>
+            <td><span class="badge badge-yellow">+18%</span></td>
+            <td><span class="badge badge-yellow">+12%</span></td>
+            <td><span class="badge badge-green">+117%</span></td>
+          </tr>
+          <tr>
+            <td>Opening tone</td>
+            <td>Direct &rarr; "Thank you for your contribution"</td>
+            <td>"A few suggestions" &rarr; "A few thoughts"</td>
+            <td>"A few issues" &rarr; "A few items"</td>
+            <td>"I need to see the actual PR" &rarr; "Thank you for this contribution"</td>
+            <td>"Here's a code review" &rarr; "Thank you for submitting"</td>
+          </tr>
+          <tr>
+            <td>Posture</td>
+            <td>Reviewer &rarr; Supportive mentor</td>
+            <td>Reviewer &rarr; Slightly softer reviewer</td>
+            <td>Reviewer &rarr; Same reviewer</td>
+            <td>Demanding reviewer &rarr; Constructive mentor</td>
+            <td>Professional reviewer &rarr; Supportive mentor</td>
+          </tr>
+          <tr>
+            <td>Philosophy refs</td>
+            <td>"zheng ming", "zhong yong zhi dao"</td>
+            <td>"zheng ming", "ke ji fu li" (closing)</td>
+            <td>"zheng ming" (section header only)</td>
+            <td>"zheng ming" with Chinese characters</td>
+            <td>"zheng ming" + "rectification of names" (explained)</td>
+          </tr>
+          <tr>
+            <td>Closing</td>
+            <td>"I look forward to your revision"</td>
+            <td>"Well-written code is its own best documentation"</td>
+            <td>"naming and lack of validation are the main concerns"</td>
+            <td>"I am happy to review again"</td>
+            <td>"These are modest adjustments... I look forward to seeing the next revision"</td>
+          </tr>
+          <tr>
+            <td>Tone transformation depth</td>
+            <td><span class="badge badge-green">Deep</span></td>
+            <td><span class="badge badge-yellow">Surface</span></td>
+            <td><span class="badge badge-yellow">Surface</span></td>
+            <td><span class="badge badge-blue">Moderate</span></td>
+            <td><span class="badge badge-green">Deep</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="detail-section">
+      <h2>Full Responses</h2>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>Qwen 3.6-Plus (Baseline vs With Confucian) <span class="badge badge-green">+117%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> Qwen 3.6 achieved the <strong>deepest Confucian tone transformation</strong>
+            of all models at +117%. The baseline was a competent but impersonal code review. With the Confucian school,
+            the model produced a review "written in the Confucian spirit of measured, constructive feedback," explicitly
+            acknowledging the philosophical framing. It applied "zheng ming -- rectification of names" to the naming
+            issue with full explanation, offered 5 points of constructive guidance with reasoning for each, and closed
+            with "These are modest adjustments, and the underlying logic is sound. I look forward to seeing the next
+            revision" -- a genuinely encouraging and relational closing that mirrors the Confucian "li" (propriety).
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (1226 bytes)</span>
+Here's a code review comment:
+
+---
+
+**Issues to address:**
+
+1. **Division by zero** -- z/x will raise ZeroDivisionError
+2. **Operator precedence / readability** -- relies on implicit precedence
+3. **Naming** -- calc, x, y, z don't convey meaning
+4. **Return type** -- No type hints
+
+**Suggested rewrite:**
+[Full rewrite with docstring]
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Confucian (2658 bytes)</span>
+Here is the code review comment, written in the Confucian spirit of measured, constructive feedback:
+
+---
+
+**Code Review: `calc` function**
+
+Thank you for submitting this. I would like to offer a few observations to help strengthen the function.
+
+**1. Naming and clarity (zheng ming -- rectification of names)**
+The function name `calc` and parameters x, y, z do not communicate intent... names should accurately reflect reality.
+
+**2. Type annotations** -- clarify expected types
+
+**3. Division by zero** -- validate and raise descriptive ValueError
+
+**4. Readability** -- add parentheses for clarity
+
+**5. Documentation** -- docstring explaining the computation
+
+**Suggested revision:**
+[Full rewrite with comprehensive docstring]
+
+These are modest adjustments, and the underlying logic is sound. I look forward to seeing the next revision.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>GLM-5.1 (Baseline vs With Confucian) <span class="badge badge-green">+81%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> The confucian school shifted the entire register from "reviewer listing
+            defects" to "mentor guiding a junior colleague." It applied "zheng ming" directly
+            to the naming issue, and invoked "zhong yong" when discussing code clarity.
+            The closing was notably encouraging.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (1330 bytes)</span>
+"needs several improvements before it's ready to merge"
+Direct reviewer tone.
+Issue list format.
+"Could you add a docstring?"
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Confucian (2408 bytes)</span>
+"Thank you for your contribution"
+Supportive mentor tone.
+"zheng ming" applied to naming.
+"zhong yong zhi dao" cited.
+"I look forward to your revision"
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>Qwen 3.5-Plus (Baseline vs With Confucian) <span class="badge badge-blue">+12%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> Qwen 3.5 showed <strong>moderate but noteworthy Confucian transformation</strong>.
+            The baseline was unusually demanding, opening with "I need to see the actual PR" and requesting additional
+            context before providing feedback. With the Confucian school, this demanding posture was replaced with
+            "Thank you for this contribution" and a direct review. The model added "zheng ming" with Chinese characters
+            in the naming section header and closed with "I am happy to review again." However, the overall output
+            expansion was modest (+12%) because the baseline was already verbose (1953 bytes). The tone shift was real
+            but the model <strong>did not internalize the philosophical principles</strong> beyond surface references.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (1953 bytes)</span>
+I'd be happy to write a code review comment, but I need to see the actual PR to provide specific, contextual feedback. Could you please provide:
+
+1. The file path
+2. What the function is supposed to calculate
+3. Any tests
+
+---
+
+**Code Review Comment:**
+
+This function has several issues:
+
+1. **Unclear naming** -- no semantic meaning
+2. **Division by zero risk**
+3. **Operator precedence ambiguity**
+4. **No type hints or docstring**
+5. **Magic calculation** -- arbitrary formula
+
+**Suggested revision:**
+[Full rewrite with extensive docstring]
+
+If you can share the file path and context, I can tailor this review...
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Confucian (2182 bytes)</span>
+I'll activate the Confucian school to write a code review comment that maintains proper tone, constructive guidance, and professional decorum.
+
+**File:** utils/calc.py | **Function:** calc(x, y, z)
+
+Thank you for this contribution. I have several concerns:
+
+**1. Function naming (zheng ming - Rectification of Names)**
+The name `calc` does not clearly communicate purpose...
+
+**2. Missing input validation**
+[Constructive explanation + fix code]
+
+**3. No type hints or documentation**
+[Guidance framed as questions]
+
+**4. Magic operation without explanation**
+[Constructive framing]
+
+**Suggested revision:**
+[Clean rewrite]
+
+Please make these corrections and resubmit. I am happy to review again once these issues are addressed.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>GLM-4.7 (Baseline vs With Confucian) <span class="badge badge-yellow">+4%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> GLM-4.7's confucian mode produced only marginal change (+4%). Tone
+            shifted slightly. Structure remained a numbered defect list.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (801 bytes)</span>
+"A few suggestions to improve"
+Numbered defect list
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Confucian (831 bytes)</span>
+"A few thoughts to consider"
+zheng ming + ke ji fu li
+Same structure
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h4>MiniMax-M2.5 (Baseline vs With Confucian) <span class="badge badge-yellow">+18%</span></h4>
+          <span class="detail-toggle">Show</span>
+        </div>
+        <div class="detail-body">
+          <div class="observation">
+            <strong>Observation:</strong> MiniMax-M2.5 added a "zheng ming" label and a suggested rewrite
+            but tone remained that of a reviewer. No encouraging words or relational framing.
+          </div>
+          <div class="detail-columns">
+            <div class="detail-col">
+              <span class="col-label">Baseline (701 bytes)</span>
+"A few issues to address"
+Numbered defect list
+            </div>
+            <div class="detail-col">
+              <span class="col-label">With Confucian (827 bytes)</span>
+"A few items to address"
+zheng ming label added
+Suggested rewrite added
+Still critical closing
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Analysis Tab ===== -->
+  <div class="tab-panel" id="analysis">
+
+    <div class="analysis-section">
+      <h2>How Different Schools Affect Model Output Style</h2>
+
+      <div class="analysis-card">
+        <h3>1. Mohist (Frugality): Output Compression and Structural Economy</h3>
+        <p>
+          The Mohist school's "jie yong" (frugality) principle instructs models to minimize token expenditure --
+          stripping prose, comments, usage examples, and alternative implementations. The effectiveness of this
+          school <strong>correlates inversely with the model's tendency toward verbosity</strong>.
+        </p>
+        <ul>
+          <li><strong>GLM-4.7</strong> achieved the best compression (-73%) by aggressively eliminating entire sections.
+            Its approach was "structural pruning" -- removing complete blocks of content.</li>
+          <li><strong>GLM-5.1</strong> (-49%) went beyond pruning to internalize the principle, adding <code>__slots__</code>
+            for memory efficiency and citing "jie yong" -- a philosophical behavior change, not just truncation.</li>
+          <li><strong>Qwen 3.5</strong> (-42%) explicitly acknowledged the Mohist approach in its opening line but retained
+            both implementations. It interpreted "frugality" as "strip prose" rather than "minimize code."</li>
+          <li><strong>MiniMax-M2.5</strong> (-29%) achieved modest pruning but retained explanatory notes that violated
+            the frugality principle.</li>
+          <li><strong>Qwen 3.6</strong> (-14%) showed the weakest compression despite adding <code>__slots__</code>
+            (structural optimization). Its baseline was already concise, limiting headroom, and it retained both implementations.</li>
+        </ul>
+        <p><strong>Key insight:</strong> Compression effectiveness depends on two factors: (1) how verbose the baseline is
+          (more verbose = more room to compress), and (2) whether the model interprets frugality as "less prose" vs
+          "less code" vs "optimize everything." The best results come from models that apply frugality <em>holistically</em>.</p>
+      </div>
+
+      <div class="analysis-card">
+        <h3>2. Logician (Formal Analysis): Analytical Depth and Logical Rigor</h3>
+        <p>
+          The Logician school tests whether models can shift from "quick answer" mode to <strong>formal logical analysis</strong> --
+          truth tables, fallacy naming, separation of interpretations, and self-reflection. This school reveals the most
+          about a model's <strong>reasoning depth capacity</strong>.
+        </p>
+        <ul>
+          <li><strong>GLM-5.1</strong> (+380%) produced the most comprehensive analysis with all logician elements:
+            5-row truth table, named fallacy, "bai ma fei ma" (philosophical paradox reference), and explicit zi-xing.</li>
+          <li><strong>Qwen 3.6</strong> (+270%) was notably strong despite having the shortest baseline (406 bytes). It
+            produced a "Name-to-Reality Mapping" section (direct kong ming ze shi adaptation), a formal truth table,
+            and named the logical fallacy as "Implicit Grouping Assumption." The output demonstrated genuine
+            <strong>framework internalization</strong> -- the model structured its entire analysis around the logician paradigm.</li>
+          <li><strong>GLM-4.7</strong> (+118%) produced structured analysis with explicit zi-xing and a nuanced verdict.
+            Less expansive than GLM-5.1 but demonstrably skill-responsive.</li>
+          <li><strong>Qwen 3.5</strong> (+87%) produced a truth table and ambiguity analysis, but notably <strong>corrected
+            its own baseline error</strong>: the baseline incorrectly stated "the function is correct" before backtracking.
+            The logician mode eliminated this self-contradiction -- the school improved analytical accuracy.</li>
+          <li><strong>MiniMax-M2.5</strong> (-30%) fundamentally failed: output shrank instead of expanding, with no
+            analytical elements added.</li>
+        </ul>
+        <p><strong>Key insight:</strong> The Logician school is the strongest discriminator of model capability. Models that
+          can expand their analysis (add truth tables, name fallacies, perform self-reflection) demonstrate <strong>genuine
+          reasoning depth</strong>. Models that compress instead of expanding reveal an inability to shift cognitive strategies
+          based on instructions. Qwen 3.6's performance here is particularly interesting -- it produced fewer formal
+          philosophy references than GLM-5.1 but structured its analysis more tightly around the logician framework.</p>
+      </div>
+
+      <div class="analysis-card">
+        <h3>3. Confucian (Mentor Tone): Communication Register and Persona</h3>
+        <p>
+          The Confucian school tests the most subtle model capability: <strong>persona transformation</strong>.
+          Rather than changing output structure or volume, it requires the model to fundamentally shift
+          <em>how it communicates</em> -- from reviewer to mentor, from critique to guidance, from judgment to encouragement.
+        </p>
+        <ul>
+          <li><strong>Qwen 3.6</strong> (+117%) achieved the <strong>deepest Confucian transformation</strong>. It explicitly
+            framed its review as "written in the Confucian spirit of measured, constructive feedback," applied zheng ming
+            with full explanation, offered 5 points of constructive guidance with reasoning, and closed with genuine
+            relational warmth. This was not just labeling -- the entire communication register shifted.</li>
+          <li><strong>GLM-5.1</strong> (+81%) produced the classic benchmark result: full mentor persona with zheng ming
+            and zhong yong references. The tone transformation was deep and consistent throughout.</li>
+          <li><strong>MiniMax-M2.5</strong> (+18%) and <strong>Qwen 3.5</strong> (+12%) achieved only surface-level changes --
+            swapping a few words in the opening and adding a philosophy reference. The overall structure and tone
+            remained reviewer-focused.</li>
+          <li><strong>GLM-4.7</strong> (+4%) showed the weakest transformation, confirming that models optimized for
+            structural output manipulation struggle with nuanced persona shifts.</li>
+        </ul>
+        <p><strong>Key insight:</strong> Persona transformation is the hardest skill for models. It requires not just
+          understanding instructions but <strong>embodying a different communication identity</strong>. The correlation
+          between Logician and Confucian performance (Qwen 3.6 and GLM-5.1 excel at both) suggests that models with
+          deeper "theory of mind" capabilities handle both analytical depth and persona shifts well. GLM-4.7's pattern
+          (strong structural, weak persona) reveals a specific capability gap.</p>
+      </div>
+
+      <div class="analysis-card">
+        <h3>4. Cross-School Model Profiles</h3>
+        <p>Each model exhibits a distinct "responsiveness profile" across the three schools:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Strength</th>
+              <th>Weakness</th>
+              <th>Profile Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>GLM-5.1</strong></td>
+              <td>Uniformly strong across all schools</td>
+              <td>None significant</td>
+              <td><span class="badge badge-green">Balanced Exceller</span></td>
+            </tr>
+            <tr>
+              <td><strong>Qwen 3.6-Plus</strong></td>
+              <td>Analysis (+270%) and persona (+117%)</td>
+              <td>Compression (-14%)</td>
+              <td><span class="badge badge-purple">Analytical Communicator</span></td>
+            </tr>
+            <tr>
+              <td><strong>GLM-4.7</strong></td>
+              <td>Compression (-73%)</td>
+              <td>Persona (+4%)</td>
+              <td><span class="badge badge-blue">Structural Optimizer</span></td>
+            </tr>
+            <tr>
+              <td><strong>Qwen 3.5-Plus</strong></td>
+              <td>Balanced moderate response</td>
+              <td>Shallow internalization</td>
+              <td><span class="badge badge-yellow">Surface Follower</span></td>
+            </tr>
+            <tr>
+              <td><strong>MiniMax-M2.5</strong></td>
+              <td>Mohist compression (-29%)</td>
+              <td>Logician failure (-30%)</td>
+              <td><span class="badge badge-red">Limited Adherent</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="analysis-card">
+        <h3>5. Philosophical Internalization vs Surface Compliance</h3>
+        <p>A critical distinction emerged across models: <strong>internal vs external compliance</strong>.</p>
+        <ul>
+          <li><strong>Internalization</strong> (GLM-5.1, Qwen 3.6): The model not only follows instructions but
+            <em>adopts the philosophical framework as a reasoning paradigm</em>. GLM-5.1 cited "jie yong" in code
+            design choices (not just prose). Qwen 3.6 structured its entire logician analysis around
+            "Name-to-Reality Mapping" -- it didn't add analysis features to a standard template; it rebuilt the
+            template around the philosophy.</li>
+          <li><strong>Surface compliance</strong> (Qwen 3.5, GLM-4.7 on Confucian): The model adds labels
+            ("zheng ming," "Mohist approach") without changing its underlying reasoning or communication strategy.
+            Qwen 3.5 explicitly said "I'll use the Mohist approach" but then delivered both implementations anyway.</li>
+          <li><strong>Non-compliance</strong> (MiniMax-M2.5 on Logician): The model fails to interpret the
+            instructions correctly, producing the opposite of the intended behavior.</li>
+        </ul>
+        <p><strong>Implication:</strong> The HundredSchools skill is most effective with models that have strong
+          instruction-following capabilities and sufficient reasoning depth to apply philosophical frameworks
+          to their cognitive process. <strong>Model capability is the limiting factor</strong>, not the skill design.</p>
+      </div>
+
+      <div class="analysis-card">
+        <h3>6. Practical Recommendations</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>Best Model</th>
+              <th>Reasoning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Token cost optimization</td>
+              <td>GLM-4.7 + Mohist</td>
+              <td>Best compression (-73%), consistent structural pruning</td>
+            </tr>
+            <tr>
+              <td>Deep code analysis / bug investigation</td>
+              <td>GLM-5.1 + Logician</td>
+              <td>Most comprehensive formal analysis (+380%), truth tables, fallacy naming</td>
+            </tr>
+            <tr>
+              <td>Junior developer mentoring</td>
+              <td>Qwen 3.6 + Confucian</td>
+              <td>Deepest persona transformation (+117%), genuine relational tone</td>
+            </tr>
+            <tr>
+              <td>Balanced multi-school pipeline</td>
+              <td>GLM-5.1</td>
+              <td>Only model uniformly strong across all schools</td>
+            </tr>
+            <tr>
+              <td>Cost-effective analysis</td>
+              <td>Qwen 3.6 + Logician</td>
+              <td>Strong analysis (+270%) with shorter baseline -- good depth-per-token ratio</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="footer">
+    HundredSchools.skill &mdash; tested via CLIppet &mdash; 2026-04-11
+  </p>
+
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Detail panel toggle
+function toggleDetail(header) {
+  var body = header.nextElementSibling;
+  var toggle = header.querySelector('.detail-toggle');
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    toggle.textContent = 'Show';
+  } else {
+    body.classList.add('open');
+    toggle.textContent = 'Hide';
+  }
+}
+</script>
+
+</body>
+</html>

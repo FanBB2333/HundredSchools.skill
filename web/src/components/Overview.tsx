@@ -8,6 +8,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { BarChart } from './BarChart'
 import { SchoolDot } from './SchoolDot'
 import { AnimatedCard } from './AnimatedCard'
+import { OutputComparison } from './OutputComparison'
+import { SchoolMatrix } from './SchoolMatrix'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 
@@ -95,6 +97,12 @@ export function Overview() {
           </Card>
         </AnimatedCard>
       </section>
+
+      {/* Output Transformation — side-by-side code comparison */}
+      <OutputComparison />
+
+      {/* Cross-School Behavior Matrix */}
+      <SchoolMatrix />
 
       {/* Structural elements table */}
       <section>

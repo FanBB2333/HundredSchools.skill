@@ -167,6 +167,44 @@ Schools change *code architecture*, not just prose:
 | Military | What's the strategy and fallback? |
 | Logician | How do I know this is correct? |
 
+## Multi-Dimensional Evaluation
+
+The single-prompt test above establishes the baseline. The project now uses a multi-prompt, multi-dimension evaluation system to provide richer comparisons.
+
+### Evaluation Prompts
+
+| Prompt ID | Domain | Purpose |
+|-----------|--------|---------|
+| P1 | Code Generation | Observe structure, constraints, compression |
+| P2 | Security Review | Observe rule coverage, risk awareness |
+| P3 | Documentation | Observe tone, audience adaptation |
+| P4 | System Design | Observe planning, alternative paths |
+| P5 | Data Diagnosis | Observe concept precision, verification habits |
+
+### Observable Dimensions
+
+| Dimension | Definition | Scale |
+|-----------|-----------|-------|
+| Output Size | Total output length | bytes |
+| Alternative Count | Distinct solution paths proposed | count |
+| Plan Structure | Phased plan, resource assessment, fallback paths | 0-3 |
+| Rule Coverage | Explicit rules/constraints listed | count |
+| Verification Signals | Checks, assertions, self-verification | 0-3 |
+| Tone Quality | Formality, constructiveness, attack control | 0-3 |
+| Actionability | Clear steps, responsibilities, priorities | 0-3 |
+| Compression Ratio | Key info points per token | 0-3 |
+
+All dimensions are directly observable from output text. No internal reasoning chain access is required.
+
+### Current Status
+
+- P1 (Code Generation): Complete with baseline + 6 schools (data above)
+- P2-P5: Prompt definitions ready, evaluation runs pending
+
+See the web frontend's Insights tab for interactive exploration of evaluation data.
+
+---
+
 ## Conclusion
 
 Six philosophical frameworks produce six distinct cognitive modes -- differing not just in output volume, but in code architecture, reasoning approach, and communication style. Philosophy works as a control strategy for LLM inference.

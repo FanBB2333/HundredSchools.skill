@@ -82,16 +82,37 @@ hundredschools/
   assets/
     school-router-guide.md               # Dynamic school selection guide
     pipeline-examples.md                 # Multi-school pipeline examples
+    decision-guide.md                    # Daily work decision guide
+docs/
+  case-studies.md                        # 15 cross-domain case studies
+  test-results.md                        # Multi-dimensional evaluation results
+  improvement-proposal.md               # Implementation plan
+  safety-prompts.md                      # Safety evaluation samples (XGuard)
+  safety-results.md                      # Safety evaluation results
+  safety-report.md                       # Safety research report
+  samples/
+    safety_pipeline.py                   # Minimal safety pipeline example
+web/                                     # React + Vite interactive frontend
 ```
 
 ## Design Reference
 
 See [spec.md](spec.md) for the complete architecture and design specification.
 
-## Test Results
+## Test Results & Evaluation
 
-- Visual report: [docs/results.html](docs/results.html)
+- Interactive web report: `cd web && npm run dev`
 - Detailed analysis: [docs/test-results.md](docs/test-results.md)
+- 15 cross-domain case studies: [docs/case-studies.md](docs/case-studies.md)
+- Multi-prompt evaluation: 5 prompts x 8 observable dimensions x 7 configurations
+- Decision guide: [hundredschools/assets/decision-guide.md](hundredschools/assets/decision-guide.md)
+
+## Safety Research (XGuard)
+
+An ongoing study using [YuFeng-XGuard-Reason-0.6B](https://huggingface.co/Alibaba-AAIG/YuFeng-XGuard-Reason-0.6B) to answer which school combinations work best for safety-critical tasks:
+
+- Evaluation protocol: [docs/safety-prompts.md](docs/safety-prompts.md)
+- Safety pipeline: Logician -> Legal -> Confucian -> XGuard
 
 ---
 

@@ -81,16 +81,37 @@ hundredschools/
   assets/
     school-router-guide.md               # 动态学派选择指南
     pipeline-examples.md                 # 多学派流水线示例
+    decision-guide.md                    # 日常工作决策指南
+docs/
+  case-studies.md                        # 15 个跨领域案例研究
+  test-results.md                        # 多维度评测结果
+  improvement-proposal.md               # 实施方案
+  safety-prompts.md                      # 安全评测样本（XGuard）
+  safety-results.md                      # 安全评测结果
+  safety-report.md                       # 安全研究报告
+  samples/
+    safety_pipeline.py                   # 最小安全流水线示例
+web/                                     # React + Vite 交互式前端
 ```
 
 ## 设计参考
 
 完整架构和设计规范见 [spec.md](spec.md)。
 
-## 测试结果
+## 测试结果与评测
 
-- 可视化报告：[docs/results.html](docs/results.html)
+- 交互式 Web 报告：`cd web && npm run dev`
 - 详细分析：[docs/test-results.md](docs/test-results.md)
+- 15 个跨领域案例研究：[docs/case-studies.md](docs/case-studies.md)
+- 多提示词评测：5 个 prompt x 8 个可观察维度 x 7 种配置
+- 决策指南：[hundredschools/assets/decision-guide.md](hundredschools/assets/decision-guide.md)
+
+## 安全研究（XGuard）
+
+使用 [YuFeng-XGuard-Reason-0.6B](https://huggingface.co/Alibaba-AAIG/YuFeng-XGuard-Reason-0.6B) 开展研究，回答哪种学派组合最适合安全关键任务：
+
+- 评测协议：[docs/safety-prompts.md](docs/safety-prompts.md)
+- 安全流水线：名家 -> 法家 -> 儒家 -> XGuard
 
 ---
 

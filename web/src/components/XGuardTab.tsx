@@ -5,8 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { SchoolDot } from './SchoolDot'
 import { AnimatedCard } from './AnimatedCard'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+import evaluationDataRaw from '@/data/xguard_evaluation_data.json'
 
 // Type definitions
 interface BaselineData {
@@ -118,30 +119,8 @@ const xguardStaticData = {
 export function XGuardTab() {
   const { lang } = useLang()
   const [selectedModel, setSelectedModel] = useState<'0.6B' | '8B'>('0.6B')
-  const [evaluationData, setEvaluationData] = useState<EvaluationData | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  // Load evaluation data from JSON
-  useEffect(() => {
-    fetch('/xguard_evaluation_data.json')
-      .then(res => res.json())
-      .then((data: EvaluationData) => {
-        setEvaluationData(data)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Failed to load evaluation data:', err)
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading || !evaluationData) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <p className="text-muted-foreground">{lang === 'en' ? 'Loading evaluation data...' : '加载评测数据中...'}</p>
-      </div>
-    )
-  }
+  
+  const evaluationData: EvaluationData = evaluationDataRaw as EvaluationData
 
   const currentData = evaluationData[selectedModel]
 

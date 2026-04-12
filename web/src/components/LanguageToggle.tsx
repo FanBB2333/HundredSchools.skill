@@ -1,12 +1,20 @@
 import { motion } from 'framer-motion'
 import { useLang } from '@/context/LanguageContext'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export function LanguageToggle() {
-  const { lang, toggle } = useLang()
+  const { lang } = useLang()
+  const navigate = useNavigate()
+  const { tab } = useParams<{ tab: string }>()
+
+  const handleToggle = () => {
+    const newLang = lang === 'en' ? 'zh' : 'en'
+    navigate(`/${newLang}/${tab || 'overview'}`)
+  }
 
   return (
     <button
-      onClick={toggle}
+      onClick={handleToggle}
       className="relative flex items-center gap-1 rounded-full bg-white/10 px-1 py-1 text-xs font-medium backdrop-blur-sm transition-colors hover:bg-white/20"
     >
       <span

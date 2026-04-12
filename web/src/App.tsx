@@ -4,6 +4,7 @@ import { Overview } from '@/components/Overview'
 import { SchoolsTab } from '@/components/SchoolsTab'
 import { ModelTab } from '@/components/ModelTab'
 import { InsightsTab } from '@/components/InsightsTab'
+import { XGuardTab } from '@/components/XGuardTab'
 import { LanguageProvider, useLang } from '@/context/LanguageContext'
 import { models } from '@/data/models'
 import { t } from '@/data/i18n'
@@ -25,6 +26,7 @@ function AppContent() {
               </TabsTrigger>
             ))}
             <TabsTrigger value="insights">{t('tab.insights', lang)}</TabsTrigger>
+            <TabsTrigger value="xguard">{t('tab.xguard', lang)}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -43,6 +45,10 @@ function AppContent() {
 
           <TabsContent value="insights">
             <InsightsTab />
+          </TabsContent>
+
+          <TabsContent value="xguard">
+            <XGuardTab />
           </TabsContent>
         </Tabs>
 

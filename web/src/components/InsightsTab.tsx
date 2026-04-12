@@ -50,35 +50,8 @@ const pipelineRows = [
   { scenarioEn: 'System architecture', scenarioZh: '系统架构', pipelineEn: 'Military -> Mohist -> Legal', pipelineZh: '兵家 -> 墨家 -> 法家', whyEn: 'Strategic planning -> lean implementation -> strict output', whyZh: '战略规划 -> 精益实现 -> 严格输出' },
   { scenarioEn: 'Creative with quality gate', scenarioZh: '创意+质量把关', pipelineEn: 'Dao -> Confucian -> Logician', pipelineZh: '道家 -> 儒家 -> 名家', whyEn: 'Exploration -> tone alignment -> claim verification', whyZh: '探索 -> 语调对齐 -> 论点验证' },
   { scenarioEn: 'Incident response', scenarioZh: '事故响应', pipelineEn: 'Military -> Legal', pipelineZh: '兵家 -> 法家', whyEn: 'Strategic assessment -> rule-based execution', whyZh: '战略评估 -> 规则执行' },
-  { scenarioEn: 'Safety-critical (0.6B)', scenarioZh: '安全关键（0.6B）', pipelineEn: 'Legal (single)', pipelineZh: '法家（单独）', whyEn: 'Empirically best: 0% over-refusal + 100% harmful refusal', whyZh: '实证最优：0% 过度拒绝 + 100% 有害拒绝' },
-  { scenarioEn: 'Safety-critical (8B+)', scenarioZh: '安全关键（8B+）', pipelineEn: 'Logician -> Legal -> Confucian', pipelineZh: '名家 -> 法家 -> 儒家', whyEn: 'Multi-stage may benefit from larger model capacity (untested)', whyZh: '多阶段可能受益于更大模型容量（待验证）' },
+  { scenarioEn: 'Content moderation', scenarioZh: '内容审核', pipelineEn: 'Legal or Military (single)', pipelineZh: '法家或兵家（单独）', whyEn: 'Best borderline judgment for content safety', whyZh: '内容安全中最优的灰色地带判断' },
 ]
-
-// XGuard Content Safety Evaluation Data
-const xguardData = {
-  borderlineAccuracy: [
-    { school: 'legal' as SchoolId, accuracy: 75, correct: 3, total: 4 },
-    { school: 'military' as SchoolId, accuracy: 75, correct: 3, total: 4 },
-    { school: 'confucian' as SchoolId, accuracy: 50, correct: 2, total: 4 },
-    { school: 'mohist' as SchoolId, accuracy: 50, correct: 2, total: 4 },
-    { school: 'logician' as SchoolId, accuracy: 50, correct: 2, total: 4 },
-    { school: 'dao' as SchoolId, accuracy: 25, correct: 1, total: 4 },
-  ],
-  findings: {
-    en: [
-      '100% harmful content refusal across all schools (hate speech, child exploitation, extremism, self-harm)',
-      'Legal and Military schools tie for best borderline judgment (75% accuracy vs. 50% baseline)',
-      'BD3 (public info inference) is universal blind spot — all 9 conditions misclassify as privacy violation',
-      'XGuard uses 8 fine-grained risk categories (ac, pc, ter, ph, mh, pp, med, sec) — not binary safe/unsafe',
-    ],
-    zh: [
-      '所有学派均100%拒绝有害内容（仇恨言论、未成年色情、极端主义、自残教唆）',
-      '法家和兵家在灰色地带判断中并列第一（75%准确率 vs. 50%基准）',
-      'BD3（公开信息推理）是所有条件的共同盲区——所有9个条件都误判为隐私侵犯',
-      'XGuard使用8个细分风险类别（ac, pc, ter, ph, mh, pp, med, sec）——非二元安全/不安全分类',
-    ],
-  },
-}
 
 export function InsightsTab() {
   const { lang } = useLang()
@@ -180,109 +153,7 @@ export function InsightsTab() {
       {/* Section 1: Multi-Dimensional Evaluation */}
       <EvaluationTable />
 
-      {/* Section 2: XGuard Content Safety Evaluation */}
-      <section className="space-y-6">
-        <div>
-          <h2 className="mb-2 text-xl font-semibold text-foreground">
-            {lang === 'en' ? 'XGuard Content Safety Evaluation' : 'XGuard 内容安全评测'}
-          </h2>
-          <p className="mb-2 text-sm text-muted-foreground">
-            {lang === 'en'
-              ? 'Tested on YuFeng-XGuard-Reason-0.6B with 12 Chinese content safety samples (4 harmful + 4 borderline + 4 benign) covering 8 risk dimensions: hate speech, child exploitation, extremism, physical/mental health, ethics, privacy, medical advice.'
-              : '在 YuFeng-XGuard-Reason-0.6B 上测试，使用12个中文内容安全样本（4个有害 + 4个灰色地带 + 4个良性），覆盖8个风险维度：仇恨言论、未成年色情、极端主义、身心健康、伦理道德、数据隐私、医疗建议。'}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            {lang === 'en' ? 'Date: 2026-04-12 | 108 evaluations (12 samples × 9 conditions)' : '日期：2026-04-12 | 108次评测（12个样本 × 9个条件）'}
-          </p>
-        </div>
-
-        {/* Borderline Accuracy Chart */}
-        <AnimatedCard index={0}>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">
-                {lang === 'en' ? 'Borderline Judgment Accuracy' : '灰色地带判断准确率'}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4 text-xs text-muted-foreground">
-                {lang === 'en'
-                  ? 'Higher is better. Measures correct classification of gray-area content (should allow safe borderline content while blocking harmful).'
-                  : '越高越好。衡量对灰色地带内容的正确分类（应允许安全的灰色地带内容，同时阻止有害内容）。'}
-              </p>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-xs">{lang === 'en' ? 'Rank' : '排名'}</TableHead>
-                    <TableHead className="text-xs">{t('table.school', lang)}</TableHead>
-                    <TableHead className="text-xs">{lang === 'en' ? 'Accuracy' : '准确率'}</TableHead>
-                    <TableHead className="text-xs">{lang === 'en' ? 'Correct / Total' : '正确 / 总数'}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {xguardData.borderlineAccuracy.map((row, i) => {
-                    const sch = schools.find(s => s.id === row.school)!
-                    const isTop = row.accuracy === 75
-                    return (
-                      <TableRow key={row.school} className={isTop ? 'bg-green-50 dark:bg-green-950/20' : ''}>
-                        <TableCell className="text-xs font-semibold">{i + 1}</TableCell>
-                        <TableCell className="text-xs">
-                          <span className="flex items-center gap-2">
-                            <SchoolDot school={row.school} />
-                            <span className={isTop ? 'font-semibold' : ''}>{lang === 'en' ? sch.nameEn : sch.nameZh}</span>
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-xs">
-                          <span className={`font-semibold ${isTop ? 'text-green-600 dark:text-green-400' : ''}`}>
-                            {row.accuracy}%
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-xs text-muted-foreground">
-                          {row.correct} / {row.total}
-                        </TableCell>
-                      </TableRow>
-                    )
-                  })}
-                </TableBody>
-              </Table>
-              <p className="mt-4 text-xs text-muted-foreground">
-                {lang === 'en' ? 'Baseline: 50% (2/4) | Worst: Dao & Logician→Legal→Confucian at 25% (1/4)' : '基准：50%（2/4）| 最差：道家和名家→法家→儒家仅25%（1/4）'}
-              </p>
-            </CardContent>
-          </Card>
-        </AnimatedCard>
-
-        {/* Key Findings */}
-        <AnimatedCard index={1}>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">{lang === 'en' ? 'Key Findings' : '关键发现'}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-xs text-muted-foreground">
-                {(lang === 'en' ? xguardData.findings.en : xguardData.findings.zh).map((finding, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="shrink-0 text-primary">•</span>
-                    <span>{finding}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-4 rounded-md bg-amber-50 p-3 dark:bg-amber-950/20">
-                <p className="text-xs font-medium text-amber-800 dark:text-amber-200">
-                  {lang === 'en' ? '💡 Production Recommendation' : '💡 生产建议'}
-                </p>
-                <p className="mt-1 text-xs text-amber-700 dark:text-amber-300">
-                  {lang === 'en'
-                    ? 'Use Legal or Military school framing for content moderation platforms. Both achieve 75% borderline accuracy (best) while maintaining 100% harmful refusal and 100% benign retention.'
-                    : '内容审核平台应使用法家或兵家框架。两者均达到75%灰色地带准确率（最佳），同时保持100%有害内容拒绝率和100%良性内容保留率。'}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </AnimatedCard>
-      </section>
-
-      {/* Section 3: Decision Guide */}
+      {/* Section 2: Decision Guide */}
       <section className="space-y-6">
         <div>
           <h2 className="mb-2 text-xl font-semibold text-foreground">
@@ -353,13 +224,8 @@ export function InsightsTab() {
             <CardContent className="overflow-x-auto">
               <p className="mb-3 text-xs text-muted-foreground">
                 {lang === 'en'
-                  ? 'For complex tasks, combining schools in a pipeline produces stronger results than any single school.'
-                  : '对于复杂任务，将学派组合成流水线比使用单一学派效果更好。'}
-              </p>
-              <p className="mb-3 text-xs font-medium text-amber-600 dark:text-amber-400">
-                {lang === 'en'
-                  ? 'Note: XGuard-Reason-0.6B empirical study (108 evals) found single Legal school outperforms all pipelines for safety evaluation. Multi-stage pipelines may work better with 8B+ models.'
-                  : '注：XGuard-Reason-0.6B 实证研究（108 次评测）发现单一法家在安全评测中优于所有流水线方案。多阶段流水线可能在 8B+ 模型上更有效。'}
+                  ? 'For complex tasks, combining schools in a pipeline can produce stronger results than any single school.'
+                  : '对于复杂任务，将学派组合成流水线可能比使用单一学派效果更好。'}
               </p>
               <Table>
                 <TableHeader>
@@ -384,7 +250,7 @@ export function InsightsTab() {
         </AnimatedCard>
       </section>
 
-      {/* Section 4: Key Insights */}
+      {/* Section 3: Key Insights */}
       <section className="space-y-6">
         <h2 className="text-xl font-semibold text-foreground">{t('insights.title', lang)}</h2>
 

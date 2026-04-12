@@ -11,8 +11,8 @@ const translations = {
     zh: '哲学流派如何塑造AI输出',
   },
   'header.meta': {
-    en: 'Six schools of thought, one prompt, five models — tested via CLIppet on 2026-04-11',
-    zh: '六大学派，同一提示词，五个模型——通过CLIppet于2026-04-11测试',
+    en: 'Six schools of thought, one prompt, five models — tested via CLIppet',
+    zh: '六大学派，同一提示词，五个模型——通过CLIppet测试',
   },
   'header.prompt': {
     en: 'Prompt: "Write a Python function to validate an email address and explain your approach."',
@@ -23,6 +23,7 @@ const translations = {
   'tab.overview': { en: 'Overview', zh: '概览' },
   'tab.schools': { en: 'Six Schools', zh: '六家' },
   'tab.insights': { en: 'Insights', zh: '发现' },
+  'tab.xguard': { en: 'Content Safety', zh: '内容安全' },
 
   // Overview
   'overview.title': { en: 'What does each school do to the output?', zh: '每个学派对输出有什么影响？' },
@@ -109,7 +110,7 @@ const translations = {
   'eval.pending': { en: 'Evaluation data for this prompt is pending.', zh: '该提示词的评测数据待补充。' },
 
   // Footer
-  'footer.text': { en: 'HundredSchools.skill — tested via CLIppet — 2026-04-11', zh: 'HundredSchools.skill — 通过CLIppet测试 — 2026-04-11' },
+  'footer.text': { en: 'HundredSchools.skill — tested via CLIppet', zh: 'HundredSchools.skill — 通过CLIppet测试' },
 
   // Insights cards
   'insight.1.title': { en: 'Schools control a cognitive spectrum from compression to expansion', zh: '学派控制着从压缩到扩展的认知光谱' },

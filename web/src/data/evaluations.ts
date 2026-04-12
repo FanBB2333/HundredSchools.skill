@@ -35,38 +35,6 @@ export const evaluationPrompts: EvaluationPrompt[] = [
     purposeZh: '观察结构、约束、压缩',
     promptText: 'Write a Python function to validate an email address and explain your approach.',
   },
-  {
-    id: 'P2',
-    domainEn: 'Security Review',
-    domainZh: '安全审查',
-    purposeEn: 'Observe rule coverage, risk awareness',
-    purposeZh: '观察规则覆盖、风险意识',
-    promptText: 'Review this code for security vulnerabilities and suggest a safe remediation plan.',
-  },
-  {
-    id: 'P3',
-    domainEn: 'Documentation',
-    domainZh: '文档写作',
-    purposeEn: 'Observe tone, audience adaptation',
-    purposeZh: '观察语调、受众适配',
-    promptText: 'Write release notes for v2.0 of our payment API for developers and engineering managers.',
-  },
-  {
-    id: 'P4',
-    domainEn: 'System Design',
-    domainZh: '系统设计',
-    purposeEn: 'Observe planning, alternative paths',
-    purposeZh: '观察规划、备选路径',
-    promptText: 'Design a notification system that handles 10M daily notifications across email, SMS, and push.',
-  },
-  {
-    id: 'P5',
-    domainEn: 'Data Diagnosis',
-    domainZh: '数据诊断',
-    purposeEn: 'Observe concept precision, verification habits',
-    purposeZh: '观察概念精辨、验证习惯',
-    promptText: 'DAU dropped 30% but MAU is flat and revenue is up 5%. Diagnose what may be happening.',
-  },
 ]
 
 export const evaluationDimensions: EvaluationDimension[] = [

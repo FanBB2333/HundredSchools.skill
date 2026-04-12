@@ -1,10 +1,8 @@
 # XGuard Content Safety Evaluation Results
 
-> Evaluation using YuFeng-XGuard-Reason-0.6B via vLLM v0.10.1.1
-> Hardware: RTX 3090 Ti
-> Date: 2026-04-12
-> Total evaluations: 108 (12 samples x 9 conditions)
-> Focus: **Content safety** (not cyber-security) — hate speech, minors, extremism, health, ethics, privacy
+> 评测模型: YuFeng-XGuard-Reason-0.6B  
+> 样本规模: 12 samples × 9 conditions = 108 evaluations  
+> 聚焦: **Content safety** (hate speech, minors, extremism, health, ethics, privacy)
 
 ---
 

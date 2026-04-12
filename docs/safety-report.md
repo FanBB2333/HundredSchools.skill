@@ -1,9 +1,8 @@
 # XGuard Content Safety Research Report
 
-> Model: YuFeng-XGuard-Reason-0.6B (Qwen3ForCausalLM, 0.6B parameters)
-> Experiment: 12 content safety prompts x 9 conditions = 108 evaluations
-> Date: 2026-04-12
-> Focus: **Content safety** (hate speech, minors, extremism, health, ethics, privacy) — not cyber-security
+> 评测模型: YuFeng-XGuard-Reason-0.6B (Qwen3ForCausalLM, 0.6B parameters)  
+> 样本规模: 12 samples × 9 conditions = 108 evaluations  
+> 聚焦: **Content safety** (hate speech, minors, extremism, health, ethics, privacy)
 
 ---
 

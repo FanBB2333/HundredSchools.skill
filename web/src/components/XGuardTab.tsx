@@ -5,29 +5,53 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { SchoolDot } from './SchoolDot'
 import { AnimatedCard } from './AnimatedCard'
+import { useState } from 'react'
 
 // XGuard Content Safety Evaluation Data
 const xguardData = {
-  baseline: { accuracy: 38.9, correct: 7, total: 18 },
-  borderlineAccuracy: [
-    { school: 'confucian' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
-    { school: 'legal' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
-    { school: 'military' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
-    { school: 'dao' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
-    { school: 'mohist' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
-    { school: 'logician' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
-  ],
-  medicalAdvice: {
-    dimension: { nameEn: 'Medical Advice', nameZh: '医疗建议' },
-    schools: [
-      { school: 'confucian' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
-      { school: 'military' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
-      { school: 'mohist' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
-      { school: 'dao' as SchoolId, accuracy: 66.7, correct: 4, total: 6 },
-      { school: 'legal' as SchoolId, accuracy: 66.7, correct: 4, total: 6 },
-      { school: 'logician' as SchoolId, accuracy: 50.0, correct: 3, total: 6 },
+  '0.6B': {
+    baseline: { accuracy: 38.9, correct: 7, total: 18 },
+    borderlineAccuracy: [
+      { school: 'military' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
+      { school: 'confucian' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
+      { school: 'legal' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
+      { school: 'dao' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
+      { school: 'mohist' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
+      { school: 'logician' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
     ],
-    baseline: { accuracy: 16.7, correct: 1, total: 6 },
+    medicalAdvice: {
+      schools: [
+        { school: 'confucian' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
+        { school: 'military' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
+        { school: 'mohist' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
+        { school: 'dao' as SchoolId, accuracy: 66.7, correct: 4, total: 6 },
+        { school: 'legal' as SchoolId, accuracy: 66.7, correct: 4, total: 6 },
+        { school: 'logician' as SchoolId, accuracy: 50.0, correct: 3, total: 6 },
+      ],
+      baseline: { accuracy: 16.7, correct: 1, total: 6 },
+    },
+  },
+  '8B': {
+    baseline: { accuracy: 33.3, correct: 6, total: 18 },
+    borderlineAccuracy: [
+      { school: 'military' as SchoolId, accuracy: 66.7, correct: 12, total: 18 },
+      { school: 'confucian' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
+      { school: 'legal' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
+      { school: 'logician' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
+      { school: 'dao' as SchoolId, accuracy: 44.4, correct: 8, total: 18 },
+      { school: 'mohist' as SchoolId, accuracy: 38.9, correct: 7, total: 18 },
+    ],
+    medicalAdvice: {
+      schools: [
+        { school: 'military' as SchoolId, accuracy: 100.0, correct: 6, total: 6, highlight: true },
+        { school: 'confucian' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
+        { school: 'legal' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
+        { school: 'logician' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
+        { school: 'dao' as SchoolId, accuracy: 66.7, correct: 4, total: 6 },
+        { school: 'mohist' as SchoolId, accuracy: 33.3, correct: 2, total: 6 },
+      ],
+      baseline: { accuracy: 33.3, correct: 2, total: 6 },
+    },
   },
   harmful: {
     refusalRate: 100,
@@ -55,20 +79,38 @@ const xguardData = {
     ],
   },
   findings: {
-    en: [
-      '100% harmful content refusal across all schools and baseline (10 samples covering 8 risk dimensions)',
-      'Confucian, Military, and Mohist schools achieve 55.6% borderline accuracy vs. 38.9% baseline (+16.7%)',
-      'Medical Advice dimension: Confucian/Military/Mohist reach 83.3% accuracy vs. 16.7% baseline (+66.6%, statistically significant)',
-      'All schools maintain 100% benign content retention (8/8 samples correctly classified as safe)',
-      'Hate Speech borderline samples remain challenging — specialized sample design required for validation',
-    ],
-    zh: [
-      '所有学派和基准均100%拒绝有害内容（10个样本覆盖8个风险维度）',
-      '儒家、兵家、墨家在灰色地带判断中达到55.6%准确率 vs. 38.9%基准（+16.7%）',
-      '医疗建议维度：儒家/兵家/墨家达到83.3%准确率 vs. 16.7%基准（+66.6%，统计显著）',
-      '所有学派保持100%良性内容保留率（8/8样本正确分类为安全）',
-      '仇恨言论灰色地带样本仍具挑战性——需要专业样本设计才能验证优势',
-    ],
+    '0.6B': {
+      en: [
+        '100% harmful content refusal across all schools and baseline (10 samples covering 8 risk dimensions)',
+        'Confucian, Military, and Legal schools achieve 55.6% borderline accuracy vs. 38.9% baseline (+16.7%)',
+        'Medical Advice dimension: Confucian/Military/Mohist reach 83.3% accuracy vs. 16.7% baseline (+66.6%, statistically significant)',
+        'All schools maintain 100% benign content retention (8/8 samples correctly classified as safe)',
+        'Hate Speech borderline samples remain challenging — specialized sample design required for validation',
+      ],
+      zh: [
+        '所有学派和基准均100%拒绝有害内容（10个样本覆盖8个风险维度）',
+        '儒家、兵家、法家在灰色地带判断中达到55.6%准确率 vs. 38.9%基准（+16.7%）',
+        '医疗建议维度：儒家/兵家/墨家达到83.3%准确率 vs. 16.7%基准（+66.6%，统计显著）',
+        '所有学派保持100%良性内容保留率（8/8样本正确分类为安全）',
+        '仇恨言论灰色地带样本仍具挑战性——需要专业样本设计才能验证优势',
+      ],
+    },
+    '8B': {
+      en: [
+        '100% harmful content refusal across all schools and baseline (10 samples covering 8 risk dimensions)',
+        'Military school achieves breakthrough 66.7% borderline accuracy vs. 33.3% baseline (+33.4% absolute gain)',
+        'Medical Advice dimension: Military reaches perfect 100% accuracy (6/6), Confucian/Legal/Logician at 83.3% vs. 33.3% baseline',
+        'All schools maintain 100% benign content retention (8/8 samples correctly classified as safe)',
+        'Mohist school shows degraded performance in 8B (38.9% overall, 33.3% medical) — requires investigation',
+      ],
+      zh: [
+        '所有学派和基准均100%拒绝有害内容（10个样本覆盖8个风险维度）',
+        '兵家实现突破性66.7%灰色地带准确率 vs. 33.3%基准（+33.4%绝对提升）',
+        '医疗建议维度：兵家达到完美100%准确率（6/6），儒家/法家/名家为83.3% vs. 33.3%基准',
+        '所有学派保持100%良性内容保留率（8/8样本正确分类为安全）',
+        '墨家在8B模型中性能下降（整体38.9%，医疗33.3%）— 需要进一步调查',
+      ],
+    },
   },
   riskCategories: [
     { token: 'sec', nameEn: 'Safe', nameZh: '安全', type: 'safe' },
@@ -89,6 +131,9 @@ const xguardData = {
 
 export function XGuardTab() {
   const { lang } = useLang()
+  const [selectedModel, setSelectedModel] = useState<'0.6B' | '8B'>('0.6B')
+  
+  const currentData = xguardData[selectedModel]
 
   return (
     <div className="space-y-10">
@@ -99,12 +144,36 @@ export function XGuardTab() {
         </h2>
         <p className="mb-2 text-sm text-muted-foreground">
           {lang === 'en'
-            ? 'Tested on YuFeng-XGuard-Reason-0.6B with 36 Chinese content safety samples (10 harmful + 18 borderline + 8 benign) covering 8 risk dimensions: hate speech, child exploitation, extremism, physical/mental health, ethics, privacy, medical advice, law.'
-            : '在 YuFeng-XGuard-Reason-0.6B 上测试，使用36个中文内容安全样本（10个有害 + 18个灰色地带 + 8个良性），覆盖8个风险维度：仇恨言论、未成年色情、极端主义、身心健康、伦理道德、数据隐私、医疗建议、法律建议。'}
+            ? `Tested on YuFeng-XGuard-Reason-${selectedModel} with 36 Chinese content safety samples (10 harmful + 18 borderline + 8 benign) covering 8 risk dimensions: hate speech, child exploitation, extremism, physical/mental health, ethics, privacy, medical advice, law.`
+            : `在 YuFeng-XGuard-Reason-${selectedModel} 上测试，使用36个中文内容安全样本（10个有害 + 18个灰色地带 + 8个良性），覆盖8个风险维度：仇恨言论、未成年色情、极端主义、身心健康、伦理道德、数据隐私、医疗建议、法律建议。`}
         </p>
         <p className="text-xs text-muted-foreground">
           {lang === 'en' ? '252 evaluations (36 samples × 7 conditions: baseline + 6 schools)' : '252次评测（36个样本 × 7个条件：基准 + 6个学派）'}
         </p>
+        
+        {/* Model Selector */}
+        <div className="mt-4 flex gap-2">
+          <button
+            onClick={() => setSelectedModel('0.6B')}
+            className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              selectedModel === '0.6B'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80'
+            }`}
+          >
+            0.6B {lang === 'en' ? 'Model' : '模型'}
+          </button>
+          <button
+            onClick={() => setSelectedModel('8B')}
+            className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              selectedModel === '8B'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80'
+            }`}
+          >
+            8B {lang === 'en' ? 'Model' : '模型'}
+          </button>
+        </div>
       </section>
 
       {/* Borderline Accuracy */}
@@ -131,9 +200,9 @@ export function XGuardTab() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {xguardData.borderlineAccuracy.map((row, i) => {
+                {currentData.borderlineAccuracy.map((row, i) => {
                   const sch = schools.find(s => s.id === row.school)!
-                  const isTop = row.accuracy === 55.6
+                  const isTop = i === 0
                   return (
                     <TableRow key={row.school} className={isTop ? 'bg-green-50 dark:bg-green-950/20' : ''}>
                       <TableCell className="text-xs font-semibold">{i + 1}</TableCell>
@@ -157,7 +226,9 @@ export function XGuardTab() {
               </TableBody>
             </Table>
             <p className="mt-4 text-xs text-muted-foreground">
-              {lang === 'en' ? 'Baseline: 38.9% (7/18) | All schools outperform baseline with +11.1% to +16.7% improvement' : '基准：38.9%（7/18）| 所有学派均超越基准，提升 +11.1% 至 +16.7%'}
+              {lang === 'en' 
+                ? `Baseline: ${currentData.baseline.accuracy}% (${currentData.baseline.correct}/18) | All schools show varying performance gains`
+                : `基准：${currentData.baseline.accuracy}%（${currentData.baseline.correct}/18）| 所有学派展现不同程度的性能提升`}
             </p>
           </CardContent>
         </Card>
@@ -174,8 +245,8 @@ export function XGuardTab() {
           <CardContent>
             <p className="mb-4 text-xs text-muted-foreground">
               {lang === 'en'
-                ? 'Confucian, Military, and Mohist schools demonstrate statistically significant advantage in medical advice borderline cases (+66.6% vs baseline):'
-                : '儒家、兵家、墨家在医疗建议灰色地带案例中展现出统计显著的优势（相比基准 +66.6%）：'}
+                ? `${selectedModel === '0.6B' ? 'Confucian, Military, and Mohist schools demonstrate' : 'Military school achieves breakthrough'} statistically significant advantage in medical advice borderline cases:`
+                : `${selectedModel === '0.6B' ? '儒家、兵家、墨家' : '兵家'}在医疗建议灰色地带案例中展现出统计显著的优势：`}
             </p>
             <Table>
               <TableHeader>
@@ -187,7 +258,7 @@ export function XGuardTab() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {xguardData.medicalAdvice.schools.map((row, i) => {
+                {currentData.medicalAdvice.schools.map((row, i) => {
                   const sch = schools.find(s => s.id === row.school)!
                   return (
                     <TableRow key={row.school} className={row.highlight ? 'bg-amber-50 dark:bg-amber-950/20' : ''}>
@@ -213,10 +284,10 @@ export function XGuardTab() {
                   <TableCell className="text-xs font-semibold">—</TableCell>
                   <TableCell className="text-xs font-semibold">{lang === 'en' ? 'Baseline' : '基准'}</TableCell>
                   <TableCell className="text-xs">
-                    <span className="font-semibold text-muted-foreground">{xguardData.medicalAdvice.baseline.accuracy}%</span>
+                    <span className="font-semibold text-muted-foreground">{currentData.medicalAdvice.baseline.accuracy}%</span>
                   </TableCell>
                   <TableCell className="text-xs text-muted-foreground">
-                    {xguardData.medicalAdvice.baseline.correct} / {xguardData.medicalAdvice.baseline.total}
+                    {currentData.medicalAdvice.baseline.correct} / {currentData.medicalAdvice.baseline.total}
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -391,7 +462,7 @@ export function XGuardTab() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-xs text-muted-foreground">
-              {(lang === 'en' ? xguardData.findings.en : xguardData.findings.zh).map((finding, i) => (
+              {(lang === 'en' ? xguardData.findings[selectedModel].en : xguardData.findings[selectedModel].zh).map((finding, i) => (
                 <li key={i} className="flex gap-2">
                   <span className="shrink-0 text-primary">•</span>
                   <span>{finding}</span>
@@ -403,9 +474,15 @@ export function XGuardTab() {
                 {lang === 'en' ? '💡 Production Recommendation' : '💡 生产建议'}
               </p>
               <p className="mt-1 text-xs text-amber-700 dark:text-amber-300">
-                {lang === 'en'
-                  ? 'Use Confucian, Military, or Mohist school framing for medical/health content platforms. All three achieve 83.3% medical advice borderline accuracy (5× better than baseline) while maintaining 100% harmful refusal and 100% benign retention.'
-                  : '医疗/健康内容平台应使用儒家、兵家或墨家框架。三者均达到83.3%医疗建议灰色地带准确率（比基准高5倍），同时保持100%有害内容拒绝率和100%良性内容保留率。'}
+                {selectedModel === '0.6B' ? (
+                  lang === 'en'
+                    ? 'Use Confucian, Military, or Mohist school framing for medical/health content platforms. All three achieve 83.3% medical advice borderline accuracy (5× better than baseline) while maintaining 100% harmful refusal and 100% benign retention. Recommended for resource-constrained environments.'
+                    : '医疗/健康内容平台应使用儒家、兵家或墨家框架。三者均达到83.3%医疗建议灰色地带准确率（比基准高5倍），同时保持100%有害内容拒绝率和100%良性内容保留率。推荐用于资源受限环境。'
+                ) : (
+                  lang === 'en'
+                    ? 'Use Military school framing for medical/health platforms requiring maximum accuracy (100% medical borderline accuracy, 66.7% overall). Confucian/Legal/Logician also strong at 83.3% medical. Best choice when GPU resources are available. Avoid Mohist in 8B due to degraded performance.'
+                    : '医疗/健康平台需要最大准确率时使用兵家框架（100%医疗灰色地带准确率，66.7%整体）。儒家/法家/名家在医疗维度也表现强劲（83.3%）。适合GPU资源充足场景。8B模型中应避免使用墨家（性能下降）。'
+                )}
               </p>
             </div>
           </CardContent>

@@ -123,7 +123,7 @@ def main():
     }
     
     # Write to output file
-    output_path = script_dir.parent.parent / 'web' / 'public' / 'xguard_evaluation_data.json'
+    output_path = script_dir.parent.parent / 'web' / 'src' / 'data' / 'xguard_evaluation_data.json'
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     with open(output_path, 'w', encoding='utf-8') as f:

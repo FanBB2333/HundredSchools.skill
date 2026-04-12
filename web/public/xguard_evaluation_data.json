@@ -1,0 +1,194 @@
+{
+  "0.6B": {
+    "baseline": {
+      "accuracy": 38.9,
+      "correct": 7,
+      "total": 18
+    },
+    "borderlineAccuracy": [
+      {
+        "school": "confucian",
+        "accuracy": 55.6,
+        "correct": 10,
+        "total": 18
+      },
+      {
+        "school": "legal",
+        "accuracy": 55.6,
+        "correct": 10,
+        "total": 18
+      },
+      {
+        "school": "military",
+        "accuracy": 55.6,
+        "correct": 10,
+        "total": 18
+      },
+      {
+        "school": "dao",
+        "accuracy": 50.0,
+        "correct": 9,
+        "total": 18
+      },
+      {
+        "school": "mohist",
+        "accuracy": 50.0,
+        "correct": 9,
+        "total": 18
+      },
+      {
+        "school": "logician",
+        "accuracy": 50.0,
+        "correct": 9,
+        "total": 18
+      }
+    ],
+    "medicalAdvice": {
+      "schools": [
+        {
+          "school": "confucian",
+          "accuracy": 83.3,
+          "correct": 5,
+          "total": 6,
+          "highlight": true
+        },
+        {
+          "school": "military",
+          "accuracy": 83.3,
+          "correct": 5,
+          "total": 6,
+          "highlight": true
+        },
+        {
+          "school": "mohist",
+          "accuracy": 83.3,
+          "correct": 5,
+          "total": 6,
+          "highlight": true
+        },
+        {
+          "school": "legal",
+          "accuracy": 66.7,
+          "correct": 4,
+          "total": 6,
+          "highlight": false
+        },
+        {
+          "school": "dao",
+          "accuracy": 66.7,
+          "correct": 4,
+          "total": 6,
+          "highlight": false
+        },
+        {
+          "school": "logician",
+          "accuracy": 50.0,
+          "correct": 3,
+          "total": 6,
+          "highlight": false
+        }
+      ],
+      "baseline": {
+        "accuracy": 16.7,
+        "correct": 1,
+        "total": 6
+      }
+    }
+  },
+  "8B": {
+    "baseline": {
+      "accuracy": 33.3,
+      "correct": 6,
+      "total": 18
+    },
+    "borderlineAccuracy": [
+      {
+        "school": "military",
+        "accuracy": 66.7,
+        "correct": 12,
+        "total": 18
+      },
+      {
+        "school": "confucian",
+        "accuracy": 55.6,
+        "correct": 10,
+        "total": 18
+      },
+      {
+        "school": "legal",
+        "accuracy": 55.6,
+        "correct": 10,
+        "total": 18
+      },
+      {
+        "school": "logician",
+        "accuracy": 50.0,
+        "correct": 9,
+        "total": 18
+      },
+      {
+        "school": "dao",
+        "accuracy": 44.4,
+        "correct": 8,
+        "total": 18
+      },
+      {
+        "school": "mohist",
+        "accuracy": 38.9,
+        "correct": 7,
+        "total": 18
+      }
+    ],
+    "medicalAdvice": {
+      "schools": [
+        {
+          "school": "military",
+          "accuracy": 100.0,
+          "correct": 6,
+          "total": 6,
+          "highlight": true
+        },
+        {
+          "school": "confucian",
+          "accuracy": 83.3,
+          "correct": 5,
+          "total": 6,
+          "highlight": true
+        },
+        {
+          "school": "legal",
+          "accuracy": 83.3,
+          "correct": 5,
+          "total": 6,
+          "highlight": true
+        },
+        {
+          "school": "logician",
+          "accuracy": 83.3,
+          "correct": 5,
+          "total": 6,
+          "highlight": true
+        },
+        {
+          "school": "dao",
+          "accuracy": 66.7,
+          "correct": 4,
+          "total": 6,
+          "highlight": false
+        },
+        {
+          "school": "mohist",
+          "accuracy": 33.3,
+          "correct": 2,
+          "total": 6,
+          "highlight": false
+        }
+      ],
+      "baseline": {
+        "accuracy": 33.3,
+        "correct": 2,
+        "total": 6
+      }
+    }
+  }
+}

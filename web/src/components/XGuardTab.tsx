@@ -5,54 +5,40 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { SchoolDot } from './SchoolDot'
 import { AnimatedCard } from './AnimatedCard'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 
-// XGuard Content Safety Evaluation Data
-const xguardData = {
-  '0.6B': {
-    baseline: { accuracy: 38.9, correct: 7, total: 18 },
-    borderlineAccuracy: [
-      { school: 'military' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
-      { school: 'confucian' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
-      { school: 'legal' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
-      { school: 'dao' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
-      { school: 'mohist' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
-      { school: 'logician' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
-    ],
-    medicalAdvice: {
-      schools: [
-        { school: 'confucian' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
-        { school: 'military' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
-        { school: 'mohist' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
-        { school: 'dao' as SchoolId, accuracy: 66.7, correct: 4, total: 6 },
-        { school: 'legal' as SchoolId, accuracy: 66.7, correct: 4, total: 6 },
-        { school: 'logician' as SchoolId, accuracy: 50.0, correct: 3, total: 6 },
-      ],
-      baseline: { accuracy: 16.7, correct: 1, total: 6 },
-    },
-  },
-  '8B': {
-    baseline: { accuracy: 33.3, correct: 6, total: 18 },
-    borderlineAccuracy: [
-      { school: 'military' as SchoolId, accuracy: 66.7, correct: 12, total: 18 },
-      { school: 'confucian' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
-      { school: 'legal' as SchoolId, accuracy: 55.6, correct: 10, total: 18 },
-      { school: 'logician' as SchoolId, accuracy: 50.0, correct: 9, total: 18 },
-      { school: 'dao' as SchoolId, accuracy: 44.4, correct: 8, total: 18 },
-      { school: 'mohist' as SchoolId, accuracy: 38.9, correct: 7, total: 18 },
-    ],
-    medicalAdvice: {
-      schools: [
-        { school: 'military' as SchoolId, accuracy: 100.0, correct: 6, total: 6, highlight: true },
-        { school: 'confucian' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
-        { school: 'legal' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
-        { school: 'logician' as SchoolId, accuracy: 83.3, correct: 5, total: 6, highlight: true },
-        { school: 'dao' as SchoolId, accuracy: 66.7, correct: 4, total: 6 },
-        { school: 'mohist' as SchoolId, accuracy: 33.3, correct: 2, total: 6 },
-      ],
-      baseline: { accuracy: 33.3, correct: 2, total: 6 },
-    },
-  },
+// Type definitions
+interface BaselineData {
+  accuracy: number
+  correct: number
+  total: number
+}
+
+interface SchoolData {
+  school: SchoolId
+  accuracy: number
+  correct: number
+  total: number
+  highlight?: boolean
+}
+
+interface ModelData {
+  baseline: BaselineData
+  borderlineAccuracy: SchoolData[]
+  medicalAdvice: {
+    schools: SchoolData[]
+    baseline: BaselineData
+  }
+}
+
+interface EvaluationData {
+  '0.6B': ModelData
+  '8B': ModelData
+}
+
+// Static data that doesn't need to be in JSON
+const xguardStaticData = {
   harmful: {
     refusalRate: 100,
     samples: [
@@ -132,8 +118,72 @@ const xguardData = {
 export function XGuardTab() {
   const { lang } = useLang()
   const [selectedModel, setSelectedModel] = useState<'0.6B' | '8B'>('0.6B')
-  
-  const currentData = xguardData[selectedModel]
+  const [evaluationData, setEvaluationData] = useState<EvaluationData | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  // Load evaluation data from JSON
+  useEffect(() => {
+    fetch('/xguard_evaluation_data.json')
+      .then(res => res.json())
+      .then((data: EvaluationData) => {
+        setEvaluationData(data)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Failed to load evaluation data:', err)
+        setLoading(false)
+      })
+  }, [])
+
+  if (loading || !evaluationData) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <p className="text-muted-foreground">{lang === 'en' ? 'Loading evaluation data...' : '加载评测数据中...'}</p>
+      </div>
+    )
+  }
+
+  const currentData = evaluationData[selectedModel]
+
+  // Prepare chart data for borderline accuracy
+  const borderlineChartData = [
+    {
+      name: lang === 'en' ? 'Baseline' : '基准',
+      accuracy: currentData.baseline.accuracy,
+      fill: '#94a3b8',
+      isBaseline: true
+    },
+    ...currentData.borderlineAccuracy.map((item) => {
+      const sch = schools.find(s => s.id === item.school)!
+      return {
+        name: lang === 'en' ? sch.nameEn : sch.nameZh,
+        accuracy: item.accuracy,
+        fill: sch.color,
+        isBaseline: false
+      }
+    })
+  ]
+
+  // Prepare chart data for medical advice
+  const medicalChartData = [
+    {
+      name: lang === 'en' ? 'Baseline' : '基准',
+      accuracy: currentData.medicalAdvice.baseline.accuracy,
+      fill: '#94a3b8',
+      isBaseline: true,
+      highlight: false
+    },
+    ...currentData.medicalAdvice.schools.map((item) => {
+      const sch = schools.find(s => s.id === item.school)!
+      return {
+        name: lang === 'en' ? sch.nameEn : sch.nameZh,
+        accuracy: item.accuracy,
+        fill: sch.color,
+        isBaseline: false,
+        highlight: item.highlight
+      }
+    })
+  ]
 
   return (
     <div className="space-y-10">
@@ -176,7 +226,7 @@ export function XGuardTab() {
         </div>
       </section>
 
-      {/* Borderline Accuracy */}
+      {/* Borderline Accuracy with Chart */}
       <AnimatedCard index={0}>
         <Card>
           <CardHeader>
@@ -190,6 +240,37 @@ export function XGuardTab() {
                 ? 'Higher is better. Measures correct classification of gray-area content (should allow safe borderline content while blocking harmful).'
                 : '越高越好。衡量对灰色地带内容的正确分类（应允许安全的灰色地带内容，同时阻止有害内容）。'}
             </p>
+            
+            {/* Bar Chart */}
+            <div className="mb-6">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={borderlineChartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="name" 
+                    angle={-45} 
+                    textAnchor="end" 
+                    height={80}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <YAxis 
+                    domain={[0, 100]} 
+                    label={{ value: lang === 'en' ? 'Accuracy (%)' : '准确率 (%)', angle: -90, position: 'insideLeft' }}
+                  />
+                  <Tooltip 
+                    formatter={(value: any) => `${Number(value).toFixed(1)}%`}
+                    labelStyle={{ color: '#000' }}
+                  />
+                  <Bar dataKey="accuracy" radius={[8, 8, 0, 0]}>
+                    {borderlineChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.fill} opacity={entry.isBaseline ? 0.6 : 1} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Table */}
             <Table>
               <TableHeader>
                 <TableRow>
@@ -223,13 +304,21 @@ export function XGuardTab() {
                     </TableRow>
                   )
                 })}
+                {/* Baseline Row */}
+                <TableRow className="border-t-2 bg-muted/50">
+                  <TableCell className="text-xs font-semibold">—</TableCell>
+                  <TableCell className="text-xs font-semibold">
+                    {lang === 'en' ? 'Baseline' : '基准'}
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    <span className="font-semibold text-muted-foreground">{currentData.baseline.accuracy}%</span>
+                  </TableCell>
+                  <TableCell className="text-xs text-muted-foreground">
+                    {currentData.baseline.correct} / {currentData.baseline.total}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
-            <p className="mt-4 text-xs text-muted-foreground">
-              {lang === 'en' 
-                ? `Baseline: ${currentData.baseline.accuracy}% (${currentData.baseline.correct}/18) | All schools show varying performance gains`
-                : `基准：${currentData.baseline.accuracy}%（${currentData.baseline.correct}/18）| 所有学派展现不同程度的性能提升`}
-            </p>
           </CardContent>
         </Card>
       </AnimatedCard>
@@ -248,6 +337,41 @@ export function XGuardTab() {
                 ? `${selectedModel === '0.6B' ? 'Confucian, Military, and Mohist schools demonstrate' : 'Military school achieves breakthrough'} statistically significant advantage in medical advice borderline cases:`
                 : `${selectedModel === '0.6B' ? '儒家、兵家、墨家' : '兵家'}在医疗建议灰色地带案例中展现出统计显著的优势：`}
             </p>
+            
+            {/* Bar Chart */}
+            <div className="mb-6">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={medicalChartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="name" 
+                    angle={-45} 
+                    textAnchor="end" 
+                    height={80}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <YAxis 
+                    domain={[0, 100]} 
+                    label={{ value: lang === 'en' ? 'Accuracy (%)' : '准确率 (%)', angle: -90, position: 'insideLeft' }}
+                  />
+                  <Tooltip 
+                    formatter={(value: any) => `${Number(value).toFixed(1)}%`}
+                    labelStyle={{ color: '#000' }}
+                  />
+                  <Bar dataKey="accuracy" radius={[8, 8, 0, 0]}>
+                    {medicalChartData.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={entry.fill} 
+                        opacity={entry.isBaseline ? 0.6 : (entry.highlight ? 1 : 0.8)} 
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Table */}
             <Table>
               <TableHeader>
                 <TableRow>
@@ -280,7 +404,8 @@ export function XGuardTab() {
                     </TableRow>
                   )
                 })}
-                <TableRow className="border-t-2">
+                {/* Baseline Row */}
+                <TableRow className="border-t-2 bg-muted/50">
                   <TableCell className="text-xs font-semibold">—</TableCell>
                   <TableCell className="text-xs font-semibold">{lang === 'en' ? 'Baseline' : '基准'}</TableCell>
                   <TableCell className="text-xs">
@@ -338,7 +463,7 @@ export function XGuardTab() {
           <CardContent>
             <div className="mb-4 rounded-lg bg-green-50 p-4 dark:bg-green-950/20">
               <div className="flex items-center gap-2">
-                <span className="text-3xl font-bold text-green-600 dark:text-green-400">{xguardData.harmful.refusalRate}%</span>
+                <span className="text-3xl font-bold text-green-600 dark:text-green-400">{xguardStaticData.harmful.refusalRate}%</span>
                 <span className="text-sm text-muted-foreground">
                   {lang === 'en' ? 'refusal rate across all schools' : '所有学派的拒绝率'}
                 </span>
@@ -350,7 +475,7 @@ export function XGuardTab() {
                 : '所有9个条件（6个单一学派 + 3个流水线）均正确拒绝所有有害内容样本：'}
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
-              {xguardData.harmful.samples.map((sample, i) => (
+              {xguardStaticData.harmful.samples.map((sample, i) => (
                 <div key={i} className="rounded-lg border p-2 text-xs">
                   <div className="flex items-center justify-between">
                     <span className="font-medium">{lang === 'en' ? sample.nameEn : sample.nameZh}</span>
@@ -390,7 +515,7 @@ export function XGuardTab() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {xguardData.borderline.samples.map((sample, i) => (
+                {xguardStaticData.borderline.samples.map((sample, i) => (
                   <TableRow key={i}>
                     <TableCell className="text-xs">{lang === 'en' ? sample.nameEn : sample.nameZh}</TableCell>
                     <TableCell className="text-xs text-center">
@@ -428,7 +553,7 @@ export function XGuardTab() {
                 : 'XGuard 使用 8 个细分判定标记，而非二元安全/不安全分类：'}
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
-              {xguardData.riskCategories.map((cat) => (
+              {xguardStaticData.riskCategories.map((cat) => (
                 <div
                   key={cat.token}
                   className={`rounded-lg border p-2 text-xs ${
@@ -462,7 +587,7 @@ export function XGuardTab() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-xs text-muted-foreground">
-              {(lang === 'en' ? xguardData.findings[selectedModel].en : xguardData.findings[selectedModel].zh).map((finding, i) => (
+              {(lang === 'en' ? xguardStaticData.findings[selectedModel].en : xguardStaticData.findings[selectedModel].zh).map((finding, i) => (
                 <li key={i} className="flex gap-2">
                   <span className="shrink-0 text-primary">•</span>
                   <span>{finding}</span>

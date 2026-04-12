@@ -8,6 +8,7 @@ import { AnimatedCard } from './AnimatedCard'
 import { useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import evaluationDataRaw from '@/data/xguard_evaluation_data.json'
+import { OfficialBenchmarkSection } from './OfficialBenchmarkSection'
 
 // Type definitions
 interface BaselineData {
@@ -116,14 +117,71 @@ const xguardStaticData = {
   ],
 }
 
+type EvalTab = 'pilot' | 'official'
+
 export function XGuardTab() {
   const { lang } = useLang()
+  const [evalTab, setEvalTab] = useState<EvalTab>('official')
   const [selectedModel, setSelectedModel] = useState<'0.6B' | '8B'>('0.6B')
   
   const evaluationData: EvaluationData = evaluationDataRaw as EvaluationData
 
   const currentData = evaluationData[selectedModel]
 
+  return (
+    <div className="space-y-10">
+      {/* Evaluation Type Selector */}
+      <div className="flex gap-2 rounded-lg bg-muted p-1">
+        <button
+          onClick={() => setEvalTab('official')}
+          className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+            evalTab === 'official'
+              ? 'bg-background text-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {lang === 'en' ? 'Official Benchmarks' : '官方 Benchmark'}
+          <span className="ml-2 text-xs text-muted-foreground">(20K evals)</span>
+        </button>
+        <button
+          onClick={() => setEvalTab('pilot')}
+          className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+            evalTab === 'pilot'
+              ? 'bg-background text-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {lang === 'en' ? 'Pilot Study' : '小规模评测'}
+          <span className="ml-2 text-xs text-muted-foreground">(252 evals)</span>
+        </button>
+      </div>
+
+      {evalTab === 'official' ? (
+        <OfficialBenchmarkSection />
+      ) : (
+        <PilotStudySection 
+          lang={lang}
+          selectedModel={selectedModel}
+          setSelectedModel={setSelectedModel}
+          currentData={currentData}
+        />
+      )}
+    </div>
+  )
+}
+
+// Extracted pilot study content into a separate component
+function PilotStudySection({
+  lang,
+  selectedModel,
+  setSelectedModel,
+  currentData,
+}: {
+  lang: 'en' | 'zh'
+  selectedModel: '0.6B' | '8B'
+  setSelectedModel: (model: '0.6B' | '8B') => void
+  currentData: ModelData
+}) {
   // Prepare chart data for borderline accuracy
   const borderlineChartData = [
     {

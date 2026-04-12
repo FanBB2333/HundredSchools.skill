@@ -1,0 +1,470 @@
+{
+  "datasets": [
+    {
+      "id": "simple_safety_tests",
+      "nameEn": "SimpleSafetyTests",
+      "nameZh": "SimpleSafetyTests",
+      "descEn": "Tests refusal of obviously dangerous requests",
+      "descZh": "测试明显危险请求的拒绝能力",
+      "expectedLabel": "unsafe",
+      "primaryMetric": "unsafe_recall",
+      "samples": 100,
+      "baseline": {
+        "accuracy": 99.0,
+        "safeAccuracy": null,
+        "unsafeRecall": 99.0,
+        "falseRefusalRate": null
+      },
+      "conditions": [
+        {
+          "condition": "baseline",
+          "accuracy": 99.0,
+          "safeAccuracy": null,
+          "unsafeRecall": 99.0,
+          "falseRefusalRate": null,
+          "total": 100,
+          "correct": 99
+        },
+        {
+          "condition": "confucian",
+          "accuracy": 98.0,
+          "safeAccuracy": null,
+          "unsafeRecall": 98.0,
+          "falseRefusalRate": null,
+          "total": 100,
+          "correct": 98
+        },
+        {
+          "condition": "dao",
+          "accuracy": 98.0,
+          "safeAccuracy": null,
+          "unsafeRecall": 98.0,
+          "falseRefusalRate": null,
+          "total": 100,
+          "correct": 98
+        },
+        {
+          "condition": "legal",
+          "accuracy": 98.0,
+          "safeAccuracy": null,
+          "unsafeRecall": 98.0,
+          "falseRefusalRate": null,
+          "total": 100,
+          "correct": 98
+        },
+        {
+          "condition": "logician",
+          "accuracy": 98.0,
+          "safeAccuracy": null,
+          "unsafeRecall": 98.0,
+          "falseRefusalRate": null,
+          "total": 100,
+          "correct": 98
+        },
+        {
+          "condition": "military",
+          "accuracy": 98.0,
+          "safeAccuracy": null,
+          "unsafeRecall": 98.0,
+          "falseRefusalRate": null,
+          "total": 100,
+          "correct": 98
+        },
+        {
+          "condition": "mohist",
+          "accuracy": 98.0,
+          "safeAccuracy": null,
+          "unsafeRecall": 98.0,
+          "falseRefusalRate": null,
+          "total": 100,
+          "correct": 98
+        }
+      ],
+      "bestSchool": {
+        "condition": "confucian",
+        "value": 98.0
+      },
+      "worstSchool": {
+        "condition": "mohist",
+        "value": 98.0
+      }
+    },
+    {
+      "id": "xstest",
+      "nameEn": "XSTest",
+      "nameZh": "XSTest",
+      "descEn": "Tests exaggerated safety / over-refusal",
+      "descZh": "测试过度拒绝（exaggerated safety）",
+      "expectedLabel": "mixed",
+      "primaryMetric": "accuracy",
+      "samples": 450,
+      "baseline": {
+        "accuracy": 92.2,
+        "safeAccuracy": 89.6,
+        "unsafeRecall": 95.5,
+        "falseRefusalRate": 10.4
+      },
+      "conditions": [
+        {
+          "condition": "baseline",
+          "accuracy": 92.2,
+          "safeAccuracy": 89.6,
+          "unsafeRecall": 95.5,
+          "falseRefusalRate": 10.4,
+          "total": 450,
+          "correct": 415
+        },
+        {
+          "condition": "confucian",
+          "accuracy": 88.9,
+          "safeAccuracy": 90.0,
+          "unsafeRecall": 87.5,
+          "falseRefusalRate": 10.0,
+          "total": 450,
+          "correct": 400
+        },
+        {
+          "condition": "dao",
+          "accuracy": 87.3,
+          "safeAccuracy": 87.2,
+          "unsafeRecall": 87.5,
+          "falseRefusalRate": 12.8,
+          "total": 450,
+          "correct": 393
+        },
+        {
+          "condition": "legal",
+          "accuracy": 87.6,
+          "safeAccuracy": 88.8,
+          "unsafeRecall": 86.0,
+          "falseRefusalRate": 11.2,
+          "total": 450,
+          "correct": 394
+        },
+        {
+          "condition": "logician",
+          "accuracy": 88.4,
+          "safeAccuracy": 89.2,
+          "unsafeRecall": 87.5,
+          "falseRefusalRate": 10.8,
+          "total": 450,
+          "correct": 398
+        },
+        {
+          "condition": "military",
+          "accuracy": 88.4,
+          "safeAccuracy": 85.2,
+          "unsafeRecall": 92.5,
+          "falseRefusalRate": 14.8,
+          "total": 450,
+          "correct": 398
+        },
+        {
+          "condition": "mohist",
+          "accuracy": 89.3,
+          "safeAccuracy": 90.0,
+          "unsafeRecall": 88.5,
+          "falseRefusalRate": 10.0,
+          "total": 450,
+          "correct": 402
+        }
+      ],
+      "bestSchool": {
+        "condition": "mohist",
+        "value": 89.3
+      },
+      "worstSchool": {
+        "condition": "dao",
+        "value": 87.3
+      }
+    },
+    {
+      "id": "or_bench_hard",
+      "nameEn": "OR-Bench Hard",
+      "nameZh": "OR-Bench Hard",
+      "descEn": "Tests borderline safe requests (should allow)",
+      "descZh": "测试边界安全请求的误拒绝",
+      "expectedLabel": "safe",
+      "primaryMetric": "safe_accuracy",
+      "samples": 1319,
+      "baseline": {
+        "accuracy": 78.4,
+        "safeAccuracy": 78.4,
+        "unsafeRecall": null,
+        "falseRefusalRate": 21.6
+      },
+      "conditions": [
+        {
+          "condition": "baseline",
+          "accuracy": 78.4,
+          "safeAccuracy": 78.4,
+          "unsafeRecall": null,
+          "falseRefusalRate": 21.6,
+          "total": 1319,
+          "correct": 1034
+        },
+        {
+          "condition": "confucian",
+          "accuracy": 36.5,
+          "safeAccuracy": 36.5,
+          "unsafeRecall": null,
+          "falseRefusalRate": 63.5,
+          "total": 1319,
+          "correct": 481
+        },
+        {
+          "condition": "dao",
+          "accuracy": 26.4,
+          "safeAccuracy": 26.4,
+          "unsafeRecall": null,
+          "falseRefusalRate": 73.6,
+          "total": 1319,
+          "correct": 348
+        },
+        {
+          "condition": "legal",
+          "accuracy": 36.5,
+          "safeAccuracy": 36.5,
+          "unsafeRecall": null,
+          "falseRefusalRate": 63.5,
+          "total": 1319,
+          "correct": 481
+        },
+        {
+          "condition": "logician",
+          "accuracy": 38.7,
+          "safeAccuracy": 38.7,
+          "unsafeRecall": null,
+          "falseRefusalRate": 61.3,
+          "total": 1319,
+          "correct": 511
+        },
+        {
+          "condition": "military",
+          "accuracy": 35.5,
+          "safeAccuracy": 35.5,
+          "unsafeRecall": null,
+          "falseRefusalRate": 64.5,
+          "total": 1319,
+          "correct": 468
+        },
+        {
+          "condition": "mohist",
+          "accuracy": 34.5,
+          "safeAccuracy": 34.5,
+          "unsafeRecall": null,
+          "falseRefusalRate": 65.5,
+          "total": 1319,
+          "correct": 455
+        }
+      ],
+      "bestSchool": {
+        "condition": "logician",
+        "value": 38.7
+      },
+      "worstSchool": {
+        "condition": "dao",
+        "value": 26.4
+      }
+    },
+    {
+      "id": "s_eval_zh_small",
+      "nameEn": "S-Eval zh",
+      "nameZh": "S-Eval 中文",
+      "descEn": "Chinese harmful content detection",
+      "descZh": "中文有害内容检测",
+      "expectedLabel": "unsafe",
+      "primaryMetric": "unsafe_recall",
+      "samples": 1000,
+      "baseline": {
+        "accuracy": 88.8,
+        "safeAccuracy": null,
+        "unsafeRecall": 88.8,
+        "falseRefusalRate": null
+      },
+      "conditions": [
+        {
+          "condition": "baseline",
+          "accuracy": 88.8,
+          "safeAccuracy": null,
+          "unsafeRecall": 88.8,
+          "falseRefusalRate": null,
+          "total": 1000,
+          "correct": 888
+        },
+        {
+          "condition": "confucian",
+          "accuracy": 84.4,
+          "safeAccuracy": null,
+          "unsafeRecall": 84.4,
+          "falseRefusalRate": null,
+          "total": 1000,
+          "correct": 844
+        },
+        {
+          "condition": "dao",
+          "accuracy": 86.4,
+          "safeAccuracy": null,
+          "unsafeRecall": 86.4,
+          "falseRefusalRate": null,
+          "total": 1000,
+          "correct": 864
+        },
+        {
+          "condition": "legal",
+          "accuracy": 82.4,
+          "safeAccuracy": null,
+          "unsafeRecall": 82.4,
+          "falseRefusalRate": null,
+          "total": 1000,
+          "correct": 824
+        },
+        {
+          "condition": "logician",
+          "accuracy": 83.7,
+          "safeAccuracy": null,
+          "unsafeRecall": 83.7,
+          "falseRefusalRate": null,
+          "total": 1000,
+          "correct": 837
+        },
+        {
+          "condition": "military",
+          "accuracy": 84.7,
+          "safeAccuracy": null,
+          "unsafeRecall": 84.7,
+          "falseRefusalRate": null,
+          "total": 1000,
+          "correct": 847
+        },
+        {
+          "condition": "mohist",
+          "accuracy": 83.0,
+          "safeAccuracy": null,
+          "unsafeRecall": 83.0,
+          "falseRefusalRate": null,
+          "total": 1000,
+          "correct": 830
+        }
+      ],
+      "bestSchool": {
+        "condition": "dao",
+        "value": 86.4
+      },
+      "worstSchool": {
+        "condition": "legal",
+        "value": 82.4
+      }
+    }
+  ],
+  "summary": {
+    "totalSamples": 2869,
+    "totalEvaluations": 20083,
+    "conditions": 7
+  },
+  "comparisonTable": {
+    "headers": [
+      "baseline",
+      "dao",
+      "confucian",
+      "legal",
+      "military",
+      "mohist",
+      "logician"
+    ],
+    "rows": [
+      {
+        "metric": "SimpleSafetyTests Unsafe Recall",
+        "metricZh": "SimpleSafetyTests 有害召回率",
+        "values": {
+          "baseline": 99.0,
+          "dao": 98.0,
+          "confucian": 98.0,
+          "legal": 98.0,
+          "military": 98.0,
+          "mohist": 98.0,
+          "logician": 98.0
+        }
+      },
+      {
+        "metric": "XSTest Safe Accuracy",
+        "metricZh": "XSTest 安全准确率",
+        "values": {
+          "baseline": 89.6,
+          "dao": 87.2,
+          "confucian": 90.0,
+          "legal": 88.8,
+          "military": 85.2,
+          "mohist": 90.0,
+          "logician": 89.2
+        }
+      },
+      {
+        "metric": "XSTest Unsafe Recall",
+        "metricZh": "XSTest 有害召回率",
+        "values": {
+          "baseline": 95.5,
+          "dao": 87.5,
+          "confucian": 87.5,
+          "legal": 86.0,
+          "military": 92.5,
+          "mohist": 88.5,
+          "logician": 87.5
+        }
+      },
+      {
+        "metric": "XSTest Overall Accuracy",
+        "metricZh": "XSTest 整体准确率",
+        "values": {
+          "baseline": 92.2,
+          "dao": 87.3,
+          "confucian": 88.9,
+          "legal": 87.6,
+          "military": 88.4,
+          "mohist": 89.3,
+          "logician": 88.4
+        }
+      },
+      {
+        "metric": "OR-Bench Hard Safe Accuracy",
+        "metricZh": "OR-Bench Hard 安全准确率",
+        "values": {
+          "baseline": 78.4,
+          "dao": 26.4,
+          "confucian": 36.5,
+          "legal": 36.5,
+          "military": 35.5,
+          "mohist": 34.5,
+          "logician": 38.7
+        }
+      },
+      {
+        "metric": "S-Eval zh Unsafe Recall",
+        "metricZh": "S-Eval 中文有害召回率",
+        "values": {
+          "baseline": 88.8,
+          "dao": 86.4,
+          "confucian": 84.4,
+          "legal": 82.4,
+          "military": 84.7,
+          "mohist": 83.0,
+          "logician": 83.7
+        }
+      }
+    ]
+  },
+  "findings": {
+    "en": [
+      "Baseline performs best overall - the model without system prompt is already well-optimized for official benchmarks",
+      "Largest divergence: OR-Bench Hard shows 52.0% gap (dao at 26.4% vs Baseline at 78.4%)",
+      "Dao school shows highest false refusal rate on OR-Bench Hard: 73.6% vs Baseline 21.6%",
+      "Confucian/Mohist schools show slightly better safe accuracy on XSTest (90.0% vs 89.6%)"
+    ],
+    "zh": [
+      "Baseline 整体表现最优 — 无 system prompt 的原始模型在官方 benchmark 上已经过充分优化",
+      "最大差异：OR-Bench Hard 差距达 52.0%（dao 26.4% vs Baseline 78.4%）",
+      "道家在 OR-Bench Hard 上误拒绝率最高：73.6% vs Baseline 21.6%",
+      "儒家/墨家在 XSTest 安全准确率上略优于 Baseline（90.0% vs 89.6%）"
+    ]
+  }
+}

@@ -1,2 +1,8 @@
 # Design specification (internal reference only)
 spec.md
+
+# Benchmark datasets (downloaded locally)
+datasets/
+
+# Evaluation results (large files)
+docs/samples/results/

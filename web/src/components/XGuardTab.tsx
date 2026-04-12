@@ -221,15 +221,15 @@ export function XGuardTab() {
             </p>
             
             {/* Bar Chart */}
-            <div className="mb-6">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={borderlineChartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+            <div className="mb-2">
+              <ResponsiveContainer width="100%" height={280}>
+                <BarChart data={borderlineChartData} margin={{ top: 20, right: 30, left: 20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
                     dataKey="name" 
                     angle={-45} 
                     textAnchor="end" 
-                    height={80}
+                    height={50}
                     tick={{ fontSize: 12 }}
                   />
                   <YAxis 
@@ -318,15 +318,15 @@ export function XGuardTab() {
             </p>
             
             {/* Bar Chart */}
-            <div className="mb-6">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={medicalChartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+            <div className="mb-2">
+              <ResponsiveContainer width="100%" height={280}>
+                <BarChart data={medicalChartData} margin={{ top: 20, right: 30, left: 20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
                     dataKey="name" 
                     angle={-45} 
                     textAnchor="end" 
-                    height={80}
+                    height={50}
                     tick={{ fontSize: 12 }}
                   />
                   <YAxis 

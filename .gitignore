@@ -6,3 +6,7 @@ datasets/
 
 # Evaluation results (large files)
 docs/samples/results/
+
+# Python cache
+__pycache__/
+*.pyc

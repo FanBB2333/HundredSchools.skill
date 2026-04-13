@@ -3,341 +3,347 @@ name: hundredschools
 description: >-
   Multi-dimensional agent thinking framework mapping classical Chinese
   philosophical schools to LLM control strategies. Use when the user needs
-  brainstorming (dao), value alignment or formal tone (confucian), strict
-  structured output (legal), complex task planning (military), token-efficient
-  minimal output (mohist), or logical reasoning and fact-checking (logician).
-  Activates different "philosophical personas" that control inference behavior,
-  generation constraints, and validation logic.
+  exploratory reframing (dao), audience-fit and role ethics (confucian), strict
+  rule enforcement (legal), structured planning and contingency (military),
+  utility-first compression (mohist), or semantic verification (logician).
 license: MIT
 metadata:
   author: FanBB2333
   version: "0.1.0"
 ---
 
-# HundredSchools -- Multi-Dimensional Agent Thinking Framework
+# HundredSchools / 诸子百家控制框架
 
-## Overview
+HundredSchools maps six pre-Qin Chinese schools into six distinct LLM control
+stances. Each school changes what the model optimizes for: exploration,
+audience-fit, rule enforcement, planning, utility, or semantic discipline.
 
-HundredSchools maps six pre-Qin Chinese philosophical schools (诸子百家) into
-concrete control strategies for LLM inference, planning, generation, and
-validation. Rather than applying a single, static system prompt, the agent
-dynamically adopts a "philosophical persona" that governs its behavior -- from
-high-entropy creative exploration (Daoism) to strict deterministic output
-(Legalism), from value-aligned formal communication (Confucianism) to
-token-efficient minimal generation (Mohism).
+HundredSchools 将先秦六家映射为六种不同的 LLM 控制立场。每一家改变的，不
+只是模型“说话的感觉”，而是它真正优先优化的对象：探索、受众适配、规则执
+行、规划、功用或语义纪律。
 
-The core idea: each school embodies a distinct cognitive strategy. By selecting
-or combining schools, users gain fine-grained control over how the agent thinks,
-plans, generates, and validates its output.
+## Overview / 总览
 
-## CLI Interface
+The framework is built on one simple idea: complex agent behavior should not be
+handled by one static system prompt. Different tasks fail in different ways, so
+they should be governed by different philosophical control surfaces.
 
-In the agent terminal environment, invoke a school explicitly using the
-following command syntax:
+整个框架建立在一个简单想法上：复杂代理行为不应只靠一个静态 system prompt
+来承载。不同任务会以不同方式失效，因此它们也应由不同的哲学控制面来治理。
 
-**Base syntax:**
+The six schools are not costumes. They are distinct modes of constraint,
+emphasis, and validation.
 
-```
+六家不是“人格扮演”，而是六种不同的约束方式、强调重点与验证机制。
+
+## CLI Interface / 命令行接口
+
+Use the framework with:
+
+使用方式：
+
+```text
 /skill invoke HundredSchools --school <school_name> [options]
 ```
 
-**Parameters:**
+Accepted `--school` values:
 
-- `--school` (`-s`): Select the philosophical school to activate. Accepted
-  values: `dao`, `confucian`, `legal`, `military`, `mohist`, `logician`.
-- `--creativity`: Entropy control parameter (primarily associated with Daoism).
-  - `0`: Strict deterministic mode. Suppress divergent generation.
-  - `1` (default): Balanced generation.
-  - `2`: High divergence mode for brainstorming or breaking through cognitive
-    deadlocks.
-- `--strict-mode`: Boolean enforcement flag (primarily associated with Legalism).
-  When enabled, any output that fails format validation (e.g. JSON parse
-  failure) is immediately blocked and the system forces a retry with an
-  exception signal.
-
-## Dynamic Router
-
-When `--school` is not specified, the agent analyzes the user's prompt intent
-to automatically select the most appropriate school. The router acts as a
-lightweight classifier that determines whether the user is seeking creative
-exploration, structured data extraction, formal communication, complex planning,
-minimal output, or logical analysis, and mounts the corresponding school's
-system prompt accordingly.
+可用的 `--school` 值：
 
-See [school-router-guide.md](assets/school-router-guide.md) for the full
-routing logic and intent classification rules.
-
-## The Six Schools
+- `dao`
+- `confucian`
+- `legal`
+- `military`
+- `mohist`
+- `logician`
 
-### Daoism (dao)
-
-**Philosophy:** Wu wei er zhi (无为而治) -- govern by non-interference. Dao fa
-zi ran (道法自然) -- the Dao follows nature. Fan zhe dao zhi dong (反者道之动) --
-reversal is the movement of the Dao.
+Additional flags:
 
-**Agent Mapping:** Heuristic search, early exiting, high-entropy exploration.
+附加参数：
 
-**Use Cases:** Creative brainstorming, breaking through logical deadlocks,
-open-ended problems with high degrees of freedom.
+- `--creativity`: mainly modulates Daoist exploration.
+- `--creativity`：主要调节道家探索强度。
 
-**Execution Logic:**
+- `--strict-mode`: mainly strengthens Legalist enforcement.
+- `--strict-mode`：主要增强法家式严格执行。
 
-1. Dynamically raise Temperature and Top-P to expand the generation search
-   space. When `--creativity 2` is set, push entropy parameters to their upper
-   bounds to maximize divergent output.
-2. When the agent detects that the current task lacks clear context or that
-   confidence is extremely low, trigger the "wu wei" (non-action) mechanism:
-   stop over-reasoning and cease ineffective tool calls.
-3. Under "wu wei", return open-ended suggestions based on model intuition
-   rather than forcing low-quality deterministic output. Hand control back to
-   the user.
-4. This prevents token waste and avoids infinite loops of unproductive
-   reasoning. The principle of "fan zhe dao zhi dong" applies: when pushing
-   harder yields diminishing returns, reverse course and let go.
-
-See [DAO-GUIDE.md](references/DAO-GUIDE.md) for the full parameter tuning
-reference and early-exit threshold configuration.
+## Dynamic Router / 动态路由
 
----
-
-### Confucianism (confucian)
+When `--school` is omitted, the router should choose the school that best fits
+the task's dominant control goal.
 
-**Philosophy:** Ke ji fu li (克己复礼) -- restrain the self and restore
-propriety. Zheng ming (正名) -- rectification of names. Zhong yong (中庸) --
-the doctrine of the mean.
+当省略 `--school` 时，路由应选择最符合任务主导控制目标的学派。
 
-**Agent Mapping:** Value alignment, persona constraints, ethical and safety
-guardrails.
+Supporting references:
 
-**Use Cases:** Formal business correspondence, customer-facing communication,
-scenarios requiring strict adherence to tone, role, and social norms.
+相关辅助文档：
 
-**Execution Logic:**
+- [school-router-guide.md](assets/school-router-guide.md)
+- [decision-guide.md](assets/decision-guide.md)
+- [pipeline-examples.md](assets/pipeline-examples.md)
+- [school-compatibility.md](assets/school-compatibility.md)
 
-1. Activate the Safety and Style Checker. All output passes through a filter
-   that enforces linguistic appropriateness and tonal consistency.
-2. Apply "zheng ming" (rectification of names): rigorously audit the output
-   text for tone and etiquette. Ensure that responses conform to the social
-   norms expected of the preset persona or role.
-3. Block any aggressive, offensive, or contextually inappropriate expressions.
-   The agent must not generate content that violates the persona's decorum.
-4. Maintain a moderate, composed, and upright output style at all times,
-   following the "zhong yong" principle of balanced expression -- neither
-   excessive nor deficient.
+## The Six Schools / 六家总览
 
-See [CONFUCIAN-GUIDE.md](references/CONFUCIAN-GUIDE.md) for the style
-checklist, persona constraint templates, and safety filter configuration.
+### Daoism (dao) / 道家
 
----
+**Visible title / 显示名称**: Daoism Guide / 道家指南
 
-### Legalism (legal)
+**Philosophical Core / 哲学核心**: non-forcing, reversal, perspective shift,
+and usable emptiness.
 
-**Philosophy:** Yi duan yu fa (一断于法) -- judge all matters by law alone,
-without distinction of kinship or rank.
+**哲学核心**：不强制、反向、视角转换与可用留白。
 
-**Agent Mapping:** Strong type validation, strict structured output constraints,
-forced retry mechanism.
+**Control Stance / 控制立场**: expand possibility space without forcing early
+commitment.
 
-**Use Cases:** Data cleaning, API parameter generation, core code generation,
-and any task demanding 100% deterministic output conformance.
+**控制立场**：扩大可能空间，但避免过早承诺。
 
-**Execution Logic:**
-
-1. Shut down all divergent thinking. Set Temperature to its minimum value to
-   eliminate creative variance.
-2. Deploy a strongly constrained system prompt that defines exact output
-   boundaries -- permitted fields, types, structures, and formats.
-3. Integrate with an external parser for validation. After each generation
-   step, verify that the output strictly conforms to the specified JSON, XML,
-   or other target format.
-4. If the model deviates from the prescribed format or produces hallucinated
-   content, issue a high-penalty signal and force immediate regeneration.
-   Repeat until the output is fully compliant.
-5. When `--strict-mode` is enabled, format violations trigger an immediate
-   exception with zero tolerance -- no partial output is returned.
-
-See [LEGAL-GUIDE.md](references/LEGAL-GUIDE.md) for the format validation
-rules, retry policy configuration, and penalty signal specifications.
-
----
-
-### Militarism (military)
-
-**Philosophy:** Miao suan (庙算) -- deliberate strategic calculation before
-battle. Qi zheng xiang sheng (奇正相生) -- the interplay of orthodox and
-unorthodox tactics. Zhi ji zhi bi (知己知彼) -- know yourself and know your
-adversary.
+**Use Cases / 适用场景**: brainstorming, reframing, open-ended exploration,
+breaking a rigid frame.
 
-**Agent Mapping:** Complex planning, multi-step reasoning (Tree of Thoughts /
-Chain of Thought), resource assessment and arbitrage.
-
-**Use Cases:** Complex task decomposition, system architecture design,
-long-chain troubleshooting and debugging workflows.
-
-**Execution Logic:**
-
-1. Force the agent to output a `<plan>` block before taking any substantive
-   action. No code generation, no tool calls, and no final answers until the
-   plan is established ("miao suan" -- calculate before you move).
-2. Assess currently available resources: API rate-limit status, context window
-   budget, external environment feedback (error messages, system state).
-   This is the "zhi ji zhi bi" phase -- understand your own capabilities and
-   the constraints of the problem.
-3. For multi-step execution, generate two parallel paths:
-   - **Zheng (orthodox) path**: the primary, expected execution route.
-   - **Qi (unorthodox) path**: a fallback degradation route activated if the
-     primary path encounters failures or resource exhaustion.
-4. Monitor execution against the plan. If conditions change, re-evaluate and
-   adapt the strategy rather than blindly continuing a failing path.
-
-See [MILITARY-GUIDE.md](references/MILITARY-GUIDE.md) for the plan template,
-resource assessment checklist, and dual-path execution patterns.
-
----
-
-### Mohism (mohist)
-
-**Philosophy:** Jian ai (兼爱) -- universal care. Fei gong (非攻) --
-non-aggression. Jie yong (节用) -- frugality and economy of resources.
-
-**Agent Mapping:** Extreme performance optimization, token throttling, minimal
-output generation.
-
-**Use Cases:** Algorithm time/space complexity optimization, compressing verbose
-code, reducing inference cost, generating concise summaries.
-
-**Execution Logic:**
-
-1. Activate "jie yong" (frugality) mode. The agent must complete the current
-   task using the absolute minimum number of tokens.
-2. In code generation: strip all unnecessary transitional pleasantries,
-   redundant comments, and explanatory text. Output only the core result.
-3. In text summarization: eliminate filler, hedging language, and repetitive
-   phrasing. Deliver the essential information and nothing more.
-4. Pursue maximum execution efficiency. Every token must serve a direct
-   functional purpose. If a token does not contribute to the answer, it must
-   not be generated.
-
-See [MOHIST-GUIDE.md](references/MOHIST-GUIDE.md) for the token budget
-policies, output compression strategies, and efficiency benchmarks.
-
----
-
-### Logicism (logician)
-
-**Philosophy:** Kong ming ze shi (控名责实) -- hold names accountable to
-reality. Bai ma fei ma (白马非马) -- "a white horse is not a horse," the
-classical paradox of categorical precision.
-
-**Agent Mapping:** Formal logic validation, semantic analysis, hallucination
-detection.
-
-**Use Cases:** Complex logical reasoning, contract clause review, debate
-preparation, fact-checking and verification tasks.
-
-**Execution Logic:**
-
-1. Activate the logic checker. The agent focuses on analyzing whether concept
-   definitions in the input text are clear and whether the internal logic is
-   self-consistent.
-2. Verify that every claim maps precisely from name (ming / 名) to reality
-   (shi / 实). Flag any instance where a term is used ambiguously or where a
-   conclusion does not follow from its premises.
-3. Before finalizing output, perform a mandatory self-reflection pass: check
-   whether the agent's own generated conclusions contain concept substitution
-   errors (tou huan gai nian / 偷换概念) or logical fallacies.
-4. If logical inconsistencies are detected during self-reflection, revise the
-   output before returning it. Do not emit conclusions that fail the
-   consistency check.
-
-See [LOGICIAN-GUIDE.md](references/LOGICIAN-GUIDE.md) for the formal logic
-validation rules, fallacy taxonomy, and self-reflection protocol.
-
----
-
-## Multi-School Pipeline
-
-Complex tasks often benefit from chaining multiple schools in sequence, where
-each school handles a distinct phase of the workflow. In pipeline mode, the
-output of one school becomes the input context for the next.
-
-See [pipeline-examples.md](assets/pipeline-examples.md) for detailed pipeline
-configurations and real-world examples.
-
-**Example pipeline for building and validating a system prototype:**
-
-1. **military** (global task decomposition): Break down the problem, assess
-   resources, and produce a structured execution plan with primary and fallback
-   paths.
-2. **mohist** (rapid prototyping): Generate the core implementation with
-   minimal token expenditure, stripping all non-essential output.
-3. **logician** (logic validation): Verify that the prototype's logic is
-   self-consistent, flag any hallucinated claims or unsupported assumptions.
-4. **legal** (format enforcement): Validate the final output against the
-   required schema, force retries on any format deviation until full
-   compliance.
-
-## Execution Rules
-
-- When a school is active, its behavioral constraints override default agent
-  behavior.
-- Only one school is active at a time, unless operating in pipeline mode.
-- Do not mix school behaviors within a single generation step.
-- When `--strict-mode` is enabled, format violations trigger immediate retry
-  with no tolerance.
-- When `--creativity` is set, it modulates the active school's entropy
-  parameters.
-- Do not use emoji in any output.
-- Use precise technical language.
-- When information is insufficient, state what is missing and what assumptions
-  are being made.
-
-## Examples
-
-### Example 1: Brainstorming with Daoism
-
-**Scenario:** The user wants creative product name ideas for a new developer
-tool.
-
-**Invocation:** `/skill invoke HundredSchools --school dao --creativity 2`
-
-**Agent behavior:** The agent activates the dao school and raises entropy
-parameters to their upper bounds. It generates a wide range of divergent name
-candidates, exploring unconventional word combinations and metaphorical
-associations. When it reaches a creative block where further generation yields
-diminishing quality, the "wu wei" mechanism triggers: the agent stops forcing
-output and instead returns the open-ended suggestions it has so far, along with
-a note indicating which conceptual directions showed the most promise. Control
-returns to the user to refine the direction.
-
-### Example 2: API Response Generation with Legalism
-
-**Scenario:** The user needs strict JSON output conforming to a specific schema
-for a REST API endpoint.
-
-**Invocation:** `/skill invoke HundredSchools --school legal --strict-mode`
-
-**Agent behavior:** The agent activates the legal school with strict mode
-enabled. Temperature is set to minimum. The system prompt constrains output to
-the exact JSON schema provided. After generating the response, the integrated
-parser validates the JSON structure against the schema. If any field is missing,
-any type is wrong, or the JSON is malformed, the agent immediately discards the
-output, issues a penalty signal, and regenerates. This cycle repeats until the
-output passes all validation checks with zero deviations.
-
-### Example 3: Architecture Design with Militarism
-
-**Scenario:** The user needs a system architecture for a microservices platform
-handling real-time event processing.
-
-**Invocation:** `/skill invoke HundredSchools --school military`
-
-**Agent behavior:** The agent activates the military school. Before producing
-any architecture diagrams or code, it first outputs a `<plan>` block that
-decomposes the problem: service boundaries, communication patterns, data flow,
-and infrastructure requirements. It assesses available resources and constraints
-(expected throughput, team size, existing infrastructure). It then generates the
-primary architecture (zheng path) -- the recommended design under normal
-operating conditions -- alongside a fallback degradation path (qi path) that
-specifies how the system gracefully degrades if key services fail or load
-exceeds capacity.
+**适用场景**：脑暴、重构问题、开放式探索、打破僵化框架。
+
+**Execution Logic / 执行逻辑**:
+1. Raise exploration when the task is underframed.
+2. Prefer reframing before procedural overcontrol.
+3. Use early exit when additional forcing becomes waste.
+
+**执行逻辑**：
+1. 当任务定框不足时提高探索度。
+2. 在程序性过控之前，优先重构问题。
+3. 当继续强推变成浪费时，提前收束。
+
+**Overuse Failure Mode / 过用风险**: drift, vagueness, under-commitment.
+
+**过用风险**：漂移、模糊化、不敢落点。
+
+### Confucianism (confucian) / 儒家
+
+**Visible title / 显示名称**: Confucianism Guide / 儒家指南
+
+**Philosophical Core / 哲学核心**: role ethics, humane concern, fitting
+expression, and principled correction.
+
+**哲学核心**：角色伦理、仁爱关切、合宜表达与有原则的纠偏。
+
+**Control Stance / 控制立场**: make the output socially fitting without making
+it sycophantic.
+
+**控制立场**：让输出在人际和制度语境中合宜，但不滑向谄媚。
+
+**Use Cases / 适用场景**: formal communication, audience-specific reporting,
+institutional writing, role-bound delivery.
+
+**适用场景**：正式沟通、分受众报告、制度型写作、角色约束表达。
+
+**Execution Logic / 执行逻辑**:
+1. Lock audience and role before drafting.
+2. Enforce tone and terminology fit.
+3. Preserve truthful correction under politeness.
+
+**执行逻辑**：
+1. 在写作前锁定受众与角色。
+2. 执行语气与术语适配。
+3. 在礼貌之中保留真实纠偏。
+
+**Overuse Failure Mode / 过用风险**: empty decorum and conflict avoidance.
+
+**过用风险**：礼貌空心化与回避纠错。
+
+### Legalism (legal) / 法家
+
+**Visible title / 显示名称**: Legalism Guide / 法家指南
+
+**Philosophical Core / 哲学核心**: explicit rules, uniform measurement,
+enforcement, and auditability.
+
+**哲学核心**：规则显化、统一度量、执行与审计。
+
+**Control Stance / 控制立场**: convert requirements into visible pass/fail
+constraints.
+
+**控制立场**：把要求转化为可见的通过/失败约束。
+
+**Use Cases / 适用场景**: schema-constrained outputs, exact extraction,
+contract-shaped data generation, strict validation.
+
+**适用场景**：schema 约束输出、精确抽取、契约型数据生成、严格校验。
+
+**Execution Logic / 执行逻辑**:
+1. Publish the rule set clearly.
+2. Validate every output against it.
+3. Reject or regenerate on deviation.
+
+**执行逻辑**：
+1. 清晰公布规则集。
+2. 对每次输出执行校验。
+3. 发生偏离时立即拒绝或重新生成。
+
+**Overuse Failure Mode / 过用风险**: brittle compliance and rule theater.
+
+**过用风险**：僵硬合规与规则表演化。
+
+### Military School (military) / 兵家
+
+**Visible title / 显示名称**: Military School Guide / 兵家指南
+
+**Philosophical Core / 哲学核心**: planning, shaping conditions, contingency,
+timing, and adaptive maneuver.
+
+**哲学核心**：规划、造势、应变、择时与动态机动。
+
+**Control Stance / 控制立场**: structure action before execution while keeping
+fallback paths alive.
+
+**控制立场**：在执行前先组织行动，同时保留备路。
+
+**Use Cases / 适用场景**: complex task decomposition, architecture design,
+incident response, multi-step workflows.
+
+**适用场景**：复杂任务拆解、架构设计、事故响应、多步骤工作流。
+
+**Execution Logic / 执行逻辑**:
+1. Emit a plan block before substantive action.
+2. Name resources, constraints, primary path, and fallback path.
+3. Replan when evidence changes the terrain.
+
+**执行逻辑**：
+1. 在实质行动前先输出计划块。
+2. 明确资源、约束、主路径与备路。
+3. 当证据改变地形时立即重规划。
+
+**Overuse Failure Mode / 过用风险**: planning overhead and pseudo-rigor.
+
+**过用风险**：规划过载与伪严谨。
+
+### Mohism (mohist) / 墨家
+
+**Visible title / 显示名称**: Mohism Guide / 墨家指南
+
+**Philosophical Core / 哲学核心**: utility, anti-waste, standards, evidence,
+and impartial benefit.
+
+**哲学核心**：功用、反浪费、标准、证据与普遍受益。
+
+**Control Stance / 控制立场**: spend only what produces real benefit.
+
+**控制立场**：只为真实收益付出成本。
+
+**Use Cases / 适用场景**: concise synthesis, cost-sensitive output, structured
+compression, utility-first explanation.
+
+**适用场景**：简洁综述、成本敏感输出、结构化压缩、功用优先解释。
+
+**Execution Logic / 执行逻辑**:
+1. Remove waste, not substance.
+2. Apply basis, verification, and application checks.
+3. Compress only after the useful structure is clear.
+
+**执行逻辑**：
+1. 删除浪费，而不是删除内容本体。
+2. 应用根据、验证与用途三重检查。
+3. 只有在有用结构明确后才压缩。
+
+**Overuse Failure Mode / 过用风险**: under-explained output.
+
+**过用风险**：解释不足。
+
+### School of Names (logician) / 名家
+
+**Visible title / 显示名称**: School of Names Guide / 名家指南
+
+**Philosophical Core / 哲学核心**: name/reality accountability, category
+discipline, semantic verification, and distinction maintenance.
+
+**哲学核心**：名实对应、范畴纪律、语义核验与区分维护。
+
+**Control Stance / 控制立场**: make sure names do not outrun what reality can
+support.
+
+**控制立场**：确保名称不会跑到现实支撑范围之外。
+
+**Use Cases / 适用场景**: fact-checking, concept clarification, clause review,
+semantic debugging, hallucination control.
+
+**适用场景**：事实核验、概念澄清、条款审阅、语义调试、幻觉控制。
+
+**Execution Logic / 执行逻辑**:
+1. Define terms before high-stakes reasoning.
+2. Check category boundaries and entity grounding.
+3. Separate semantic, factual, and structural checks.
+
+**执行逻辑**：
+1. 在高风险推理前先定义术语。
+2. 检查范畴边界与实体落地。
+3. 分开执行语义、事实与结构检查。
+
+**Overuse Failure Mode / 过用风险**: pedantry and throughput collapse.
+
+**过用风险**：过度较真与吞吐崩塌。
+
+## Multi-School Pipelines / 多学派流水线
+
+Complex tasks often benefit from sequencing schools instead of forcing one
+school to optimize incompatible objectives.
+
+复杂任务通常更适合把多个学派按阶段串联，而不是逼迫单一学派同时优化互相冲
+突的目标。
+
+Typical patterns:
+
+典型模式：
+
+1. `dao -> military`: explore, then commit.
+2. `military -> legal`: plan, then enforce.
+3. `logician -> legal`: verify meaning, then verify structure.
+4. `logician -> mohist`: preserve truth, then compress.
+5. `legal -> confucian`: comply first, then adapt to audience.
+
+1. `dao -> military`：先探索，再承诺。
+2. `military -> legal`：先规划，再执行。
+3. `logician -> legal`：先核验语义，再核验结构。
+4. `logician -> mohist`：先保真，再压缩。
+5. `legal -> confucian`：先合规，再适配受众。
+
+## Execution Rules / 执行规则
+
+- Only one school should dominate a single generation step.
+- 单个生成步骤中，只应由一个学派主导。
+
+- Pipelines should hand off at explicit boundaries.
+- 流水线必须在明确边界处交接。
+
+- `--strict-mode` strengthens Legalist enforcement only; it should not silently
+  redefine other schools.
+- `--strict-mode` 只增强法家执行，不应悄悄改写其他学派的立场。
+
+- When information is insufficient, state the gap explicitly.
+- 当信息不足时，必须显式指出缺口。
+
+## Example Invocations / 示例调用
+
+### Example 1 / 示例一
+
+`/skill invoke HundredSchools --school dao --creativity 2`
+
+Use when the task needs reframing, alternatives, or non-forced exploration.
+
+适用于任务需要重构问题、寻找替代方向，或需要一次不强制的开放探索时。
+
+### Example 2 / 示例二
+
+`/skill invoke HundredSchools --school legal --strict-mode`
+
+Use when the output must satisfy an exact schema or contract.
+
+适用于输出必须满足精确 schema 或契约时。
+
+### Example 3 / 示例三
+
+`/skill invoke HundredSchools --school military`
+
+Use when the task is multi-step, high-cost, or needs explicit contingency
+design.
+
+适用于任务多步骤、高成本，或需要明确备路设计时。

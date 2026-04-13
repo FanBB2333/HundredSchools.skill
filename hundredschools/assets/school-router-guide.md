@@ -1,119 +1,66 @@
-# Dynamic School Router Guide
+# Dynamic School Router Guide / 动态学派路由指南
 
-This reference provides the intent classification heuristics and decision
-logic for automatically selecting the most appropriate philosophical school
-when the user does not specify `--school` explicitly.
+This guide explains how the router should choose a school when the user does not
+specify one.
 
----
+本指南说明当用户未明确指定学派时，路由器应如何进行选择。
 
-## Intent Classification Heuristics
+## Primary Routing Table / 一级路由表
 
-| User Intent Signal | Keywords / Patterns | Recommended School |
-|--------------------|--------------------|--------------------|
-| Seeking creativity or ideas | "brainstorm", "ideas", "creative", "what if", "imagine" | dao |
-| Formal/professional tone needed | "email", "formal", "professional", "polite", "customer" | confucian |
-| Strict data/format output | "JSON", "API", "schema", "parse", "validate", "exact" | legal |
-| Complex planning or decomposition | "plan", "architecture", "design", "break down", "steps" | military |
-| Efficiency/compression needed | "optimize", "compress", "shorter", "minimal", "efficient", "brief" | mohist |
-| Logic/reasoning/fact-checking | "prove", "logic", "verify", "fact-check", "contradiction", "analyze argument" | logician |
+| Control Goal / 控制目标 | Typical Signals / 常见信号 | Recommended School / 推荐学派 |
+|---|---|---|
+| Explore, brainstorm, reframe / 探索、发散、重构问题 | ideas, options, what if, stuck framing / 想法、选项、框架卡住 | `dao` |
+| Fit role and audience / 适配角色与受众 | email, official note, customer reply / 邮件、正式说明、客服回复 | `confucian` |
+| Enforce exact rules / 严格执行规则 | schema, exact format, parse, validate / schema、精确格式、解析、校验 | `legal` |
+| Plan and manage contingencies / 规划与应变 | architecture, steps, strategy, break down / 架构、步骤、策略、拆解 | `military` |
+| Reduce waste while preserving utility / 去浪费并保留功用 | brief, concise, compress, efficient / 简短、压缩、高效 | `mohist` |
+| Verify terms and claims / 核验术语与断言 | contradiction, verify, ambiguity, category / 矛盾、核验、歧义、范畴 | `logician` |
 
-> **Note:** Keyword matching is a weak signal. For stronger routing, combine with the task type, output goal, and risk level dimensions below.
+## Secondary Questions / 二级判断问题
 
----
+Before routing, ask:
 
-## Decision Flowchart
+在真正路由前，先问：
 
-The router follows this priority sequence:
+1. Is the main problem missing structure, missing precision, missing audience
+   fit, or missing exploration?
+2. Which control surface matters most: planning, validation, tone, cost, or
+   semantic discipline?
+3. Is the task risky enough that a multi-school sequence is safer than a single school?
 
-1. **Explicit school parameter**: If `--school` is provided, use it directly.
-   Skip all heuristics.
-2. **Strong keyword match**: Scan the user prompt for strong signal keywords
-   (see table above). If a single school scores significantly higher, select it.
-3. **Task type inference**: Analyze the structural characteristics of the
-   request:
-   - Contains a format specification (JSON schema, XML DTD) -> legal
-   - Asks for multiple alternatives or possibilities -> dao
-   - Requires multi-step planning with dependencies -> military
-   - Asks for shorter/faster/cheaper output -> mohist
-   - Contains logical premises or asks for verification -> logician
-   - Requires tone/persona/role compliance -> confucian
-4. **Ambiguous intent**: If no single school dominates, default to the agent's
-   standard behavior (no school override). Optionally, suggest relevant schools
-   to the user.
+1. 当前主要缺的是结构、精度、受众适配，还是探索？
+2. 当前最重要的控制面是什么：规划、校验、语气、成本，还是语义纪律？
+3. 当前任务风险是否已经高到需要多学派流水线，而不是单一学派？
 
----
+## Risk Overrides / 风险覆盖规则
 
-## Enhanced Routing Layers
+- If the task is high-risk and format-sensitive, prefer `legal` or a sequence
+  ending in `legal`.
+- 如果任务高风险且格式敏感，优先 `legal` 或以 `legal` 结尾的流水线。
 
-The following three layers provide stronger routing signals than keyword matching alone.
+- If the task is high-risk and claim-sensitive, prefer `logician -> legal`.
+- 如果任务高风险且断言敏感，优先 `logician -> legal`。
 
-### Layer 1: Task Type Classification
+- If the task is open-ended and still underframed, prefer `dao` first and hand
+  off later only after the frame is clearer.
+- 如果任务开放且仍未定框，优先先用 `dao`，等框架更清晰后再决定是否交接。
 
-| Task Type | Signal Patterns | Primary School |
-|-----------|----------------|---------------|
-| Generation | "write", "create", "generate", "build", "implement" | Depends on goal (see Layer 2) |
-| Review | "review", "check", "audit", "verify", "analyze" | logician or legal |
-| Planning | "plan", "design", "architect", "break down", "strategy" | military |
-| Extraction | "summarize", "extract", "compress", "key points" | mohist |
-| Communication | "explain to", "write for", "document for", "present to" | confucian |
-| Diagnosis | "debug", "diagnose", "why is", "root cause", "investigate" | logician |
+## Confidence Policy / 置信度策略
 
-### Layer 2: Output Goal Classification
+| Confidence / 置信度 | Router Action / 路由动作 |
+|---|---|
+| High / 高 | Auto-select and proceed / 自动选择并继续 |
+| Medium / 中 | Auto-select and explain why / 自动选择并说明原因 |
+| Low / 低 | Present top candidates / 给出前两名候选 |
 
-| Output Goal | Signal Patterns | Primary School |
-|-------------|----------------|---------------|
-| Creative / divergent | "alternatives", "options", "brainstorm", "explore" | dao |
-| Precise / exact | "exact", "strict", "conform", "match schema" | legal |
-| Compliant / rule-based | "comply", "RFC", "standard", "regulation" | legal |
-| Executable / actionable | "action items", "next steps", "plan", "timeline" | military |
-| Minimal / dense | "brief", "short", "concise", "TL;DR" | mohist |
+## Anti-Patterns / 反模式
 
-### Layer 3: Risk Level Assessment
+- Do not route to `confucian` just because the prompt sounds polite.
+- 不要仅因为提示词看起来礼貌就路由到 `confucian`。
 
-| Risk Indicator | Signal Patterns | Recommendation |
-|---------------|----------------|---------------|
-| Normal | Default for most requests | Use best single school |
-| High constraint | "production", "schema", "migration", "compliance" | Include legal in pipeline |
-| High risk | "security", "payment", "authentication", "incident" | Pipeline with logician -> legal |
+- Do not route to `mohist` just because the user said "short" if accuracy would
+  clearly suffer.
+- 不要仅因为用户说了“简短”就路由到 `mohist`，尤其在准确性会明显受损时。
 
----
-
-## Updated Priority Sequence
-
-The router now follows this enhanced priority:
-
-1. **Explicit school parameter**: If `--school` is provided, use it directly.
-2. **Risk level assessment**: If high-risk indicators are detected, recommend a pipeline (e.g., `logician -> legal`).
-3. **Task type + output goal**: Combine Layer 1 and Layer 2 to identify the best school.
-4. **Keyword fallback**: Use the keyword heuristics table as a weak signal when other layers are ambiguous.
-5. **Ambiguous intent**: If no signal dominates, default to standard behavior or suggest top 2 candidates.
-
----
-
-## Confidence Thresholds
-
-| Confidence Level | Action |
-|-----------------|--------|
-| High (>0.8) | Auto-select school, proceed without confirmation |
-| Medium (0.5-0.8) | Auto-select school, but state which school was chosen and why |
-| Low (<0.5) | Do not auto-select. Present top 2 candidate schools to the user with brief rationale, ask for selection |
-
----
-
-## Default Behavior
-
-When no school is selected (either explicitly or via router):
-
-- The agent operates in its standard mode without philosophical persona
-  injection.
-- All default model parameters apply.
-- No school-specific execution rules are enforced.
-
----
-
-## Router Override Rules
-
-- User can always override the router by specifying `--school` explicitly.
-- If the user disagrees with the auto-selected school, switch immediately
-  without argument.
-- The router should never insist on a school selection.
+- Do not route to `military` for one-step trivial tasks.
+- 不要为单步小任务路由到 `military`。

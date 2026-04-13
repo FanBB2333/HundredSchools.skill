@@ -10,3 +10,6 @@ docs/samples/results/
 # Python cache
 __pycache__/
 *.pyc
+
+# Local git worktrees
+.worktrees/

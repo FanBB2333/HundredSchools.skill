@@ -1,100 +1,77 @@
-# Daily Work Decision Guide
+# Daily Work Decision Guide / 日常工作决策指南
 
-> When you encounter a problem, use this guide to choose the right philosophical school.
-> Each recommendation is backed by case studies and evaluation data.
+Use this guide when you know what kind of control you need, but not yet which
+school best provides it.
 
----
+当你已经知道自己需要某种控制能力，但还不确定哪一家最合适时，使用本指南。
 
-## Quick Decision Table
+## Quick Decision Table / 快速决策表
 
-| Work Type | Primary School | Secondary School | Evidence |
-|-----------|---------------|-----------------|----------|
-| Need creative exploration | Dao (道家) | Military (兵家) | Alternative Count metric, Case 8 |
-| Need concept clarification | Logician (名家) | Legal (法家) | Type system and data diagnosis cases (Case 10, P5) |
-| Need strict formatted output | Legal (法家) | Logician (名家) | Schema/migration/defense cases (Case 3, 9, 14) |
-| Need complex planning | Military (兵家) | Legal (法家) | Plan Structure metric, Case 4, 13 |
-| Need multi-audience expression | Confucian (儒家) | Military (兵家) | Documentation case (Case 11), Tone Quality metric |
-| Need high-density extraction | Mohist (墨家) | Legal (法家) | Meeting minutes case (Case 12), Compression Ratio metric |
-| Need secure code review | Pipeline: Logician -> Legal -> Confucian | Legal -> Confucian | Pipeline case (Case 15) |
-| Need incident response | Military -> Legal (兵家 -> 法家) | Military (兵家) | Incident response case (Case 13) |
-| Need safety-critical evaluation | Legal (法家) | Logician (名家) | XGuard study: 0% over-refusal, 100% harmful refusal |
+| Work Need / 工作需求 | Primary School / 首选学派 | Secondary School / 次选学派 | Main Trade-off / 主要权衡 |
+|---|---|---|---|
+| Need alternative directions / 需要替代方向 | Dao / 道家 | Military / 兵家 | Freedom vs commitment / 自由与承诺 |
+| Need strict output contract / 需要严格输出契约 | Legal / 法家 | Logician / 名家 | Rigor vs flexibility / 严格与弹性 |
+| Need audience-safe delivery / 需要受众适配 | Confucian / 儒家 | Military / 兵家 | Fit vs bluntness / 合宜与直率 |
+| Need explicit sequencing / 需要明确步骤 | Military / 兵家 | Legal / 法家 | Structure vs speed / 结构与速度 |
+| Need minimum useful answer / 需要最小可用答案 | Mohist / 墨家 | Legal / 法家 | Cost vs completeness / 成本与完整性 |
+| Need category or claim verification / 需要核验范畴与断言 | Logician / 名家 | Legal / 法家 | Precision vs throughput / 精度与吞吐 |
 
----
+## Decision Dimensions / 决策维度
 
-## Decision Dimensions
+### 1. What is failing now? / 现在到底哪里失效了？
 
-When the table above doesn't directly apply, use these three dimensions to guide your choice:
+- Too many possible paths -> `dao`
+- 可能路径太多 -> `dao`
 
-### 1. Task Type
+- No reliable structure -> `military`
+- 缺少可靠结构 -> `military`
 
-| Task Type | Best Schools | Rationale |
-|-----------|-------------|-----------|
-| Generation (code, content) | Dao, Mohist | Dao for creative generation, Mohist for efficient generation |
-| Review (code, security, design) | Logician, Legal | Logician for logical analysis, Legal for rule compliance |
-| Planning (architecture, project) | Military, Legal | Military for strategic planning, Legal for constraint management |
-| Extraction (summarize, compress) | Mohist, Logician | Mohist for compression, Logician for precision |
-| Communication (docs, reports) | Confucian, Military | Confucian for audience adaptation, Military for structured communication |
-| Diagnosis (debugging, analysis) | Logician, Dao | Logician for formal analysis, Dao for exploring hypotheses |
+- Structure exists but must be enforced -> `legal`
+- 结构已存在但必须强制执行 -> `legal`
 
-### 2. Output Goal
+- Meaning is unclear or terms are unstable -> `logician`
+- 意义不清或术语不稳 -> `logician`
 
-| Output Goal | Best Schools | Rationale |
-|-------------|-------------|-----------|
-| Creative / divergent | Dao | Explores multiple paths, high entropy |
-| Precise / exact | Legal, Logician | Legal for format precision, Logician for logical precision |
-| Compliant / rule-based | Legal | Strict rule enforcement, no exceptions |
-| Executable / actionable | Military | Phased plans with owners and timelines |
-| Minimal / dense | Mohist | Maximum information per token |
+- Output is too costly or bloated -> `mohist`
+- 输出过贵或过胀 -> `mohist`
 
-### 3. Risk Level
+- Output is correct but socially misfit -> `confucian`
+- 输出虽然正确，但不合场合 -> `confucian`
 
-| Risk Level | Recommendation |
-|------------|---------------|
-| Normal | Use the best single school for the task type |
-| High constraint (schema, compliance) | Legal, or Legal at the end of a pipeline |
-| High risk (production, security) | Legal (single) — empirically validated for 0.6B safety models |
+### 2. Which trade-off matters most? / 当前最重要的权衡是什么？
 
----
+| Trade-off / 权衡 | Prefer / 优先 |
+|---|---|
+| Breadth vs commitment / 广度与承诺 | `dao` or `military` |
+| Precision vs speed / 精度与速度 | `logician` or `legal` |
+| Cost vs completeness / 成本与完整性 | `mohist` |
+| Relationship fit vs blunt truth / 关系适配与直率纠偏 | `confucian` |
 
-## Priority Rules
+## Recommended Pipelines / 推荐流水线
 
-When selecting a school, follow this priority:
+- `dao -> military`: explore first, commit second.
+- `dao -> military`：先探索，再承诺。
 
-1. **User explicitly specifies a school** -> Use it directly
-2. **High-risk task detected** -> Prioritize Legal or a pipeline with Legal
-3. **Multi-step complex task** -> Prioritize Military
-4. **Multi-audience communication** -> Prioritize Confucian
-5. **Semantic ambiguity or definition dispute** -> Prioritize Logician
-6. **Need for creative alternatives** -> Prioritize Dao
-7. **Need for compression/efficiency** -> Prioritize Mohist
+- `military -> legal`: strategy first, enforcement second.
+- `military -> legal`：先战略，再执行约束。
 
----
+- `logician -> legal`: verify semantic truth, then verify structural form.
+- `logician -> legal`：先核验语义，再核验结构。
 
-## Pipeline Recommendations
+- `logician -> mohist`: keep what is true, then compress what is expendable.
+- `logician -> mohist`：先保真，再压缩。
 
-For complex tasks, combining schools produces stronger results than any single school.
+- `legal -> confucian`: comply first, then adapt to audience.
+- `legal -> confucian`：先合规，再适配受众。
 
-| Scenario | Recommended Pipeline | Why |
-|----------|---------------------|-----|
-| Secure code review | Logician -> Legal -> Confucian | Logical analysis -> rule enforcement -> audience communication |
-| System architecture | Military -> Mohist -> Legal | Strategic planning -> lean implementation -> strict output |
-| Creative with quality gate | Dao -> Confucian -> Logician | Exploration -> tone alignment -> claim verification |
-| Data pipeline with strict output | Logician -> Mohist -> Legal | Semantic analysis -> compression -> format enforcement |
-| Incident response | Military -> Legal | Strategic assessment -> rule-based execution |
-| Safety-critical tasks (0.6B model) | **Legal (single)** | Empirically best: 0% over-refusal + 100% harmful refusal |
-| Safety-critical tasks (8B+ model) | Logician -> Legal -> Confucian | Multi-stage may benefit from larger model capacity (untested) |
+## Anti-Patterns / 反模式
 
-> **Note on safety pipelines**: Empirical evaluation with XGuard-Reason-0.6B (108 evaluations, 12 prompts x 9 conditions) showed that the Logician -> Legal -> Confucian pipeline **regresses to baseline performance** (50% borderline over-refusal) on the 0.6B model. The single Legal school achieved the best results: 100% harmful refusal with 0% borderline over-refusal. Multi-stage pipelines may work better with larger models (8B+) that have more capacity for compound instructions. See `docs/safety-report.md` for full analysis.
+- Do not choose a pipeline only because the task feels important.
+- 不要仅因为任务“看起来重要”就盲目选择流水线。
 
----
+- Do not choose `mohist` when the user actually needs a careful explanation.
+- 当用户真正需要细致解释时，不要误选 `mohist`。
 
-## What Each School Does Best (Summary)
-
-| School | Core Strength | Core Question |
-|--------|--------------|---------------|
-| Dao (道家) | Creative exploration, multiple paths | "What alternatives exist?" |
-| Confucian (儒家) | Audience-aware communication, tone | "How should I communicate this?" |
-| Legal (法家) | Rule enforcement, strict compliance | "What are the exact rules?" |
-| Military (兵家) | Strategic planning, contingency | "What's the strategy and fallback?" |
-| Mohist (墨家) | Compression, efficiency | "What can I remove?" |
-| Logician (名家) | Logic validation, concept precision | "How do I know this is correct?" |
+- Do not choose `dao` when the problem is already precisely specified and only
+  needs enforcement.
+- 当问题已经被精确定义、只差执行时，不要再选 `dao`。

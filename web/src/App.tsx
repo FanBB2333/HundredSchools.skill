@@ -6,6 +6,7 @@ import { SchoolsTab } from '@/components/SchoolsTab'
 import { ModelTab } from '@/components/ModelTab'
 import { InsightsTab } from '@/components/InsightsTab'
 import { XGuardTab } from '@/components/XGuardTab'
+import { BenchmarkTab } from '@/components/BenchmarkTab'
 import { LanguageProvider, useLang } from '@/context/LanguageContext'
 import { models } from '@/data/models'
 import { t, type Lang } from '@/data/i18n'
@@ -32,7 +33,7 @@ function AppLayout() {
   }
 
   // Determine valid tabs
-  const validTabs = ['overview', 'schools', ...models.map(m => m.id), 'insights', 'xguard']
+  const validTabs = ['overview', 'schools', ...models.map(m => m.id), 'insights', 'xguard', 'benchmarks']
   if (!validTabs.includes(currentTab)) {
     return <Navigate to={`/${lang}/overview`} replace />
   }
@@ -52,6 +53,7 @@ function AppLayout() {
             ))}
             <TabsTrigger value="insights">{t('tab.insights', contextLang)}</TabsTrigger>
             <TabsTrigger value="xguard">{t('tab.xguard', contextLang)}</TabsTrigger>
+            <TabsTrigger value="benchmarks">{t('tab.benchmarks', contextLang)}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -74,6 +76,10 @@ function AppLayout() {
 
           <TabsContent value="xguard">
             <XGuardTab />
+          </TabsContent>
+
+          <TabsContent value="benchmarks">
+            <BenchmarkTab />
           </TabsContent>
         </Tabs>
 

@@ -24,6 +24,7 @@ const translations = {
   'tab.schools': { en: 'Six Schools', zh: '六家' },
   'tab.insights': { en: 'Insights', zh: '发现' },
   'tab.xguard': { en: 'Content Safety', zh: '内容安全' },
+  'tab.benchmarks': { en: 'Benchmarks', zh: '基准测试' },
 
   // Overview
   'overview.title': { en: 'What does each school do to the output?', zh: '每个学派对输出有什么影响？' },

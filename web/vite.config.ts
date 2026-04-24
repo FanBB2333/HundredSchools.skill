@@ -11,4 +11,7 @@ export default defineConfig({
     },
   },
   base: '/HundredSchools.skill/',
+  server: {
+    watch: null,
+  },
 })

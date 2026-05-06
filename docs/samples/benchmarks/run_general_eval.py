@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import fcntl
 import json
 import os
 import sys
@@ -30,21 +31,40 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from openai import AsyncOpenAI  # noqa: E402
 
-from docs.samples.benchmarks.conditions import CONDITIONS, ALL_CONDITIONS  # noqa: E402
+from docs.samples.benchmarks.conditions import (  # noqa: E402
+    ALL_CONDITIONS,
+    DEFAULT_CONDITIONS,
+    resolve_condition,
+)
 from docs.samples.benchmarks.models import PRESETS, BENCHMARK_DECODING  # noqa: E402
 from docs.samples.benchmarks.loaders import gsm8k as gsm8k_loader  # noqa: E402
 from docs.samples.benchmarks.loaders import ifeval as ifeval_loader  # noqa: E402
+from docs.samples.benchmarks.loaders import mmlu as mmlu_loader  # noqa: E402
+from docs.samples.benchmarks.loaders import bbh as bbh_loader  # noqa: E402
+from docs.samples.benchmarks.loaders import humaneval as humaneval_loader  # noqa: E402
+from docs.samples.benchmarks.loaders import truthfulqa as truthfulqa_loader  # noqa: E402
 from docs.samples.benchmarks.scorers import numeric as numeric_scorer  # noqa: E402
 from docs.samples.benchmarks.scorers import ifeval_rules as ifeval_scorer  # noqa: E402
+from docs.samples.benchmarks.scorers import mcq as mcq_scorer  # noqa: E402
+from docs.samples.benchmarks.scorers import bbh_router as bbh_scorer  # noqa: E402
+from docs.samples.benchmarks.scorers import code_exec as code_exec_scorer  # noqa: E402
 
 LOADERS = {
     "gsm8k": gsm8k_loader.load,
     "ifeval": ifeval_loader.load,
+    "mmlu": mmlu_loader.load,
+    "bbh": bbh_loader.load,
+    "humaneval": humaneval_loader.load,
+    "truthfulqa": truthfulqa_loader.load,
 }
 
 SCORERS = {
     "gsm8k": numeric_scorer.score,
     "ifeval": ifeval_scorer.score,
+    "mmlu": mcq_scorer.score,
+    "bbh": bbh_scorer.score,
+    "humaneval": code_exec_scorer.score,
+    "truthfulqa": mcq_scorer.score,
 }
 
 ALL_BENCHMARKS = list(LOADERS.keys())
@@ -131,6 +151,12 @@ async def run(args):
     for bench in args.benchmarks:
         loader = LOADERS[bench]
         samples = list(loader(args.datasets_dir, limit=args.limit))
+        if args.shard_count > 1:
+            samples = [
+                sample
+                for idx, sample in enumerate(samples)
+                if idx % args.shard_count == args.shard_index
+            ]
         for sample in samples:
             for cond in args.conditions:
                 key = make_key(args.preset, bench, cond, sample["sample_id"])
@@ -140,6 +166,8 @@ async def run(args):
     total = len(tasks) + len(completed)
     print(f"Preset={args.preset} model={model_name} api={api_base}")
     print(f"Benchmarks={args.benchmarks} conditions={args.conditions}")
+    if args.shard_count > 1:
+        print(f"Shard={args.shard_index}/{args.shard_count}")
     print(f"Tasks total={total} remaining={len(tasks)} completed={len(completed)} concurrency={concurrency}")
     print(f"Output: {output_file}")
     if not tasks:
@@ -161,9 +189,9 @@ async def run(args):
         temperature = dec.get("temperature", preset_cfg["temperature"])
         top_p = dec.get("top_p")
         timeout = args.timeout
-        sys_prompt = CONDITIONS[cond]
+        resolved = resolve_condition(cond, bench, sample)
         async with sem:
-            res = await call_chat(client, model_name, sys_prompt, sample["prompt"],
+            res = await call_chat(client, model_name, resolved.system_prompt, sample["prompt"],
                                   max_tokens, temperature, top_p, timeout)
         try:
             score = SCORERS[bench](res["raw_output"], sample.get("gold"), sample.get("meta") or {})
@@ -174,6 +202,7 @@ async def run(args):
             "model": model_name,
             "benchmark": bench,
             "condition": cond,
+            "resolved_condition": resolved.resolved_condition,
             "sample_id": sample["sample_id"],
             "gold": sample.get("gold"),
             "raw_output": res["raw_output"],
@@ -183,9 +212,14 @@ async def run(args):
             "error": res["error"],
             "ts": datetime.now().isoformat(timespec="seconds"),
         }
+        if resolved.router_reason is not None:
+            record["router_reason"] = resolved.router_reason
+            record["router_confidence"] = resolved.router_confidence
         async with write_lock:
             with open(output_file, "a", encoding="utf-8") as f:
+                fcntl.flock(f.fileno(), fcntl.LOCK_EX)
                 f.write(json.dumps(record, ensure_ascii=False) + "\n")
+                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
             done_count += 1
             if score.get("correct"):
                 correct_count += 1
@@ -208,7 +242,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--preset", required=True, choices=list(PRESETS.keys()))
     p.add_argument("--benchmarks", nargs="+", default=ALL_BENCHMARKS, choices=ALL_BENCHMARKS)
-    p.add_argument("--conditions", nargs="+", default=ALL_CONDITIONS, choices=ALL_CONDITIONS)
+    p.add_argument("--conditions", nargs="+", default=DEFAULT_CONDITIONS, choices=ALL_CONDITIONS)
     p.add_argument("--limit", type=int, default=None, help="limit samples per benchmark")
     p.add_argument("--datasets-dir", type=Path, default=DATASETS_DIR)
     p.add_argument("--output", type=Path, default=None)
@@ -217,7 +251,13 @@ def main():
     p.add_argument("--concurrency", type=int, default=None)
     p.add_argument("--timeout", type=float, default=120.0)
     p.add_argument("--resume", action="store_true")
+    p.add_argument("--shard-index", type=int, default=0, help="0-based sample shard index")
+    p.add_argument("--shard-count", type=int, default=1, help="number of sample shards")
     args = p.parse_args()
+    if args.shard_count < 1:
+        p.error("--shard-count must be >= 1")
+    if args.shard_index < 0 or args.shard_index >= args.shard_count:
+        p.error("--shard-index must be in [0, shard-count)")
 
     if args.output is None:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)

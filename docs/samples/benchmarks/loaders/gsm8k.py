@@ -17,9 +17,13 @@ def _extract_gold(answer_field: str) -> str:
 
 
 def load(datasets_dir: Path, limit: int | None = None):
-    parquet = datasets_dir / "gsm8k" / "main" / "test-00000-of-00001.parquet"
-    if not parquet.exists():
-        raise FileNotFoundError(f"GSM8K not found: {parquet}")
+    candidates = [
+        datasets_dir / "gsm8k" / "main" / "test-00000-of-00001.parquet",
+        datasets_dir / "gsm8k" / "test.parquet",
+    ]
+    parquet = next((p for p in candidates if p.exists()), None)
+    if parquet is None:
+        raise FileNotFoundError(f"GSM8K not found in {datasets_dir / 'gsm8k'}")
     df = pd.read_parquet(parquet)
     if limit:
         df = df.head(limit)

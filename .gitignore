@@ -6,6 +6,11 @@ datasets/
 
 # Evaluation results (large files)
 docs/samples/results/
+docs/samples/benchmarks/results/*.jsonl
+docs/samples/benchmarks/results/phase2/*.jsonl
+
+# Local tool settings
+.qoder/
 
 # Python cache
 __pycache__/

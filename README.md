@@ -17,9 +17,9 @@ Complex problems tackled without a plan?<br>
 
 **Stop using one mindset for every problem. Choose the right philosophy.**
 
-HundredSchools is an [Agent Skill](https://agentskills.io) that maps six classical Chinese philosophical schools<br>
-(pre-Qin Hundred Schools of Thought) into concrete control strategies<br>
-for LLM inference, planning, generation, and validation.
+HundredSchools is an [Agent Skill](https://agentskills.io) that maps classical philosophical schools<br>
+— six from pre-Qin China and three from the broader Mediterranean and modern Western tradition —<br>
+into concrete control strategies for LLM inference, planning, generation, and validation.
 
 [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Design Reference](#design-reference) · [Test Results](#test-results)
 
@@ -29,6 +29,8 @@ for LLM inference, planning, generation, and validation.
 
 ## How It Works
 
+### Pre-Qin core (六家)
+
 | School | Philosophy | What the Agent Does |
 |--------|-----------|---------------------|
 | Daoism (dao) | Wu wei (non-action), natural flow | High-entropy exploration, early exiting, heuristic search |
@@ -37,6 +39,14 @@ for LLM inference, planning, generation, and validation.
 | Militarism (military) | Temple calculations (miaosuan), know thy enemy | Complex planning, multi-step reasoning (ToT/CoT) |
 | Mohism (mohist) | Frugal use (jieyong), universal love | Token throttling, minimal output, performance optimization |
 | Logicism (logician) | Control names (xingming), verify facts | Formal logic validation, hallucination detection |
+
+### Mediterranean and modern Western additions (拓展三家)
+
+| School | Philosophy | What the Agent Does |
+|--------|-----------|---------------------|
+| Socratic (socratic) | Elenchus, maieutics, productive aporia | Pre-answer interrogation, definition extraction, calibrated humility |
+| Stoic (stoic) | Dichotomy of control, equanimity, logos | Controllable/uncontrollable partition, graceful degradation, retry-budget discipline |
+| Falsificationist (falsificationist) | Bold conjecture under severe testing, demarcation | Falsifiability check on every claim, adversarial self-test, tagging of unfalsifiable claims |
 
 ## Quick Start
 
@@ -79,6 +89,9 @@ hundredschools/
     MILITARY-GUIDE.md                     # Militarism: strategic planning
     MOHIST-GUIDE.md                       # Mohism: efficiency optimization
     LOGICIAN-GUIDE.md                     # Logicism: logic & fact-checking
+    SOCRATIC-GUIDE.md                     # Socratic: pre-answer interrogation
+    STOIC-GUIDE.md                        # Stoic: control-dichotomy & graceful degradation
+    FALSIFICATIONIST-GUIDE.md             # Popperian: falsifiability discipline
   assets/
     school-router-guide.md               # Dynamic school selection guide
     pipeline-examples.md                 # Multi-school pipeline examples

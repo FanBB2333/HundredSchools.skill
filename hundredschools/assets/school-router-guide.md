@@ -15,6 +15,9 @@ specify one.
 | Plan and manage contingencies / 规划与应变 | architecture, steps, strategy, break down / 架构、步骤、策略、拆解 | `military` |
 | Reduce waste while preserving utility / 去浪费并保留功用 | brief, concise, compress, efficient / 简短、压缩、高效 | `mohist` |
 | Verify terms and claims / 核验术语与断言 | contradiction, verify, ambiguity, category / 矛盾、核验、歧义、范畴 | `logician` |
+| Interrogate before answering / 作答前先质询 | vague spec, undefined terms, "what do you mean by X" / 规约模糊、术语未定义、"X 是什么意思" | `socratic` |
+| Partition controllable vs not / 划分可控边界 | tool failure, API down, ambiguous user, retry loop / 工具失败、API 不可达、用户模糊、重试循环 | `stoic` |
+| Demand falsifiability / 要求可证伪 | hypothesis, "what would refute this", high-confidence claim with no failure mode / 假设、"什么能推翻它"、高自信但无失败条件 | `falsificationist` |
 
 ## Secondary Questions / 二级判断问题
 
@@ -45,6 +48,24 @@ Before routing, ask:
   off later only after the frame is clearer.
 - 如果任务开放且仍未定框，优先先用 `dao`，等框架更清晰后再决定是否交接。
 
+- If the prompt is vague and the user seems to want an answer to a question
+  they have not finished formulating, prefer `socratic` before any committing
+  school.
+- 如果提示词模糊、用户似乎在还没把问题问完时就索要答案，优先 `socratic`
+  再交给任何承诺型学派。
+
+- If the failure is external (tool error, API timeout, permission denied)
+  and the model is at risk of looping or fabricating, prefer `stoic` to
+  partition scope before any further action.
+- 如果失败来自外部（工具错误、API 超时、权限拒绝），且模型有进入循环或
+  编造的风险，优先 `stoic` 在任何后续动作前先划清边界。
+
+- If the task is hypothesis-shaped or the model has been emitting
+  high-confidence claims without stating how they could fail, prefer
+  `falsificationist` before `legal` finalization.
+- 如果任务呈"假设"形态，或模型一直输出高自信断言却从不说明"能怎么失
+  败"，在 `legal` 定稿前先用 `falsificationist`。
+
 ## Confidence Policy / 置信度策略
 
 | Confidence / 置信度 | Router Action / 路由动作 |
@@ -64,3 +85,18 @@ Before routing, ask:
 
 - Do not route to `military` for one-step trivial tasks.
 - 不要为单步小任务路由到 `military`。
+
+- Do not route to `socratic` when the user has explicitly asked for execution
+  speed and the spec is already adequate; that is pedantry, not inquiry.
+- 当用户明确要求执行速度且规约已经足够时，不要路由到 `socratic`；那是迂
+  阔，不是追问。
+
+- Do not route to `stoic` to skip work the agent could in fact have done; the
+  partition must be honest, not a shortcut.
+- 不要用 `stoic` 跳过代理本来能做的工作；可控划分必须诚实，不能当成捷径。
+
+- Do not route to `falsificationist` purely on the surface form of "looks
+  scientific"; the real signal is *missing failure conditions*, not the
+  presence of jargon.
+- 不要仅凭"看起来很科学"的表面形式就路由到 `falsificationist`；真正的信
+  号是"缺少失败条件"，而不是术语堆砌。

@@ -17,7 +17,8 @@ Agent 该停的时候停不下来？<br>
 
 **别再用一种思维方式解决所有问题。选对哲学。**
 
-HundredSchools 是一个 [Agent Skill](https://agentskills.io)，将先秦诸子百家的六大学派<br>
+HundredSchools 是一个 [Agent Skill](https://agentskills.io)，将经典哲学流派——<br>
+以先秦诸子百家六大学派为核心，并扩展纳入地中海传统与近代西方科学哲学三家——<br>
 映射为 LLM 推理、规划、生成和验证的具体控制策略。
 
 [工作原理](#工作原理) · [快速开始](#快速开始) · [设计参考](#设计参考) · [测试结果](#测试结果)
@@ -28,6 +29,8 @@ HundredSchools 是一个 [Agent Skill](https://agentskills.io)，将先秦诸子
 
 ## 工作原理
 
+### 先秦核心（六家）
+
 | 学派 | 哲学理念 | Agent 行为 |
 |------|---------|-----------|
 | 道家 (dao) | 无为，顺应自然 | 高熵探索、提前退出、启发式搜索 |
@@ -36,6 +39,14 @@ HundredSchools 是一个 [Agent Skill](https://agentskills.io)，将先秦诸子
 | 兵家 (military) | 庙算、知己知彼 | 复杂规划、多步推理（ToT/CoT） |
 | 墨家 (mohist) | 节用、兼爱 | Token 节流、最小输出、性能优化 |
 | 名家 (logician) | 控名责实、验证事实 | 形式逻辑验证、幻觉检测 |
+
+### 地中海与近代西方拓展（三家）
+
+| 学派 | 哲学理念 | Agent 行为 |
+|------|---------|-----------|
+| 苏格拉底 (socratic) | 反诘 (elenchus)、产婆术、有产出的困惑态 | 作答前反诘、定义抽取、置信度校准 |
+| 斯多葛 (stoic) | 可控划分、稳态、顺理而行 | "可控/不可控"划分、优雅降级、重试预算纪律 |
+| 证伪 (falsificationist) | 大胆猜想 + 严苛检验、划界、可错论 | 每个断言附可证伪条件、对抗式自检、不可证伪断言标注 |
 
 ## 快速开始
 
@@ -78,6 +89,9 @@ hundredschools/
     MILITARY-GUIDE.md                     # 兵家：战略规划
     MOHIST-GUIDE.md                       # 墨家：效率优化
     LOGICIAN-GUIDE.md                     # 名家：逻辑与事实检查
+    SOCRATIC-GUIDE.md                     # 苏格拉底：作答前反诘
+    STOIC-GUIDE.md                        # 斯多葛：可控划分与优雅降级
+    FALSIFICATIONIST-GUIDE.md             # 证伪学派：可证伪性纪律
   assets/
     school-router-guide.md               # 动态学派选择指南
     pipeline-examples.md                 # 多学派流水线示例

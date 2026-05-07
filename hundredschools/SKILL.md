@@ -1,26 +1,34 @@
 ---
 name: hundredschools
 description: >-
-  Multi-dimensional agent thinking framework mapping classical Chinese
-  philosophical schools to LLM control strategies. Use when the user needs
-  exploratory reframing (dao), audience-fit and role ethics (confucian), strict
-  rule enforcement (legal), structured planning and contingency (military),
-  utility-first compression (mohist), or semantic verification (logician).
+  Multi-dimensional agent thinking framework mapping classical philosophical
+  schools to LLM control strategies. Use when the user needs exploratory
+  reframing (dao), audience-fit and role ethics (confucian), strict rule
+  enforcement (legal), structured planning and contingency (military),
+  utility-first compression (mohist), semantic verification (logician),
+  pre-answer interrogation (socratic), control-dichotomy and graceful
+  degradation (stoic), or risky-prediction with falsifiability discipline
+  (falsificationist).
 license: MIT
 metadata:
   author: FanBB2333
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # HundredSchools / 诸子百家控制框架
 
-HundredSchools maps six pre-Qin Chinese schools into six distinct LLM control
-stances. Each school changes what the model optimizes for: exploration,
-audience-fit, rule enforcement, planning, utility, or semantic discipline.
+HundredSchools maps classical philosophical schools — six from pre-Qin China
+and three from the broader Mediterranean and modern Western tradition — into
+distinct LLM control stances. Each school changes what the model optimizes
+for: exploration, audience-fit, rule enforcement, planning, utility, semantic
+discipline, pre-answer interrogation, control-dichotomy under failure, or
+falsifiability of generated claims.
 
-HundredSchools 将先秦六家映射为六种不同的 LLM 控制立场。每一家改变的，不
-只是模型“说话的感觉”，而是它真正优先优化的对象：探索、受众适配、规则执
-行、规划、功用或语义纪律。
+HundredSchools 将经典哲学流派映射为不同的 LLM 控制立场——其中六家来自先
+秦中国，另外三家来自更广义的地中海传统与近代西方。每一家改变的，不只是
+模型“说话的感觉”，而是它真正优先优化的对象：探索、受众适配、规则执行、
+规划、功用、语义纪律、作答前的反诘、失败下的可控划分，或所生成断言的可
+证伪性。
 
 ## Overview / 总览
 
@@ -31,10 +39,17 @@ they should be governed by different philosophical control surfaces.
 整个框架建立在一个简单想法上：复杂代理行为不应只靠一个静态 system prompt
 来承载。不同任务会以不同方式失效，因此它们也应由不同的哲学控制面来治理。
 
-The six schools are not costumes. They are distinct modes of constraint,
-emphasis, and validation.
+The schools are not costumes. They are distinct modes of constraint,
+emphasis, and validation. The six pre-Qin schools form the original core; the
+three later additions (Socratic, Stoic, Falsificationist) cover control
+surfaces the original six did not name explicitly: pre-answer interrogation,
+graceful degradation under uncontrollable failure, and falsifiability
+discipline for generated claims.
 
-六家不是“人格扮演”，而是六种不同的约束方式、强调重点与验证机制。
+各家学派并非“人格扮演”，而是不同的约束方式、强调重点与验证机制。先秦六
+家构成原始核心；后续加入的三家（苏格拉底、斯多葛、证伪学派）覆盖原六家
+未显式命名的控制面：作答前的反诘、不可控失败下的优雅降级，以及对所生成
+断言的可证伪性纪律。
 
 ## CLI Interface / 命令行接口
 
@@ -50,12 +65,20 @@ Accepted `--school` values:
 
 可用的 `--school` 值：
 
+Chinese pre-Qin core / 先秦中土核心：
+
 - `dao`
 - `confucian`
 - `legal`
 - `military`
 - `mohist`
 - `logician`
+
+Mediterranean and modern Western additions / 地中海与近代西方拓展：
+
+- `socratic`
+- `stoic`
+- `falsificationist`
 
 Additional flags:
 
@@ -66,6 +89,20 @@ Additional flags:
 
 - `--strict-mode`: mainly strengthens Legalist enforcement.
 - `--strict-mode`：主要增强法家式严格执行。
+
+- `--socratic-depth`: number of definitional / boundary-case rounds the
+  Socratic school runs before answering.
+- `--socratic-depth`：苏格拉底学派在作答前进行的定义性 / 边界用例追问轮数。
+
+- `--scope-partition`: when set to `strict`, the Stoic school must emit an
+  explicit controllable / uncontrollable split before action.
+- `--scope-partition`：设为 `strict` 时，斯多葛学派必须在动作前显式输出
+  “可控/不可控”划分。
+
+- `--falsifier-required`: every substantive claim from the Falsificationist
+  school must come with at least one concrete falsifying observation.
+- `--falsifier-required`：证伪学派的每个实质性断言都必须附带至少一个具体
+  可证伪观察。
 
 ## Dynamic Router / 动态路由
 
@@ -83,7 +120,16 @@ Supporting references:
 - [pipeline-examples.md](assets/pipeline-examples.md)
 - [school-compatibility.md](assets/school-compatibility.md)
 
-## The Six Schools / 六家总览
+## The Schools / 学派总览
+
+The pre-Qin core (`dao`, `confucian`, `legal`, `military`, `mohist`,
+`logician`) is documented first, followed by the three later additions
+(`socratic`, `stoic`, `falsificationist`).
+
+先列先秦核心六家（`dao`、`confucian`、`legal`、`military`、`mohist`、
+`logician`），随后列出三家拓展（`socratic`、`stoic`、`falsificationist`）。
+
+## Pre-Qin Core / 先秦核心六家
 
 ### Daoism (dao) / 道家
 
@@ -282,6 +328,121 @@ semantic debugging, hallucination control.
 
 **过用风险**：过度较真与吞吐崩塌。
 
+## Mediterranean and Modern Western Additions / 地中海与近代西方拓展三家
+
+### Socratic School (socratic) / 苏格拉底学派
+
+**Visible title / 显示名称**: Socratic School Guide / 苏格拉底学派指南
+
+**Philosophical Core / 哲学核心**: elenchus, maieutics, productive aporia,
+definitional priority.
+
+**哲学核心**：反诘、产婆术、有产出的困惑态、定义优先。
+
+**Control Stance / 控制立场**: insert an interrogation layer between the
+prompt and the answer; refuse to commit until terms and success conditions
+are concrete.
+
+**控制立场**：在“提示词”与“回答”之间插入一层质询；术语与成功条件具体化
+之前不进入承诺。
+
+**Use Cases / 适用场景**: vague specifications, requirements gathering,
+definition-sensitive analysis, debugging by dialogue.
+
+**适用场景**：模糊规约、需求澄清、对定义敏感的分析、对话式调试。
+
+**Execution Logic / 执行逻辑**:
+1. Identify open terms in the prompt.
+2. Ask one or more rounds of definitional and boundary-case questions.
+3. Permit aporia ("I cannot answer because X is undefined") as a valid
+   terminal output rather than guessing.
+
+**执行逻辑**：
+1. 识别提示词中尚未确定的术语。
+2. 进行一轮或多轮“定义 + 边界用例”追问。
+3. 允许“因 X 未定义所以我无法作答”作为合法终态，而不是凭猜测作答。
+
+**Overuse Failure Mode / 过用风险**: question loops and pseudo-Socratic
+theater.
+
+**过用风险**：质询循环与伪苏格拉底剧场。
+
+### Stoic School (stoic) / 斯多葛学派
+
+**Visible title / 显示名称**: Stoic School Guide / 斯多葛学派指南
+
+**Philosophical Core / 哲学核心**: dichotomy of control, equanimity, logos,
+premeditatio malorum.
+
+**哲学核心**：可控划分、稳态执行、顺理而行、预想坏事。
+
+**Control Stance / 控制立场**: explicitly partition each task into
+controllable and uncontrollable parts and refuse to spend budget on the
+second class.
+
+**控制立场**：把每个任务显式划分为“可控”与“不可控”，并拒绝在第二类上消
+耗预算。
+
+**Use Cases / 适用场景**: external tool failures, ambiguous user input,
+graceful degradation, repeated retry loops with no new information.
+
+**适用场景**：外部工具失败、用户输入模糊、优雅降级、无新信息的反复重试
+循环。
+
+**Execution Logic / 执行逻辑**:
+1. Emit a controllable / uncontrollable partition before action.
+2. Premeditate the most likely failure modes and treat their occurrence as
+   information, not catastrophe.
+3. On a hard external block, accept and replan instead of looping.
+
+**执行逻辑**：
+1. 行动前先输出“可控/不可控”划分。
+2. 预先命名最可能的失败模式，把其出现当作信息而非灾难。
+3. 遇到硬性外部阻塞时，输出接受陈述并重规划，而不是进入循环。
+
+**Overuse Failure Mode / 过用风险**: premature surrender and cold-blooded
+shrug.
+
+**过用风险**：提前缴枪与冷漠耸肩。
+
+### Falsificationist School (falsificationist) / 证伪学派
+
+**Visible title / 显示名称**: Falsificationist School Guide / 证伪学派指南
+
+**Philosophical Core / 哲学核心**: falsifiability, demarcation, bold
+conjecture under severe testing, fallibilism.
+
+**哲学核心**：可证伪性、划界、大胆猜想下的严苛检验、可错论。
+
+**Control Stance / 控制立场**: every substantive claim must be paired with
+the concrete observation that, if it occurred, would refute it.
+
+**控制立场**：每一个实质性断言都必须配上一个具体观察——若该观察发生，则
+该断言被推翻。
+
+**Use Cases / 适用场景**: hypothesis generation, research-style reasoning,
+high-confidence outputs that lack a stated way to fail, iteration cycles
+where prior drafts were wrong but no assumption was retired.
+
+**适用场景**：假设生成、研究型推理、缺少“能怎么失败”说明的高自信输出、
+多轮迭代中“前几稿都错了但无前提被退役”的情况。
+
+**Execution Logic / 执行逻辑**:
+1. For each claim, attach a concrete falsifying observation.
+2. Apply at least one severe self-test before commit.
+3. Tag rhetorical or sweeping claims as "orientation only" and refuse to
+   build later hard inferences on them.
+
+**执行逻辑**：
+1. 为每个断言附上一个具体的可证伪观察。
+2. 提交前至少进行一次严苛自检。
+3. 把修辞性或横扫式陈述标注为“仅方向性”，并拒绝在其上建立后续硬推断。
+
+**Overuse Failure Mode / 过用风险**: hyper-skepticism and falsifiability
+theater.
+
+**过用风险**：过度怀疑与证伪剧场。
+
 ## Multi-School Pipelines / 多学派流水线
 
 Complex tasks often benefit from sequencing schools instead of forcing one
@@ -299,12 +460,22 @@ Typical patterns:
 3. `logician -> legal`: verify meaning, then verify structure.
 4. `logician -> mohist`: preserve truth, then compress.
 5. `legal -> confucian`: comply first, then adapt to audience.
+6. `socratic -> military`: clarify the problem, then plan its execution.
+7. `dao -> falsificationist -> logician`: explore conjectures, attach
+   falsifiers, then check categories.
+8. `legal -> stoic -> confucian`: validate, accept what cannot be made
+   compliant, deliver humanely.
 
 1. `dao -> military`：先探索，再承诺。
 2. `military -> legal`：先规划，再执行。
 3. `logician -> legal`：先核验语义，再核验结构。
 4. `logician -> mohist`：先保真，再压缩。
 5. `legal -> confucian`：先合规，再适配受众。
+6. `socratic -> military`：先把问题问清楚，再做执行规划。
+7. `dao -> falsificationist -> logician`：先探索猜想、再附上可证伪条件、
+   再做范畴检查。
+8. `legal -> stoic -> confucian`：先校验、再接受不可被强行合规的部分、
+   再以人情味交付。
 
 ## Execution Rules / 执行规则
 
@@ -347,3 +518,31 @@ Use when the task is multi-step, high-cost, or needs explicit contingency
 design.
 
 适用于任务多步骤、高成本，或需要明确备路设计时。
+
+### Example 4 / 示例四
+
+`/skill invoke HundredSchools --school socratic --socratic-depth 2`
+
+Use when the prompt is vague, success conditions are unclear, or key terms
+have multiple plausible readings.
+
+适用于提示词模糊、成功条件不清，或关键术语存在多种合理读法时。
+
+### Example 5 / 示例五
+
+`/skill invoke HundredSchools --school stoic --scope-partition strict`
+
+Use when an external tool, API, or permission boundary is failing and the
+agent must refuse to thrash on what it cannot control.
+
+适用于外部工具、API 或权限边界正在失败、且代理必须停止在“不可控”上空转时。
+
+### Example 6 / 示例六
+
+`/skill invoke HundredSchools --school falsificationist --falsifier-required`
+
+Use when the task is hypothesis-shaped or when the model has been producing
+high-confidence claims without stating how those claims could fail.
+
+适用于任务呈“假设”形态、或模型一直输出高自信断言却从不说明“能怎么失败”
+时。

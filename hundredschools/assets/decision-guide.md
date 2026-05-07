@@ -15,6 +15,9 @@ school best provides it.
 | Need explicit sequencing / 需要明确步骤 | Military / 兵家 | Legal / 法家 | Structure vs speed / 结构与速度 |
 | Need minimum useful answer / 需要最小可用答案 | Mohist / 墨家 | Legal / 法家 | Cost vs completeness / 成本与完整性 |
 | Need category or claim verification / 需要核验范畴与断言 | Logician / 名家 | Legal / 法家 | Precision vs throughput / 精度与吞吐 |
+| Need pre-answer clarification / 需要作答前澄清 | Socratic / 苏格拉底 | Logician / 名家 | Inquiry vs speed / 质询与速度 |
+| Need graceful degradation under external failure / 需要外部失败下的优雅降级 | Stoic / 斯多葛 | Military / 兵家 | Acceptance vs persistence / 接受与坚持 |
+| Need risky-prediction discipline / 需要可证伪性纪律 | Falsificationist / 证伪 | Logician / 名家 | Empirical risk vs safe restatement / 经验风险与安全复述 |
 
 ## Decision Dimensions / 决策维度
 
@@ -38,6 +41,15 @@ school best provides it.
 - Output is correct but socially misfit -> `confucian`
 - 输出虽然正确，但不合场合 -> `confucian`
 
+- Key terms or success criteria are still undefined -> `socratic`
+- 关键术语或成功标准仍未定义 -> `socratic`
+
+- External failure or unmovable obstacle, model risks looping -> `stoic`
+- 外部失败或无法移动的障碍，模型有进入循环风险 -> `stoic`
+
+- High-confidence claim with no stated way to fail -> `falsificationist`
+- 高自信断言但没有"能怎么失败"的说明 -> `falsificationist`
+
 ### 2. Which trade-off matters most? / 当前最重要的权衡是什么？
 
 | Trade-off / 权衡 | Prefer / 优先 |
@@ -46,6 +58,9 @@ school best provides it.
 | Precision vs speed / 精度与速度 | `logician` or `legal` |
 | Cost vs completeness / 成本与完整性 | `mohist` |
 | Relationship fit vs blunt truth / 关系适配与直率纠偏 | `confucian` |
+| Inquiry vs answering speed / 质询与作答速度 | `socratic` |
+| Acceptance vs retry persistence / 接受与重试坚持 | `stoic` |
+| Empirical risk vs safe restatement / 经验风险与安全复述 | `falsificationist` |
 
 ## Recommended Pipelines / 推荐流水线
 
@@ -63,6 +78,24 @@ school best provides it.
 
 - `legal -> confucian`: comply first, then adapt to audience.
 - `legal -> confucian`：先合规，再适配受众。
+
+- `socratic -> military`: clarify the problem, then plan its execution.
+- `socratic -> military`：先把问题问清楚，再做执行规划。
+
+- `dao -> falsificationist -> logician`: explore conjectures, attach
+  falsifiers, then check categories.
+- `dao -> falsificationist -> logician`：先探索猜想、再附上可证伪条件、
+  再做范畴检查。
+
+- `legal -> stoic -> confucian`: validate, accept what cannot be made
+  compliant, deliver humanely.
+- `legal -> stoic -> confucian`：先校验、再接受不可被强行合规的部分、再
+  以人情味交付。
+
+- `socratic -> falsificationist`: pin down terms, then require each claim
+  to come with a way it could fail.
+- `socratic -> falsificationist`：先把术语钉住，再要求每个断言附带"能怎
+  么失败"。
 
 ## Anti-Patterns / 反模式
 

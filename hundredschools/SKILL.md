@@ -7,28 +7,32 @@ description: >-
   enforcement (legal), structured planning and contingency (military),
   utility-first compression (mohist), semantic verification (logician),
   pre-answer interrogation (socratic), control-dichotomy and graceful
-  degradation (stoic), or risky-prediction with falsifiability discipline
-  (falsificationist).
+  degradation (stoic), risky-prediction with falsifiability discipline
+  (falsificationist), adversarial counter-position and synthesis (hegelian),
+  outcome-driven evaluation by practical consequence (pragmatist), or
+  knowledge-action unity that demands actionable form (yangming).
 license: MIT
 metadata:
   author: FanBB2333
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # HundredSchools / 诸子百家控制框架
 
-HundredSchools maps classical philosophical schools — six from pre-Qin China
-and three from the broader Mediterranean and modern Western tradition — into
-distinct LLM control stances. Each school changes what the model optimizes
-for: exploration, audience-fit, rule enforcement, planning, utility, semantic
-discipline, pre-answer interrogation, control-dichotomy under failure, or
-falsifiability of generated claims.
+HundredSchools maps classical philosophical schools — six from pre-Qin
+China and six later additions from the Mediterranean tradition, modern
+Western philosophy, and Ming-dynasty Neo-Confucianism — into distinct LLM
+control stances. Each school changes what the model optimizes for:
+exploration, audience-fit, rule enforcement, planning, utility, semantic
+discipline, pre-answer interrogation, control-dichotomy under failure,
+falsifiability of generated claims, dialectical synthesis, outcome-driven
+evaluation, or knowledge-action unity.
 
-HundredSchools 将经典哲学流派映射为不同的 LLM 控制立场——其中六家来自先
-秦中国，另外三家来自更广义的地中海传统与近代西方。每一家改变的，不只是
-模型“说话的感觉”，而是它真正优先优化的对象：探索、受众适配、规则执行、
-规划、功用、语义纪律、作答前的反诘、失败下的可控划分，或所生成断言的可
-证伪性。
+HundredSchools 将经典哲学流派映射为不同的 LLM 控制立场——六家来自先秦中
+国，另外六家是后续拓展（地中海传统、近代西方哲学，以及明代新儒学）。每
+一家改变的，不只是模型”说话的感觉”，而是它真正优先优化的对象：探索、受
+众适配、规则执行、规划、功用、语义纪律、作答前的反诘、失败下的可控划
+分、所生成断言的可证伪性、辩证综合、后果导向的评估，或知行合一。
 
 ## Overview / 总览
 
@@ -40,16 +44,27 @@ they should be governed by different philosophical control surfaces.
 来承载。不同任务会以不同方式失效，因此它们也应由不同的哲学控制面来治理。
 
 The schools are not costumes. They are distinct modes of constraint,
-emphasis, and validation. The six pre-Qin schools form the original core; the
-three later additions (Socratic, Stoic, Falsificationist) cover control
-surfaces the original six did not name explicitly: pre-answer interrogation,
-graceful degradation under uncontrollable failure, and falsifiability
-discipline for generated claims.
+emphasis, and validation. The six pre-Qin schools form the original core;
+the six later additions cover control surfaces the original six did not
+name explicitly:
 
-各家学派并非“人格扮演”，而是不同的约束方式、强调重点与验证机制。先秦六
-家构成原始核心；后续加入的三家（苏格拉底、斯多葛、证伪学派）覆盖原六家
-未显式命名的控制面：作答前的反诘、不可控失败下的优雅降级，以及对所生成
-断言的可证伪性纪律。
+- **Socratic** — pre-answer interrogation;
+- **Stoic** — graceful degradation under uncontrollable failure;
+- **Falsificationist** — falsifiability discipline for generated claims;
+- **Hegelian** — adversarial counter-position generation and *Aufhebung*
+  synthesis;
+- **Pragmatist** — outcome-driven evaluation by practical consequence;
+- **Yangming** — knowledge-action unity that demands actionable form.
+
+各家学派并非”人格扮演”，而是不同的约束方式、强调重点与验证机制。先秦六
+家构成原始核心；后续加入的六家覆盖原六家未显式命名的控制面：
+
+- **苏格拉底** — 作答前的反诘；
+- **斯多葛** — 不可控失败下的优雅降级；
+- **证伪学派** — 所生成断言的可证伪性纪律；
+- **黑格尔学派** — 对抗式反命题生成与扬弃式综合；
+- **实用主义学派** — 以实践后果为标准的后果导向评估；
+- **阳明学** — 要求”可被采纳的行动形态”的知行合一。
 
 ## CLI Interface / 命令行接口
 
@@ -74,11 +89,14 @@ Chinese pre-Qin core / 先秦中土核心：
 - `mohist`
 - `logician`
 
-Mediterranean and modern Western additions / 地中海与近代西方拓展：
+Later additions / 后续拓展：
 
-- `socratic`
-- `stoic`
-- `falsificationist`
+- `socratic` — Greek classical / 希腊古典
+- `stoic` — Greco-Roman classical / 希腊罗马古典
+- `falsificationist` — modern philosophy of science / 近代科学哲学
+- `hegelian` — modern continental / 近代欧陆
+- `pragmatist` — modern American / 近代美国
+- `yangming` — Ming-dynasty Neo-Confucianism / 明代新儒学
 
 Additional flags:
 
@@ -104,6 +122,24 @@ Additional flags:
 - `--falsifier-required`：证伪学派的每个实质性断言都必须附带至少一个具体
   可证伪观察。
 
+- `--dialectic-rounds`: number of thesis–antithesis–synthesis cycles the
+  Hegelian school runs.
+- `--dialectic-rounds`：黑格尔学派运行的"正题—反题—综合"轮数。
+
+- `--strict-aufhebung`: reject any "synthesis" that is merely an averaging
+  of the two prior positions.
+- `--strict-aufhebung`：拒绝那种只是把双方"取平均"的"综合"。
+
+- `--cash-out`: require every Pragmatist recommendation to list the
+  practical effects it would have if adopted.
+- `--cash-out`：要求实用主义学派的每条建议都列出"若被采纳，会产生哪些实
+  践效应"。
+
+- `--require-next-action`: require every Yangming output to end with one
+  concrete next action the user could attempt within the current session.
+- `--require-next-action`：要求阳明学的每个输出都以"用户在当前会话内可
+  尝试的一个具体下一步"作结。
+
 ## Dynamic Router / 动态路由
 
 When `--school` is omitted, the router should choose the school that best fits
@@ -123,11 +159,13 @@ Supporting references:
 ## The Schools / 学派总览
 
 The pre-Qin core (`dao`, `confucian`, `legal`, `military`, `mohist`,
-`logician`) is documented first, followed by the three later additions
-(`socratic`, `stoic`, `falsificationist`).
+`logician`) is documented first, followed by the six later additions
+(`socratic`, `stoic`, `falsificationist`, `hegelian`, `pragmatist`,
+`yangming`).
 
 先列先秦核心六家（`dao`、`confucian`、`legal`、`military`、`mohist`、
-`logician`），随后列出三家拓展（`socratic`、`stoic`、`falsificationist`）。
+`logician`），随后列出六家拓展（`socratic`、`stoic`、
+`falsificationist`、`hegelian`、`pragmatist`、`yangming`）。
 
 ## Pre-Qin Core / 先秦核心六家
 
@@ -328,7 +366,7 @@ semantic debugging, hallucination control.
 
 **过用风险**：过度较真与吞吐崩塌。
 
-## Mediterranean and Modern Western Additions / 地中海与近代西方拓展三家
+## Later Additions / 后续拓展六家
 
 ### Socratic School (socratic) / 苏格拉底学派
 
@@ -443,6 +481,135 @@ theater.
 
 **过用风险**：过度怀疑与证伪剧场。
 
+### Hegelian School (hegelian) / 黑格尔学派
+
+**Visible title / 显示名称**: Hegelian School Guide / 黑格尔学派指南
+
+**Philosophical Core / 哲学核心**: dialectic, *Aufhebung*, determinate
+negation, truth-as-whole.
+
+**哲学核心**：辩证、扬弃、规定的否定、真理-整体关系。
+
+**Control Stance / 控制立场**: commit only after the strongest possible
+counter-case has been authored and answered; reject "synthesis" that is
+merely averaging.
+
+**控制立场**：只在最强反案被写出来并被回应之后才承诺；拒绝把"取平均"叫
+作综合。
+
+**Use Cases / 适用场景**: red-team review, balanced critique, conflict
+resolution, policy revision under stakeholder disagreement.
+
+**适用场景**：red-team 评审、平衡式批评、冲突解决、利益相关者分歧下的
+政策修订。
+
+**Execution Logic / 执行逻辑**:
+1. State the thesis and the load-bearing premises that hold it up.
+2. Author the determinate negation: name the specific premise that, if
+   true, would render the thesis untenable.
+3. Produce an *Aufhebung* synthesis that preserves what each side got
+   right while transcending the form of their opposition; test it on a
+   concrete instance.
+
+**执行逻辑**：
+1. 写出正题及支撑它的承重前提。
+2. 写出规定的否定：指名道姓地说出"如为真则正题站不住"的具体前提。
+3. 产出一次扬弃式综合——保留双方各自之"对"，扬弃二者对立的形式；并在
+   一个具体实例上检验它。
+
+**Overuse Failure Mode / 过用风险**: synthesis theater and triadic
+compulsion.
+
+**过用风险**：综合剧场与三段式强迫症。
+
+### Pragmatist School (pragmatist) / 实用主义学派
+
+**Visible title / 显示名称**: Pragmatist School Guide / 实用主义学派指南
+
+**Philosophical Core / 哲学核心**: pragmatic maxim, truth as cash-value,
+inquiry-as-problem-solving, fallibilism.
+
+**哲学核心**：实用准则、真理的兑现价值、探究即解题、可错论。
+
+**Control Stance / 控制立场**: evaluate competing answers by what
+concrete, observable difference each would make in the user's downstream
+context; treat answers as event-tested hypotheses, not static
+representations.
+
+**控制立场**：以"在用户下游语境中产生何种具体可观察差异"来评估候选回
+答；把回答视作"将由事件检验的假设"，而非静态再现。
+
+**Use Cases / 适用场景**: trade-off resolution, prototype / MVP
+selection, "should we do A or B?" decisions, abstract recommendations
+that need to be cashed out.
+
+**适用场景**：权衡决策、原型 / MVP 选型、"该选 A 还是 B"的抉择、需要
+被"兑现"的抽象建议。
+
+**Execution Logic / 执行逻辑**:
+1. Locate the user's problematic situation explicitly; reflection without
+   a target is ornament.
+2. For each candidate answer, list the practical effects it would have if
+   adopted.
+3. Attach at least one adoptable means to every recommended end; pre-commit
+   to revising when downstream evidence contradicts.
+
+**执行逻辑**：
+1. 显式定位用户的"困境状态"；没有目标的反思是装饰。
+2. 为每个候选回答列出"若被采纳，会产生哪些实践效应"。
+3. 每个推荐目标都附上至少一种可采纳手段；预先承诺：当下游证据矛盾时立
+   即修订。
+
+**Overuse Failure Mode / 过用风险**: what-works-now myopia and cynical
+pragmatism.
+
+**过用风险**：眼前主义与犬儒式实用。
+
+### Yangming School (yangming) / 阳明学
+
+**Visible title / 显示名称**: Yangming School Guide / 阳明学指南
+
+**Philosophical Core / 哲学核心**: 知行合一 (knowledge-action unity),
+致良知 (extending innate moral knowing), 心即理 (mind-is-principle),
+事上磨练 (polishing in deeds).
+
+**哲学核心**：知行合一、致良知、心即理、事上磨练。
+
+**Control Stance / 控制立场**: refuse purely abstract output; an answer
+is unfinished if the agent cannot translate it into a next concrete
+action the user could attempt.
+
+**控制立场**：拒绝纯抽象输出；如果代理无法把所知翻译成"用户可尝试的下
+一个具体动作"，那这份回答还没完成。
+
+**Use Cases / 适用场景**: turning abstract advice into concrete steps,
+debugging where the answer must be runnable, decision paralysis with
+sufficient information, code review with action items.
+
+**适用场景**：把抽象建议落地为具体步骤、答案必须能跑起来的调试、信息已
+足却卡在决策瘫痪、带行动项的代码评审。
+
+**Execution Logic / 执行逻辑**:
+1. End every recommendation with one concrete next action the user could
+   attempt within the current session.
+2. Mentally walk through what executing the answer would expose; surface
+   any missing precondition before commit.
+3. Distinguish explicitly between "I do not have the information to act"
+   and "I have the information but the next step is operationally /
+   socially hard."
+
+**执行逻辑**：
+1. 每条建议都以"用户在当前会话内可尝试的一个具体下一步"作结。
+2. 在心里把"执行此答案会暴露什么"过一遍，并在提交前把任何缺失前提翻到
+   台面上。
+3. 显式区分"我缺信息所以无法行动"与"我有信息但下一步在操作或社交上很
+   难"。
+
+**Overuse Failure Mode / 过用风险**: anti-intellectualism and
+pseudo-actionable output.
+
+**过用风险**：反智化与伪可行清单。
+
 ## Multi-School Pipelines / 多学派流水线
 
 Complex tasks often benefit from sequencing schools instead of forcing one
@@ -465,6 +632,14 @@ Typical patterns:
    falsifiers, then check categories.
 8. `legal -> stoic -> confucian`: validate, accept what cannot be made
    compliant, deliver humanely.
+9. `dao -> hegelian -> military`: explore, force a synthesis through
+   determinate negation, then sequence its execution.
+10. `falsificationist -> pragmatist -> mohist`: surface surviving
+    conjectures, choose the one with the highest cash-value, compress.
+11. `socratic -> yangming`: pin down terms, then demand the next
+    concrete action a real person could take.
+12. `military -> yangming`: have a plan, but refuse to ship it until at
+    least one concrete next action has been authored.
 
 1. `dao -> military`：先探索，再承诺。
 2. `military -> legal`：先规划，再执行。
@@ -476,6 +651,14 @@ Typical patterns:
    再做范畴检查。
 8. `legal -> stoic -> confucian`：先校验、再接受不可被强行合规的部分、
    再以人情味交付。
+9. `dao -> hegelian -> military`：先探索、再用规定的否定逼出一次综合、
+   再把综合的执行步骤排出来。
+10. `falsificationist -> pragmatist -> mohist`：先把"暂存"的猜想浮上
+    来、再挑兑现价值最高的那个、再压缩。
+11. `socratic -> yangming`：先把术语钉住，再要求"真人能据之采取的下一
+    个具体动作"。
+12. `military -> yangming`：已有计划，但在至少写出一个"下一个具体动作"
+    之前不发货。
 
 ## Execution Rules / 执行规则
 
@@ -544,5 +727,35 @@ agent must refuse to thrash on what it cannot control.
 Use when the task is hypothesis-shaped or when the model has been producing
 high-confidence claims without stating how those claims could fail.
 
-适用于任务呈“假设”形态、或模型一直输出高自信断言却从不说明“能怎么失败”
+适用于任务呈”假设”形态、或模型一直输出高自信断言却从不说明”能怎么失败”
 时。
+
+### Example 7 / 示例七
+
+`/skill invoke HundredSchools --school hegelian --strict-aufhebung`
+
+Use when stakeholders disagree and both sides hold load-bearing claims, or
+when a draft is about to ship without facing its strongest counter-case.
+
+适用于各方均持有承重断言的利益相关者分歧，或初稿即将发货却尚未直面最强
+反案时。
+
+### Example 8 / 示例八
+
+`/skill invoke HundredSchools --school pragmatist --cash-out`
+
+Use when multiple options look equally valid in theory and the user must
+choose based on what each option would actually pay off in practice.
+
+适用于多个选项在理论上看似同样可行、用户必须按”在实践中各自能兑现什么”
+来选时。
+
+### Example 9 / 示例九
+
+`/skill invoke HundredSchools --school yangming --require-next-action`
+
+Use when articulate but unadoptable advice is being produced, or when a
+user with sufficient information is stuck in decision paralysis.
+
+适用于产出了”措辞清楚但用不起来”的建议时，或用户已具备足够信息却卡在决
+策瘫痪时。

@@ -132,6 +132,98 @@ informed gracefully.
 - `confucian`：以合宜的语气、角色与受众适配，把"接受陈述与修订计划"交付
   给用户。
 
+## Example 8 / 示例八
+
+### `dao -> hegelian -> military`
+
+**Use when / 适用场景**: Open exploration has produced multiple
+load-bearing perspectives that genuinely conflict; before committing,
+the team needs a synthesis that has answered the strongest counter-case.
+
+**适用场景**：开放探索已经产出多个真正冲突的承重视角；在承诺之前，团
+队需要一次"已经回应了最强反案"的综合。
+
+- `dao`: keep multiple framings live; refuse premature commitment.
+- `dao`：保留多个框架同时存活；拒绝过早承诺。
+
+- `hegelian`: stage the framings as thesis–antithesis pairs; produce an
+  *Aufhebung* that preserves what each side got right while
+  transcending the form of their opposition; test on a concrete case.
+- `hegelian`：把这些框架组织为正反命题对；产出扬弃式综合（保留双方各
+  自之"对"，扬弃二者对立的形式）；在具体案例上检验。
+
+- `military`: with the synthesis in hand, build the multi-step plan
+  with primary and fallback paths.
+- `military`：基于已得出的综合，搭建带主路径与备路的多步骤计划。
+
+## Example 9 / 示例九
+
+### `falsificationist -> pragmatist -> mohist`
+
+**Use when / 适用场景**: Several conjectures have survived testing and
+the question is now which one is most useful, and the final answer must
+also be terse.
+
+**适用场景**：多个猜想都已熬过检验，剩下的问题是"哪个最有用"，且最终
+答案还必须简短。
+
+- `falsificationist`: surface the conjectures that have not been
+  refuted; tag any rhetorical claims as orientation-only.
+- `falsificationist`：把尚未被推翻的猜想浮上来；把任何修辞性陈述标注
+  为"仅方向性"。
+
+- `pragmatist`: for each surviving conjecture, list its cash-value;
+  pick the one whose practical effects best fit the user's downstream
+  context.
+- `pragmatist`：为每个暂存的猜想列出兑现价值；挑选其实践效应最贴合用
+  户下游语境的那一个。
+
+- `mohist`: strip everything that does not contribute to that
+  benefit; deliver the dense form.
+- `mohist`：删去任何无贡献的部分，交付高密度形态。
+
+## Example 10 / 示例十
+
+### `socratic -> yangming`
+
+**Use when / 适用场景**: The prompt is vague *and* the user is paralyzed
+because no concrete next step exists, even after key terms are clarified.
+
+**适用场景**：提示词模糊*且*——即使关键术语澄清后——用户仍因"没有具体
+下一步可走"而瘫痪。
+
+- `socratic`: identify open terms and run a round of definitional and
+  boundary-case questions; clarify success conditions.
+- `socratic`：识别尚未确定的术语，进行一轮"定义 + 边界用例"追问；澄清
+  成功条件。
+
+- `yangming`: end with one concrete next action the user could attempt
+  within the current session; mentally walk through what executing it
+  would expose; surface any missing precondition.
+- `yangming`：以"用户在当前会话内可尝试的一个具体下一步"作结；在心里
+  把"执行此动作会暴露什么"过一遍；把任何缺失前提翻到台面上。
+
+## Example 11 / 示例十一
+
+### `military -> yangming`
+
+**Use when / 适用场景**: A multi-step plan has been authored but is at
+risk of being shipped as abstract strategy without an adoptable next
+move.
+
+**适用场景**：已经写好多步骤计划、但有作为"抽象策略"发货的风险——尚
+缺一个可采纳的下一步动作。
+
+- `military`: define objective, resources, primary path, and fallback;
+  emit the full plan.
+- `military`：定义目标、资源、主路径与备路；输出完整计划。
+
+- `yangming`: refuse to ship until at least one concrete next action
+  has been pinned down; explicitly tag any remaining gaps as
+  *information* gaps vs. *operational/social* gaps.
+- `yangming`：在至少钉住一个"下一个具体动作"之前不发货；显式区分剩余
+  缺口为"信息缺口"与"操作 / 社交缺口"。
+
 ## Design Rule / 设计规则
 
 Every handoff should answer one question: what can the next school do that the

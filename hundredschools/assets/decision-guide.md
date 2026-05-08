@@ -18,6 +18,9 @@ school best provides it.
 | Need pre-answer clarification / 需要作答前澄清 | Socratic / 苏格拉底 | Logician / 名家 | Inquiry vs speed / 质询与速度 |
 | Need graceful degradation under external failure / 需要外部失败下的优雅降级 | Stoic / 斯多葛 | Military / 兵家 | Acceptance vs persistence / 接受与坚持 |
 | Need risky-prediction discipline / 需要可证伪性纪律 | Falsificationist / 证伪 | Logician / 名家 | Empirical risk vs safe restatement / 经验风险与安全复述 |
+| Need counter-position and synthesis / 需要反命题与综合 | Hegelian / 黑格尔 | Falsificationist / 证伪 | Commitment vs averaging / 承诺与折中 |
+| Need consequence-based selection / 需要按后果选择 | Pragmatist / 实用主义 | Mohist / 墨家 | Cash-value vs theoretical neatness / 兑现价值与理论整洁 |
+| Need adoptable next action / 需要可采纳的下一步 | Yangming / 阳明学 | Military / 兵家 | Action-form vs articulation / 行动形态与措辞 |
 
 ## Decision Dimensions / 决策维度
 
@@ -50,6 +53,15 @@ school best provides it.
 - High-confidence claim with no stated way to fail -> `falsificationist`
 - 高自信断言但没有"能怎么失败"的说明 -> `falsificationist`
 
+- Stakeholder disagreement with both sides load-bearing -> `hegelian`
+- 各方均持承重断言的分歧 -> `hegelian`
+
+- Multiple options equally valid in theory, must choose by outcome -> `pragmatist`
+- 理论上同样可行的多个选项，须按后果作选 -> `pragmatist`
+
+- Articulate-but-unadoptable advice; decision paralysis with sufficient info -> `yangming`
+- "措辞清楚但用不起来"的建议；信息已足却卡在决策瘫痪 -> `yangming`
+
 ### 2. Which trade-off matters most? / 当前最重要的权衡是什么？
 
 | Trade-off / 权衡 | Prefer / 优先 |
@@ -61,6 +73,9 @@ school best provides it.
 | Inquiry vs answering speed / 质询与作答速度 | `socratic` |
 | Acceptance vs retry persistence / 接受与重试坚持 | `stoic` |
 | Empirical risk vs safe restatement / 经验风险与安全复述 | `falsificationist` |
+| Commitment vs averaging / 承诺与折中 | `hegelian` |
+| Cash-value vs theoretical neatness / 兑现价值与理论整洁 | `pragmatist` |
+| Action-form vs articulation / 行动形态与措辞 | `yangming` |
 
 ## Recommended Pipelines / 推荐流水线
 
@@ -96,6 +111,26 @@ school best provides it.
   to come with a way it could fail.
 - `socratic -> falsificationist`：先把术语钉住，再要求每个断言附带"能怎
   么失败"。
+
+- `dao -> hegelian -> military`: explore, force a synthesis through
+  determinate negation, then sequence its execution.
+- `dao -> hegelian -> military`：先探索、再用规定的否定逼出一次综合、
+  再把综合的执行步骤排出来。
+
+- `falsificationist -> pragmatist -> mohist`: surface surviving
+  conjectures, choose by cash-value, compress.
+- `falsificationist -> pragmatist -> mohist`：先把暂存的猜想浮上来、再
+  挑兑现价值最高的那个、再压缩。
+
+- `socratic -> yangming`: pin terms down, then demand the next concrete
+  action a real person could take.
+- `socratic -> yangming`：先把术语钉住，再要求"真人能据之采取的下一个
+  具体动作"。
+
+- `military -> yangming`: have a plan, but refuse to ship until at least
+  one concrete next action is authored.
+- `military -> yangming`：已有计划，但在至少写出一个"下一个具体动作"
+  之前不发货。
 
 ## Anti-Patterns / 反模式
 

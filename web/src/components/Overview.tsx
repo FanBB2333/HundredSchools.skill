@@ -24,12 +24,20 @@ const spectrumData = [
 ]
 
 const signatureData = [
+  // Pre-Qin core
   { school: 'mohist' as SchoolId, questionEn: 'What can I remove?', questionZh: '我能去掉什么？' },
   { school: 'dao' as SchoolId, questionEn: 'What alternatives exist?', questionZh: '有什么替代方案？' },
   { school: 'confucian' as SchoolId, questionEn: 'How should I communicate this?', questionZh: '我应该如何传达这个？' },
   { school: 'legal' as SchoolId, questionEn: 'What are the exact rules?', questionZh: '确切的规则是什么？' },
   { school: 'military' as SchoolId, questionEn: "What's the strategy and fallback?", questionZh: '策略和后备方案是什么？' },
   { school: 'logician' as SchoolId, questionEn: 'How do I know this is correct?', questionZh: '我怎么知道这是对的？' },
+  // Later additions
+  { school: 'socratic' as SchoolId, questionEn: 'What does each term actually mean here?', questionZh: '这里每个术语到底指什么？' },
+  { school: 'stoic' as SchoolId, questionEn: "What's in my control, and what isn't?", questionZh: '什么在我可控范围内，什么不在？' },
+  { school: 'falsificationist' as SchoolId, questionEn: 'What would refute this claim?', questionZh: '什么会推翻这个断言？' },
+  { school: 'hegelian' as SchoolId, questionEn: "What's the strongest case against this?", questionZh: '反对这个的最强论据是什么？' },
+  { school: 'pragmatist' as SchoolId, questionEn: 'What concrete difference would this actually make?', questionZh: '这在实际上会产生什么具体差异？' },
+  { school: 'yangming' as SchoolId, questionEn: 'What is the next concrete action a person could take?', questionZh: '一个真人接下来能做的具体动作是什么？' },
 ]
 
 export function Overview() {
@@ -44,13 +52,17 @@ export function Overview() {
 
   return (
     <div className="space-y-10">
-      {/* School effect cards */}
+      {/* School effect cards — grouped by origin */}
       <section>
         <h2 className="mb-2 text-xl font-semibold text-foreground">{t('overview.title', lang)}</h2>
         <p className="mb-6 text-sm text-muted-foreground">{t('overview.desc', lang)}</p>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {schools.map((school, i) => (
+        {/* Pre-Qin core */}
+        <h3 className="mb-3 text-sm font-medium text-muted-foreground">
+          {lang === 'en' ? 'Pre-Qin core (六家)' : '先秦核心（六家）'}
+        </h3>
+        <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {schools.filter(s => s.origin === 'pre-qin').map((school, i) => (
             <AnimatedCard key={school.id} index={i}>
               <Card className="h-full border-l-4" style={{ borderLeftColor: school.color }}>
                 <CardHeader className="pb-2">
@@ -72,6 +84,43 @@ export function Overview() {
                     </span>
                     <span className="font-semibold" style={{ color: school.color }}>
                       {school.avgChange}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            </AnimatedCard>
+          ))}
+        </div>
+
+        {/* Later additions */}
+        <h3 className="mb-3 text-sm font-medium text-muted-foreground">
+          {lang === 'en'
+            ? 'Later additions (拓展)'
+            : '后续拓展'}
+        </h3>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {schools.filter(s => s.origin === 'extended').map((school, i) => (
+            <AnimatedCard key={school.id} index={i}>
+              <Card className="h-full border-l-4" style={{ borderLeftColor: school.color }}>
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center gap-2 text-sm">
+                    <SchoolDot school={school.id} />
+                    <span>{lang === 'en' ? school.nameEn : school.nameZh}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {lang === 'en' ? school.principle : school.principleZh}
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    {lang === 'en' ? school.philosophyEn : school.philosophyZh}
+                  </p>
+                  <div className="mt-3 flex items-center justify-between border-t pt-2 text-xs">
+                    <span className="text-muted-foreground">
+                      {lang === 'en' ? 'Status' : '状态'}
+                    </span>
+                    <span className="text-xs italic text-muted-foreground">
+                      {lang === 'en' ? 'not yet benchmarked' : '尚未参与评测'}
                     </span>
                   </div>
                 </CardContent>

@@ -1,4 +1,11 @@
-export type SchoolId = 'mohist' | 'military' | 'logician' | 'confucian' | 'dao' | 'legal'
+export type SchoolId =
+  // Pre-Qin core
+  | 'mohist' | 'military' | 'logician' | 'confucian' | 'dao' | 'legal'
+  // Later additions (Mediterranean, modern Western, Ming Neo-Confucian)
+  | 'socratic' | 'stoic' | 'falsificationist'
+  | 'hegelian' | 'pragmatist' | 'yangming'
+
+export type SchoolOrigin = 'pre-qin' | 'extended'
 
 export interface SchoolInfo {
   id: SchoolId
@@ -11,6 +18,7 @@ export interface SchoolInfo {
   avgChange: string
   color: string // Morandi muted color
   dotClass: string
+  origin: SchoolOrigin
 }
 
 export interface ModelResult {
@@ -30,12 +38,20 @@ export interface SchoolResults {
 
 // Morandi palette - muted, low saturation
 export const schoolColors: Record<SchoolId, string> = {
+  // Pre-Qin core
   mohist: '#8FB5AB',   // muted teal
   military: '#A890B5', // muted purple
   logician: '#C4A882', // muted amber
   confucian: '#C4908A', // muted rose
   dao: '#9AB89E',      // muted sage
   legal: '#8EA8C5',    // muted blue
+  // Later additions (Mediterranean, modern Western, Ming Neo-Confucian)
+  socratic: '#B5B08F',         // muted olive
+  stoic: '#9CA3B8',            // muted slate
+  falsificationist: '#B58FA8', // muted plum
+  hegelian: '#7B9AA0',         // muted teal-blue
+  pragmatist: '#B89A82',       // muted tan
+  yangming: '#C4B488',         // muted gold
 }
 
 export const schools: SchoolInfo[] = [
@@ -50,6 +66,7 @@ export const schools: SchoolInfo[] = [
     avgChange: '-63%',
     color: '#8FB5AB',
     dotClass: 'mohist',
+    origin: 'pre-qin',
   },
   {
     id: 'military',
@@ -62,6 +79,7 @@ export const schools: SchoolInfo[] = [
     avgChange: '+113%',
     color: '#A890B5',
     dotClass: 'military',
+    origin: 'pre-qin',
   },
   {
     id: 'logician',
@@ -74,6 +92,7 @@ export const schools: SchoolInfo[] = [
     avgChange: '+86%',
     color: '#C4A882',
     dotClass: 'logician',
+    origin: 'pre-qin',
   },
   {
     id: 'confucian',
@@ -86,6 +105,7 @@ export const schools: SchoolInfo[] = [
     avgChange: '+50%',
     color: '#C4908A',
     dotClass: 'confucian',
+    origin: 'pre-qin',
   },
   {
     id: 'dao',
@@ -98,6 +118,7 @@ export const schools: SchoolInfo[] = [
     avgChange: '+38%*',
     color: '#9AB89E',
     dotClass: 'dao',
+    origin: 'pre-qin',
   },
   {
     id: 'legal',
@@ -110,6 +131,85 @@ export const schools: SchoolInfo[] = [
     avgChange: '+21%',
     color: '#8EA8C5',
     dotClass: 'legal',
+    origin: 'pre-qin',
+  },
+  {
+    id: 'socratic',
+    nameEn: 'Socratic',
+    nameZh: '苏格拉底',
+    principle: 'elenchus (cross-examination)',
+    principleZh: '反诘',
+    philosophyEn: 'Inserts an interrogation layer between prompt and answer. Forces operative definitions and boundary cases before reasoning. Permits productive aporia ("I cannot answer because X is undefined") as a valid terminal output instead of guessing.',
+    philosophyZh: '在"提示词"与"回答"之间插入一层质询。在推理前强制提取可操作定义与边界用例。允许"因 X 未定义所以我无法作答"作为合法终态，而不是凭猜测作答。',
+    avgChange: '—',
+    color: '#B5B08F',
+    dotClass: 'socratic',
+    origin: 'extended',
+  },
+  {
+    id: 'stoic',
+    nameEn: 'Stoic',
+    nameZh: '斯多葛',
+    principle: 'dichotomy of control',
+    principleZh: '可控划分',
+    philosophyEn: 'Explicitly partitions each task into controllable and uncontrollable parts and refuses to spend budget on the second class. On a hard external block, emits an acceptance line and a revised plan instead of looping.',
+    philosophyZh: '把每个任务显式划分为"可控"与"不可控"，并拒绝在第二类上消耗预算。遇到硬性外部阻塞时，输出一行接受陈述与一份修订计划，而不是进入循环。',
+    avgChange: '—',
+    color: '#9CA3B8',
+    dotClass: 'stoic',
+    origin: 'extended',
+  },
+  {
+    id: 'falsificationist',
+    nameEn: 'Falsificationist',
+    nameZh: '证伪学派',
+    principle: 'falsifiability',
+    principleZh: '可证伪性',
+    philosophyEn: 'Pairs every substantive claim with the concrete observation that, if it occurred, would refute it. Tags rhetorical or sweeping claims as "orientation only" and refuses to build later hard inferences on them.',
+    philosophyZh: '为每一个实质性断言配上一个具体观察——若该观察发生，则该断言被推翻。把修辞性或横扫式陈述标注为"仅方向性"，并拒绝在其上建立后续硬推断。',
+    avgChange: '—',
+    color: '#B58FA8',
+    dotClass: 'falsificationist',
+    origin: 'extended',
+  },
+  {
+    id: 'hegelian',
+    nameEn: 'Hegelian',
+    nameZh: '黑格尔学派',
+    principle: 'Aufhebung (sublation)',
+    principleZh: '扬弃',
+    philosophyEn: 'Commits only after the strongest possible counter-case has been authored and answered. Produces an Aufhebung synthesis that preserves what each side got right while transcending the form of their opposition; rejects "synthesis" that is merely averaging.',
+    philosophyZh: '只在最强反案被写出来并被回应之后才承诺。产出扬弃式综合——保留双方各自之"对"，扬弃二者对立的形式；拒绝把"取平均"叫作综合。',
+    avgChange: '—',
+    color: '#7B9AA0',
+    dotClass: 'hegelian',
+    origin: 'extended',
+  },
+  {
+    id: 'pragmatist',
+    nameEn: 'Pragmatist',
+    nameZh: '实用主义学派',
+    principle: 'cash-value of truth',
+    principleZh: '兑现价值',
+    philosophyEn: 'Evaluates competing answers by what concrete, observable difference each would make in the user\'s downstream context. Treats answers as event-tested hypotheses; pre-commits to revising when downstream evidence contradicts.',
+    philosophyZh: '以"在用户下游语境中产生何种具体可观察差异"来评估候选回答。把回答视作"将由事件检验的假设"；预先承诺：当下游证据矛盾时立即修订。',
+    avgChange: '—',
+    color: '#B89A82',
+    dotClass: 'pragmatist',
+    origin: 'extended',
+  },
+  {
+    id: 'yangming',
+    nameEn: 'Yangming',
+    nameZh: '阳明学',
+    principle: '知行合一 (knowledge-action unity)',
+    principleZh: '知行合一',
+    philosophyEn: 'Refuses purely abstract output. An answer is unfinished if the agent cannot translate it into a next concrete action the user could attempt. Distinguishes information gaps from willingness/operational gaps.',
+    philosophyZh: '拒绝纯抽象输出。如果代理无法把所知翻译成"用户可尝试的下一个具体动作"，那这份回答还没完成。显式区分"信息缺口"与"意愿/操作缺口"。',
+    avgChange: '—',
+    color: '#C4B488',
+    dotClass: 'yangming',
+    origin: 'extended',
   },
 ]
 

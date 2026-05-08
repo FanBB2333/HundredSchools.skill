@@ -23,6 +23,15 @@ and which combinations should usually be avoided.
 | Legal + Stoic / 法家 + 斯多葛 | High sequential / 高度串行兼容 | Validate, accept what cannot be enforced / 先校验，再接受无法强制合规的部分 |
 | Stoic + Falsificationist / 斯多葛 + 证伪 | Medium / 中 | Both can mute commitment if stacked carelessly / 草率叠加都会压低承诺度 |
 | Socratic + Mohist / 苏格拉底 + 墨家 | Low simultaneous / 同步兼容低 | Inquiry inflates length, compression cuts inquiry / 质询会拉长输出，压缩会压掉质询 |
+| Dao + Hegelian + Military / 道家 + 黑格尔 + 兵家 | High sequential / 高度串行兼容 | Explore, synthesize, sequence / 先探索、再综合、再排序 |
+| Hegelian + Falsificationist / 黑格尔 + 证伪 | High sequential / 高度串行兼容 | Synthesize, then attach falsifying conditions / 先综合，再附可证伪条件 |
+| Hegelian + Pragmatist / 黑格尔 + 实用主义 | High / 高 | Synthesis chosen, evaluate by cash-value / 综合既得，按兑现价值评估 |
+| Falsificationist + Pragmatist / 证伪 + 实用主义 | High sequential / 高度串行兼容 | Tested claims, then choose by usefulness / 受过检验的断言，按"是否有用"作选 |
+| Pragmatist + Mohist / 实用主义 + 墨家 | Very high / 很高 | Outcome chosen, compress / 后果既定，压缩 |
+| Pragmatist + Yangming / 实用主义 + 阳明学 | Very high / 很高 | Effects identified, lock to next concrete action / 效应已识别，落到下一个具体行动 |
+| Socratic + Yangming / 苏格拉底 + 阳明学 | High sequential / 高度串行兼容 | Define, then make adoptable / 先定义，再可采纳 |
+| Military + Yangming / 兵家 + 阳明学 | High sequential / 高度串行兼容 | Plan, then refuse to ship without next action / 已规划，但不写下一动作不发货 |
+| Yangming + Hegelian / 阳明学 + 黑格尔 | Low simultaneous / 同步兼容低 | Action-form vs synthesis-not-yet-action-ready / 行动形态与"尚未行动就绪的综合"互相打架 |
 
 ## Pair Profiles / 组合画像
 
@@ -81,6 +90,38 @@ replanning instead of an enforcement loop.
 绝被斯多葛立场读作"不可控信号"，从而把动作切换为接受+重规划，而非进入
 执行循环。
 
+### Hegelian + Pragmatist / 黑格尔 + 实用主义
+
+Best when a synthesis has been reached but its consequences in the
+user's downstream context have not yet been evaluated. The Hegelian
+move closes the *coherence* question; the Pragmatist move closes the
+*usefulness* question. Together they produce a position that is both
+dialectically earned and operationally cashed out.
+
+最适合"综合已达成、但其下游后果尚未评估"时。黑格尔动作关闭"自洽性"问
+题；实用主义动作关闭"是否有用"问题。两者合用，会产出一个"既经辩证赢
+得、又在操作上兑现"的立场。
+
+### Pragmatist + Yangming / 实用主义 + 阳明学
+
+Best when the practical effects of an answer have been identified but
+the answer has not yet been turned into an adoptable next action. The
+Pragmatist names *what* it would pay off; the Yangming move names
+*how* the user could pick it up next.
+
+最适合"答案的实践效应已识别、但尚未被翻译成可采纳的下一步行动"时。实
+用主义说出"它会兑现什么"；阳明学说出"用户接下来如何把它接过去"。
+
+### Military + Yangming / 兵家 + 阳明学
+
+Best when a multi-step plan has been authored but the smallest unit of
+adoption — the *next* concrete action — has not yet been pinned down.
+Yangming is the brake that prevents shipping abstract plans dressed up
+as actionable.
+
+最适合"多步骤计划已写好、但最小可采纳单元（下一个具体动作）尚未钉住"
+时。阳明学是阻止把"装扮成可采纳的抽象计划"发出去的刹车。
+
 ## Anti-Patterns / 反模式
 
 - Do not run Daoist exploration and Legalist enforcement in the same generation
@@ -109,3 +150,26 @@ replanning instead of an enforcement loop.
   must not be a way to dodge "this term is undefined."
 - 不要用斯多葛掩盖苏格拉底应该做的事；"这部分不可控"不应被用来回避"该
   术语未定义"。
+
+- Do not stack Hegelian on top of Yangming in the same step; Hegelian
+  may produce a synthesis that is not yet action-ready, and Yangming
+  refuses to commit until it is — they will fight in one generation.
+- 不要在同一步骤里把黑格尔叠在阳明学之上；黑格尔可能产出尚未行动就绪
+  的综合，而阳明学拒绝在尚未行动就绪时承诺，两者在同一次生成中会打架。
+
+- Do not run Hegelian where one side is simply wrong. Force-fitting a
+  triadic synthesis onto an asymmetric problem is failure, not depth.
+- 在"明显有一方错"的问题上不要跑黑格尔。把三段式硬塞进非对称问题里是
+  失败模式，不是深度。
+
+- Do not use Pragmatist to launder ethical drift; "what works" must be
+  cashed out *for whom*, including parties who are not the immediate
+  user.
+- 不要用实用主义来掩盖伦理漂移；"能用"必须明确"对谁能用"，包括非直接
+  用户的相关方。
+
+- Do not use Yangming to demand action when the user actually needs more
+  reflection. Knowledge-action unity is a *standard for completed
+  knowing*, not a slogan for "just do it."
+- 当用户其实需要更多反思时，不要用阳明学催促行动。知行合一是"何为已完
+  成的'知'的标准"，不是"别想了就去做"的口号。

@@ -18,6 +18,9 @@ specify one.
 | Interrogate before answering / 作答前先质询 | vague spec, undefined terms, "what do you mean by X" / 规约模糊、术语未定义、"X 是什么意思" | `socratic` |
 | Partition controllable vs not / 划分可控边界 | tool failure, API down, ambiguous user, retry loop / 工具失败、API 不可达、用户模糊、重试循环 | `stoic` |
 | Demand falsifiability / 要求可证伪 | hypothesis, "what would refute this", high-confidence claim with no failure mode / 假设、"什么能推翻它"、高自信但无失败条件 | `falsificationist` |
+| Force counter-position and synthesis / 强制反命题与综合 | stakeholder disagreement, red-team review, "before we ship — what's the strongest objection" / 利益相关者分歧、红队评审、"发货前——最强反对意见是什么" | `hegelian` |
+| Choose by practical consequence / 按实践后果选择 | trade-off, A vs B, "which one actually pays off", MVP selection / 权衡、A vs B、"哪个真能兑现"、MVP 选型 | `pragmatist` |
+| Demand actionable form / 要求可被采纳的行动 | abstract advice, decision paralysis with sufficient info, "what should I do next" / 抽象建议、信息已足却瘫痪、"下一步该做什么" | `yangming` |
 
 ## Secondary Questions / 二级判断问题
 
@@ -66,6 +69,23 @@ Before routing, ask:
 - 如果任务呈"假设"形态，或模型一直输出高自信断言却从不说明"能怎么失
   败"，在 `legal` 定稿前先用 `falsificationist`。
 
+- If a draft is about to ship without facing its strongest counter-case,
+  or stakeholders are split with both sides holding load-bearing claims,
+  prefer `hegelian` before commitment.
+- 如果初稿即将发货却尚未直面最强反案，或各方均持承重断言而分裂时，在
+  承诺前先用 `hegelian`。
+
+- If multiple options look equally valid in theory and the user has to
+  choose, prefer `pragmatist` to make the choice by consequence.
+- 如果多个选项在理论上看似同样可行、用户必须选时，优先 `pragmatist`，
+  以"实际能兑现什么"作出选择。
+
+- If articulate-but-unadoptable advice is the dominant failure, or the
+  user with sufficient information is stuck in decision paralysis,
+  prefer `yangming` before any final delivery.
+- 如果"措辞清楚但用不起来"是主要失败模式，或信息已足的用户卡在决策瘫
+  痪，最终交付前先用 `yangming`。
+
 ## Confidence Policy / 置信度策略
 
 | Confidence / 置信度 | Router Action / 路由动作 |
@@ -100,3 +120,19 @@ Before routing, ask:
   presence of jargon.
 - 不要仅凭"看起来很科学"的表面形式就路由到 `falsificationist`；真正的信
   号是"缺少失败条件"，而不是术语堆砌。
+
+- Do not route to `hegelian` when one side is simply wrong; force-fitting
+  a triadic synthesis where it does not belong is failure mode, not virtue.
+- 当其中一方明显错误时，不要路由到 `hegelian`；在不该有三段式综合的地
+  方硬凑三段式，是失败模式，不是优点。
+
+- Do not route to `pragmatist` if the user has not given enough downstream
+  context; "cash-out" requires knowing whose practice is being cashed out.
+- 如果用户尚未提供足够的下游语境，不要路由到 `pragmatist`；"兑现"必须
+  先知道"谁的实践被兑现"。
+
+- Do not route to `yangming` when the user actually needs more reflection
+  or information; demanding action prematurely is voluntarism, not
+  knowledge-action unity.
+- 当用户其实需要更多反思或信息时，不要路由到 `yangming`；过早催促行动
+  是意志主义，不是知行合一。

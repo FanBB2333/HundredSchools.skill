@@ -18,7 +18,8 @@ Complex problems tackled without a plan?<br>
 **Stop using one mindset for every problem. Choose the right philosophy.**
 
 HundredSchools is an [Agent Skill](https://agentskills.io) that maps classical philosophical schools<br>
-— six from pre-Qin China and three from the broader Mediterranean and modern Western tradition —<br>
+— six from pre-Qin China and six later additions from the Mediterranean,<br>
+modern Western philosophy, and Ming-dynasty Neo-Confucianism —<br>
 into concrete control strategies for LLM inference, planning, generation, and validation.
 
 [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Design Reference](#design-reference) · [Test Results](#test-results)
@@ -40,13 +41,16 @@ into concrete control strategies for LLM inference, planning, generation, and va
 | Mohism (mohist) | Frugal use (jieyong), universal love | Token throttling, minimal output, performance optimization |
 | Logicism (logician) | Control names (xingming), verify facts | Formal logic validation, hallucination detection |
 
-### Mediterranean and modern Western additions (拓展三家)
+### Later additions (拓展六家)
 
 | School | Philosophy | What the Agent Does |
 |--------|-----------|---------------------|
 | Socratic (socratic) | Elenchus, maieutics, productive aporia | Pre-answer interrogation, definition extraction, calibrated humility |
 | Stoic (stoic) | Dichotomy of control, equanimity, logos | Controllable/uncontrollable partition, graceful degradation, retry-budget discipline |
 | Falsificationist (falsificationist) | Bold conjecture under severe testing, demarcation | Falsifiability check on every claim, adversarial self-test, tagging of unfalsifiable claims |
+| Hegelian (hegelian) | Dialectic, *Aufhebung*, determinate negation | Force counter-position before commit, produce non-averaging synthesis, test on concrete instances |
+| Pragmatist (pragmatist) | Pragmatic maxim, truth as cash-value, fallibilism | Cash out meaning by practical effects, attach adoptable means to ends, pre-commit to revision |
+| Yangming (yangming) | 知行合一, 致良知, 心即理 | Demand actionable form, mental walkthrough before commit, separate info-gap from willingness-gap |
 
 ## Quick Start
 
@@ -92,6 +96,9 @@ hundredschools/
     SOCRATIC-GUIDE.md                     # Socratic: pre-answer interrogation
     STOIC-GUIDE.md                        # Stoic: control-dichotomy & graceful degradation
     FALSIFICATIONIST-GUIDE.md             # Popperian: falsifiability discipline
+    HEGELIAN-GUIDE.md                     # Hegelian: dialectical synthesis
+    PRAGMATIST-GUIDE.md                   # Pragmatist: outcome-driven evaluation
+    YANGMING-GUIDE.md                     # Yangming: knowledge-action unity
   assets/
     school-router-guide.md               # Dynamic school selection guide
     pipeline-examples.md                 # Multi-school pipeline examples

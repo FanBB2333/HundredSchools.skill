@@ -21,6 +21,8 @@ specify one.
 | Force counter-position and synthesis / 强制反命题与综合 | stakeholder disagreement, red-team review, "before we ship — what's the strongest objection" / 利益相关者分歧、红队评审、"发货前——最强反对意见是什么" | `hegelian` |
 | Choose by practical consequence / 按实践后果选择 | trade-off, A vs B, "which one actually pays off", MVP selection / 权衡、A vs B、"哪个真能兑现"、MVP 选型 | `pragmatist` |
 | Demand actionable form / 要求可被采纳的行动 | abstract advice, decision paralysis with sufficient info, "what should I do next" / 抽象建议、信息已足却瘫痪、"下一步该做什么" | `yangming` |
+| Inventory cognitive bias by named category / 按命名类别清查认知偏误 | high-confidence synthesis from heterogeneous sources, "best-practice" reuse without checking premises, loaded vocabulary doing analytical work / 异质来源的高自信综合、未检验前提的"最佳实践"复用、带价值色彩词承担分析工作 | `bacon` |
+| Detect language-game shifts across domains / 检测跨领域语义换义 | the same load-bearing term doing different jobs, cross-team RFC / contract spanning domains, Socratic definition kept re-shifting / 同一承重术语在做不同工作、跨团队 RFC / 跨多领域合同、苏格拉底式定义持续再切换 | `wittgenstein` |
 
 ## Secondary Questions / 二级判断问题
 
@@ -86,6 +88,22 @@ Before routing, ask:
 - 如果"措辞清楚但用不起来"是主要失败模式，或信息已足的用户卡在决策瘫
   痪，最终交付前先用 `yangming`。
 
+- If the model is producing high-confidence synthesis on a topic likely
+  over-represented in training data, or reusing a doctrinal pattern
+  whose original premises may no longer hold, prefer `bacon` to scan
+  against the four idols before commit.
+- 如果模型在训练数据中可能过度代表的话题上产出高自信综合，或在复用一
+  个其原始前提可能已不再成立的教条式模式，承诺前先用 `bacon` 对照四偶
+  像扫描。
+
+- If a single load-bearing term is doing different jobs across the
+  prompt, or a Socratic definition attempt has failed because the term
+  keeps re-shifting, prefer `wittgenstein` before any further
+  reasoning that depends on that term.
+- 如果一个承重术语在提示词不同部分承担不同工作，或苏格拉底式定义尝试
+  因术语持续再切换而失败，在任何依赖该术语的进一步推理之前先用
+  `wittgenstein`。
+
 ## Confidence Policy / 置信度策略
 
 | Confidence / 置信度 | Router Action / 路由动作 |
@@ -136,3 +154,13 @@ Before routing, ask:
   knowledge-action unity.
 - 当用户其实需要更多反思或信息时，不要路由到 `yangming`；过早催促行动
   是意志主义，不是知行合一。
+
+- Do not route to `bacon` purely to perform humility; the four-idol pass
+  must produce a concrete edit somewhere or it has not been run.
+- 不要为了"表演谦虚"而路由到 `bacon`；四偶像扫描必须在某处产出具体修
+  改，否则它根本没被跑过。
+
+- Do not route to `wittgenstein` to dodge commitment; "it depends on the
+  game" must be followed by *which game and on what evidence*.
+- 不要把 `wittgenstein` 当作回避承诺的借口；"这要看是哪个游戏"后面必须
+  跟着"是哪个游戏，凭什么证据"。

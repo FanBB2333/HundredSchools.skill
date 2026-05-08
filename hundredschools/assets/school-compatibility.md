@@ -32,6 +32,12 @@ and which combinations should usually be avoided.
 | Socratic + Yangming / 苏格拉底 + 阳明学 | High sequential / 高度串行兼容 | Define, then make adoptable / 先定义，再可采纳 |
 | Military + Yangming / 兵家 + 阳明学 | High sequential / 高度串行兼容 | Plan, then refuse to ship without next action / 已规划，但不写下一动作不发货 |
 | Yangming + Hegelian / 阳明学 + 黑格尔 | Low simultaneous / 同步兼容低 | Action-form vs synthesis-not-yet-action-ready / 行动形态与"尚未行动就绪的综合"互相打架 |
+| Bacon + Logician / 培根 + 名家 | High sequential / 高度串行兼容 | Cognitive-source audit first, name/reality second / 先认知来源自查，再名实对应 |
+| Bacon + Falsificationist / 培根 + 证伪 | High sequential / 高度串行兼容 | Bias-revision first, falsifier-attached second / 先扫偏误并修订，再附可证伪条件 |
+| Wittgenstein + Socratic / 维特根斯坦 + 苏格拉底 | High sequential / 高度串行兼容 | Detect game-shift first, then pin definition inside the chosen game / 先检测游戏切换，再在所选游戏内钉定义 |
+| Wittgenstein + Legal / 维特根斯坦 + 法家 | High sequential / 高度串行兼容 | Settle the game, then enforce its rules as schema / 先定游戏，再把规则锁为 schema |
+| Bacon + Wittgenstein / 培根 + 维特根斯坦 | Medium / 中 | Both are meta-level — orthogonal axes (cognitive bias vs semantic use) but easy to over-stack / 两者都在元层 — 轴正交（认知偏误 vs 语义使用），但容易叠太厚 |
+| Wittgenstein + Mohist / 维特根斯坦 + 墨家 | Low simultaneous / 同步兼容低 | Game-shift annotation inflates length, compression cuts annotation / 游戏切换标注会拉长输出，压缩会把它压掉 |
 
 ## Pair Profiles / 组合画像
 
@@ -122,6 +128,34 @@ as actionable.
 最适合"多步骤计划已写好、但最小可采纳单元（下一个具体动作）尚未钉住"
 时。阳明学是阻止把"装扮成可采纳的抽象计划"发出去的刹车。
 
+### Bacon + Logician / 培根 + 名家
+
+Best when a high-confidence draft must be vetted both at the *source*
+of the claim (cognitive provenance) and at the *target* of the claim
+(name-reality fit). Bacon answers "is this contaminated by a known
+bias category?"; Logician answers "does the resulting claim pick out
+its referent?". Run sequentially; together they catch errors at
+different stages of the reasoning pipeline.
+
+最适合一个高自信初稿既需要从"断言来源"（认知来源）审查，也需要在"断
+言对象"（名实对应）上检查。培根回答"这是否被某类已知偏误污染？"；名
+家回答"得出的断言是否对应所指？"。串行运行；两者合用可在推理流水线的
+不同阶段抓到不同的错误。
+
+### Wittgenstein + Socratic / 维特根斯坦 + 苏格拉底
+
+Best when defining a key term failed because the term keeps re-shifting
+across different parts of the task. Wittgenstein detects the game-shift
+and surfaces the multiplicity; Socratic then pins one operative
+definition *inside the chosen game* rather than across all games. The
+order matters: trying Socratic first wastes effort because every
+definition will dissolve as soon as the game changes again.
+
+最适合"为关键术语下定义"失败的情境——失败是因为该术语在任务的不同部
+分持续再切换。维特根斯坦检测出游戏切换并把多义浮上来；苏格拉底再在所
+选游戏内钉一个可操作定义，而不是跨所有游戏。顺序很重要：先做苏格拉底
+是浪费——只要游戏一变，定义就溶解。
+
 ## Anti-Patterns / 反模式
 
 - Do not run Daoist exploration and Legalist enforcement in the same generation
@@ -173,3 +207,26 @@ as actionable.
   knowing*, not a slogan for "just do it."
 - 当用户其实需要更多反思时，不要用阳明学催促行动。知行合一是"何为已完
   成的'知'的标准"，不是"别想了就去做"的口号。
+
+- Do not use Bacon to add a bias-disclaimer without revising the
+  underlying answer; that is disclaimer inflation, not idol scanning.
+- 不要在不修订底层答案的前提下用培根加偏误免责声明；那是免责声明膨胀，
+  不是偶像扫描。
+
+- Do not stack Wittgenstein on top of Mohist in the same step;
+  game-shift annotation inflates length while compression strips it,
+  and the two will fight.
+- 不要在同一步骤里把维特根斯坦叠在墨家之上；游戏切换标注会拉长输出，
+  压缩会把它压掉，两者会打架。
+
+- Do not use Wittgenstein to dodge commitment; "it depends on the game"
+  must be followed by *which game and on what evidence*.
+- 不要把维特根斯坦当作回避承诺的借口；"这要看是哪个游戏"后面必须跟着
+  "是哪个游戏，凭什么证据"。
+
+- Do not stack Bacon and Wittgenstein together carelessly. Both are
+  meta-level — one audits cognitive provenance, the other audits
+  semantic use; piling them in one step buries the substantive output
+  under reflective scaffolding.
+- 不要草率地把培根与维特根斯坦叠在一起。两者都在元层——一个审查认知
+  来源，一个审查语义使用；同步堆叠会把实质输出埋在反思脚手架下面。

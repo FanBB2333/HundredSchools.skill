@@ -21,6 +21,8 @@ school best provides it.
 | Need counter-position and synthesis / 需要反命题与综合 | Hegelian / 黑格尔 | Falsificationist / 证伪 | Commitment vs averaging / 承诺与折中 |
 | Need consequence-based selection / 需要按后果选择 | Pragmatist / 实用主义 | Mohist / 墨家 | Cash-value vs theoretical neatness / 兑现价值与理论整洁 |
 | Need adoptable next action / 需要可采纳的下一步 | Yangming / 阳明学 | Military / 兵家 | Action-form vs articulation / 行动形态与措辞 |
+| Need named-category bias self-audit / 需要按命名类别的偏误自查 | Bacon / 培根 | Falsificationist / 证伪 | Cognitive provenance vs claim risk / 认知来源与断言风险 |
+| Need cross-domain meaning-shift detection / 需要跨领域语义换义检测 | Wittgenstein / 维特根斯坦 | Logician / 名家 | Use-derived meaning vs static name/reality / 使用导出义与静态名实 |
 
 ## Decision Dimensions / 决策维度
 
@@ -62,6 +64,12 @@ school best provides it.
 - Articulate-but-unadoptable advice; decision paralysis with sufficient info -> `yangming`
 - "措辞清楚但用不起来"的建议；信息已足却卡在决策瘫痪 -> `yangming`
 
+- High-confidence synthesis from heterogeneous sources; "best-practice" reuse without checking premises -> `bacon`
+- 异质来源的高自信综合；未检验前提的"最佳实践"复用 -> `bacon`
+
+- One load-bearing term doing different jobs; Socratic definition keeps re-shifting -> `wittgenstein`
+- 一个承重术语在做不同工作；苏格拉底式定义持续再切换 -> `wittgenstein`
+
 ### 2. Which trade-off matters most? / 当前最重要的权衡是什么？
 
 | Trade-off / 权衡 | Prefer / 优先 |
@@ -76,6 +84,8 @@ school best provides it.
 | Commitment vs averaging / 承诺与折中 | `hegelian` |
 | Cash-value vs theoretical neatness / 兑现价值与理论整洁 | `pragmatist` |
 | Action-form vs articulation / 行动形态与措辞 | `yangming` |
+| Cognitive provenance vs claim risk / 认知来源与断言风险 | `bacon` |
+| Use-derived meaning vs static name/reality / 使用导出义与静态名实 | `wittgenstein` |
 
 ## Recommended Pipelines / 推荐流水线
 
@@ -131,6 +141,25 @@ school best provides it.
   one concrete next action is authored.
 - `military -> yangming`：已有计划，但在至少写出一个"下一个具体动作"
   之前不发货。
+
+- `bacon -> logician`: scan against the four idols and revise the
+  substantive answer, then check name/reality.
+- `bacon -> logician`：先按四偶像清单扫描并修订实质答案，再检查名实对应。
+
+- `bacon -> falsificationist`: clear bias contamination first, then
+  attach a concrete falsifying observation to the revised claim.
+- `bacon -> falsificationist`：先扫除偏误污染，再为修订后的断言附上具体
+  可证伪观察。
+
+- `wittgenstein -> socratic`: detect the game-shift, then pin one
+  operative definition inside the chosen game.
+- `wittgenstein -> socratic`：先检测出游戏切换，再在所选游戏内钉一个可
+  操作定义。
+
+- `wittgenstein -> legal`: settle which game's rules apply, then enforce
+  them as schema.
+- `wittgenstein -> legal`：先定下"该按哪个游戏的规则"，再把规则锁入结
+  构契约。
 
 ## Anti-Patterns / 反模式
 

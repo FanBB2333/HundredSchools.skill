@@ -224,6 +224,73 @@ move.
 - `yangming`：在至少钉住一个"下一个具体动作"之前不发货；显式区分剩余
   缺口为"信息缺口"与"操作 / 社交缺口"。
 
+## Example 12 / 示例十二
+
+### `bacon -> logician`
+
+**Use when / 适用场景**: A high-confidence synthesis must be vetted at
+both the *source* of the claim (cognitive provenance) and the *target*
+(name-reality fit) before commit.
+
+**适用场景**：高自信综合必须在"断言来源"（认知来源）与"断言对象"（名实
+对应）两端都被审查后才能承诺。
+
+- `bacon`: run the four-idol pass; on hit, name the load-bearing idol
+  and revise the substantive answer (not just disclaim).
+- `bacon`：跑一遍四偶像扫描；命中时明确指出承重偶像并修订实质答案
+  （而不是仅挂免责声明）。
+
+- `logician`: with the bias-revised draft in hand, check that names
+  pick out their referents and that no category slippage remains.
+- `logician`：基于已扫除偏误的初稿，检查名是否对应所指、是否仍有任何
+  范畴滑移。
+
+## Example 13 / 示例十三
+
+### `wittgenstein -> socratic`
+
+**Use when / 适用场景**: A Socratic definition attempt failed because
+the term keeps re-shifting across parts of the task; a single
+definition will not stick until the game-shift is surfaced first.
+
+**适用场景**：苏格拉底式定义尝试因术语持续再切换而失败；不先把游戏切
+换浮上来，单一定义就钉不住。
+
+- `wittgenstein`: identify load-bearing terms; for each, name the
+  language game it plays in this exchange; mark every domain or
+  context boundary where the term shifts game.
+- `wittgenstein`：识别承重术语；为每一个命名其在本次对话中所玩的语言
+  游戏；在每个领域或语境边界标注切换。
+
+- `socratic`: inside the chosen game, run a round of definitional and
+  boundary-case questions; pin one operative definition *for that
+  game*.
+- `socratic`：在所选游戏内进行一轮"定义 + 边界用例"追问；为**该游戏**
+  钉一个可操作定义。
+
+## Example 14 / 示例十四
+
+### `dao -> bacon -> falsificationist`
+
+**Use when / 适用场景**: An open-ended exploration on a topic likely
+over-represented in training data; the synthesis must clear both the
+cognitive-bias filter and the empirical-risk filter before commit.
+
+**适用场景**：在训练数据中可能过度代表的话题上的开放探索；综合必须先
+通过认知偏误过滤，再通过经验风险过滤，才能承诺。
+
+- `dao`: keep multiple framings live without committing.
+- `dao`：保留多个框架同时存活而不立即落点。
+
+- `bacon`: scan candidate framings against the four idols; on hit,
+  drop or revise the contaminated framing.
+- `bacon`：对照四偶像扫描候选框架；命中时丢弃或修订被污染的框架。
+
+- `falsificationist`: for the surviving framing, attach a concrete
+  falsifying observation; apply at least one severe self-test.
+- `falsificationist`：为暂存的框架附上具体的可证伪观察；至少进行一次
+  严苛自检。
+
 ## Design Rule / 设计规则
 
 Every handoff should answer one question: what can the next school do that the

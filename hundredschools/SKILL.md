@@ -9,30 +9,35 @@ description: >-
   pre-answer interrogation (socratic), control-dichotomy and graceful
   degradation (stoic), risky-prediction with falsifiability discipline
   (falsificationist), adversarial counter-position and synthesis (hegelian),
-  outcome-driven evaluation by practical consequence (pragmatist), or
-  knowledge-action unity that demands actionable form (yangming).
+  outcome-driven evaluation by practical consequence (pragmatist),
+  knowledge-action unity that demands actionable form (yangming),
+  named-category cognitive bias inventory (bacon), or
+  language-game-aware semantic-shift detection (wittgenstein).
 license: MIT
 metadata:
   author: FanBB2333
-  version: "0.3.0"
+  version: "0.4.0"
 ---
 
 # HundredSchools / 诸子百家控制框架
 
 HundredSchools maps classical philosophical schools — six from pre-Qin
-China and six later additions from the Mediterranean tradition, modern
-Western philosophy, and Ming-dynasty Neo-Confucianism — into distinct LLM
-control stances. Each school changes what the model optimizes for:
-exploration, audience-fit, rule enforcement, planning, utility, semantic
-discipline, pre-answer interrogation, control-dichotomy under failure,
-falsifiability of generated claims, dialectical synthesis, outcome-driven
-evaluation, or knowledge-action unity.
+China and eight later additions spanning early-modern empiricism, the
+Mediterranean tradition, modern Western philosophy, and Ming-dynasty
+Neo-Confucianism — into distinct LLM control stances. Each school
+changes what the model optimizes for: exploration, audience-fit, rule
+enforcement, planning, utility, semantic discipline, pre-answer
+interrogation, control-dichotomy under failure, falsifiability of
+generated claims, dialectical synthesis, outcome-driven evaluation,
+knowledge-action unity, named-category cognitive bias inventory, or
+language-game-aware semantic-shift detection.
 
 HundredSchools 将经典哲学流派映射为不同的 LLM 控制立场——六家来自先秦中
-国，另外六家是后续拓展（地中海传统、近代西方哲学，以及明代新儒学）。每
-一家改变的，不只是模型”说话的感觉”，而是它真正优先优化的对象：探索、受
-众适配、规则执行、规划、功用、语义纪律、作答前的反诘、失败下的可控划
-分、所生成断言的可证伪性、辩证综合、后果导向的评估，或知行合一。
+国，另外八家是后续拓展（早期近代经验主义、地中海传统、近代西方哲学，
+以及明代新儒学）。每一家改变的，不只是模型”说话的感觉”，而是它真正优先
+优化的对象：探索、受众适配、规则执行、规划、功用、语义纪律、作答前的反
+诘、失败下的可控划分、所生成断言的可证伪性、辩证综合、后果导向的评估、
+知行合一、按命名类别的认知偏误清单，或语言游戏觉知下的语义换义检测。
 
 ## Overview / 总览
 
@@ -44,9 +49,9 @@ they should be governed by different philosophical control surfaces.
 来承载。不同任务会以不同方式失效，因此它们也应由不同的哲学控制面来治理。
 
 The schools are not costumes. They are distinct modes of constraint,
-emphasis, and validation. The six pre-Qin schools form the original core;
-the six later additions cover control surfaces the original six did not
-name explicitly:
+emphasis, and validation. The six pre-Qin schools form the original
+core; the eight later additions cover control surfaces the original six
+did not name explicitly:
 
 - **Socratic** — pre-answer interrogation;
 - **Stoic** — graceful degradation under uncontrollable failure;
@@ -54,17 +59,21 @@ name explicitly:
 - **Hegelian** — adversarial counter-position generation and *Aufhebung*
   synthesis;
 - **Pragmatist** — outcome-driven evaluation by practical consequence;
-- **Yangming** — knowledge-action unity that demands actionable form.
+- **Yangming** — knowledge-action unity that demands actionable form;
+- **Bacon** — named-category cognitive bias inventory before commit;
+- **Wittgenstein** — language-game-aware semantic-shift detection.
 
 各家学派并非”人格扮演”，而是不同的约束方式、强调重点与验证机制。先秦六
-家构成原始核心；后续加入的六家覆盖原六家未显式命名的控制面：
+家构成原始核心；后续加入的八家覆盖原六家未显式命名的控制面：
 
 - **苏格拉底** — 作答前的反诘；
 - **斯多葛** — 不可控失败下的优雅降级；
 - **证伪学派** — 所生成断言的可证伪性纪律；
 - **黑格尔学派** — 对抗式反命题生成与扬弃式综合；
 - **实用主义学派** — 以实践后果为标准的后果导向评估；
-- **阳明学** — 要求”可被采纳的行动形态”的知行合一。
+- **阳明学** — 要求”可被采纳的行动形态”的知行合一；
+- **培根** — 提交前按命名类别的认知偏误清单自查；
+- **维特根斯坦** — 语言游戏觉知下的语义换义检测。
 
 ## CLI Interface / 命令行接口
 
@@ -97,6 +106,8 @@ Later additions / 后续拓展：
 - `hegelian` — modern continental / 近代欧陆
 - `pragmatist` — modern American / 近代美国
 - `yangming` — Ming-dynasty Neo-Confucianism / 明代新儒学
+- `bacon` — early-modern empiricism / 早期近代经验主义
+- `wittgenstein` — 20th-century philosophy of language / 二十世纪语言哲学
 
 Additional flags:
 
@@ -140,6 +151,17 @@ Additional flags:
 - `--require-next-action`：要求阳明学的每个输出都以"用户在当前会话内可
   尝试的一个具体下一步"作结。
 
+- `--idol-scan`: run the Bacon four-idol pass before commit; on hit, the
+  substantive answer must be revised, not merely disclaimed.
+- `--idol-scan`：提交前运行培根四偶像扫描；命中时必须修订实质答案，不
+  允许仅挂免责声明。
+
+- `--game-shift-tag`: require Wittgenstein-mode output to mark, at every
+  domain or context boundary, whether each load-bearing term has shifted
+  language game.
+- `--game-shift-tag`：要求维特根斯坦模式的输出在每个领域或语境边界标注
+  每个承重术语是否切换了语言游戏。
+
 ## Dynamic Router / 动态路由
 
 When `--school` is omitted, the router should choose the school that best fits
@@ -159,13 +181,14 @@ Supporting references:
 ## The Schools / 学派总览
 
 The pre-Qin core (`dao`, `confucian`, `legal`, `military`, `mohist`,
-`logician`) is documented first, followed by the six later additions
+`logician`) is documented first, followed by the eight later additions
 (`socratic`, `stoic`, `falsificationist`, `hegelian`, `pragmatist`,
-`yangming`).
+`yangming`, `bacon`, `wittgenstein`).
 
 先列先秦核心六家（`dao`、`confucian`、`legal`、`military`、`mohist`、
-`logician`），随后列出六家拓展（`socratic`、`stoic`、
-`falsificationist`、`hegelian`、`pragmatist`、`yangming`）。
+`logician`），随后列出八家拓展（`socratic`、`stoic`、
+`falsificationist`、`hegelian`、`pragmatist`、`yangming`、`bacon`、
+`wittgenstein`）。
 
 ## Pre-Qin Core / 先秦核心六家
 
@@ -366,7 +389,7 @@ semantic debugging, hallucination control.
 
 **过用风险**：过度较真与吞吐崩塌。
 
-## Later Additions / 后续拓展六家
+## Later Additions / 后续拓展八家
 
 ### Socratic School (socratic) / 苏格拉底学派
 
@@ -610,6 +633,97 @@ pseudo-actionable output.
 
 **过用风险**：反智化与伪可行清单。
 
+### Bacon's Idols (bacon) / 培根四偶像
+
+**Visible title / 显示名称**: Bacon's Idols Guide / 培根四偶像指南
+
+**Philosophical Core / 哲学核心**: named-category bias inventory —
+Idola tribus / specus / fori / theatri (Tribe / Cave / Marketplace /
+Theater).
+
+**哲学核心**：按命名类别的偏误清单——部族 / 洞穴 / 市场 / 剧场偶像。
+
+**Control Stance / 控制立场**: before commit, scan the draft against
+each of the four named idols; on hit, revise the substantive answer
+rather than merely add a disclaimer.
+
+**控制立场**：提交前对照四类有名称的偶像逐项扫描初稿；命中时修订实
+质答案，而不是仅仅加挂免责声明。
+
+**Use Cases / 适用场景**: high-confidence synthesis from heterogeneous
+sources, recommendations on training-data-overrepresented topics,
+loaded-vocabulary-laden drafts, reuse of "best practice" frameworks
+without checking original premises.
+
+**适用场景**：来自异质来源的高自信综合、对训练数据中过度代表话题的建
+议、含带价值色彩词的初稿、复用"最佳实践"框架却未检验其原始前提。
+
+**Execution Logic / 执行逻辑**:
+1. Run the four-idol pass: tribe (species-level priors), cave
+   (training-data idiosyncrasy), marketplace (loaded vocabulary),
+   theater (paradigm import).
+2. Name the load-bearing idol if one is operating; do not stack
+   diagnoses where one suffices.
+3. Make a concrete edit; if no edit is made, the scan has not run.
+
+**执行逻辑**：
+1. 跑一遍四偶像扫描：部族（物种级先验）、洞穴（训练数据特异性）、市
+   场（带价值色彩词）、剧场（范式输入）。
+2. 若有一类承重，明确指出来；不要在只需一类时挂三四类。
+3. 必须产出一处具体修改；不修改即等于没扫描。
+
+**Overuse Failure Mode / 过用风险**: pseudo-vigilance and disclaimer
+inflation.
+
+**过用风险**：伪警惕与免责声明膨胀。
+
+### Wittgenstein School (wittgenstein) / 维特根斯坦学派
+
+**Visible title / 显示名称**: Wittgenstein School Guide / 维特根斯坦
+学派指南
+
+**Philosophical Core / 哲学核心**: language-game (*Sprachspiel*),
+meaning-as-use, family resemblance, no private language.
+
+**哲学核心**：语言游戏 (*Sprachspiel*)、意义即使用、家族相似、无私人
+语言。
+
+**Control Stance / 控制立场**: track the operative meaning of each
+load-bearing term as the task moves between domains; mark game-shifts
+explicitly so a conclusion drawn in one game is not silently exported
+into another.
+
+**控制立场**：当任务在不同领域间移动时，追踪每个承重术语的操作性意
+义；显式标注游戏切换，避免在一个游戏中得到的结论被沉默地搬到另一个
+游戏中。
+
+**Use Cases / 适用场景**: cross-team RFCs, contracts spanning multiple
+domains, glossary-building, debugging vague specs where one term is
+doing too many jobs, "best practice" advice imported across domains
+without translation.
+
+**适用场景**：跨团队 RFC、跨多领域的合同、术语表搭建、调试"一个术语
+承担太多职务"的模糊规约、把"最佳实践"未经翻译就跨领域搬运的建议。
+
+**Execution Logic / 执行逻辑**:
+1. Identify load-bearing terms; for each, name the language game it
+   plays in this exchange.
+2. At every domain or context boundary, mark whether the term has
+   shifted game.
+3. When a concept genuinely has family resemblance, allow the
+   multiplicity rather than forcing a single essential definition.
+
+**执行逻辑**：
+1. 识别承重术语；为每一个命名其在本次对话中所玩的语言游戏。
+2. 在每个领域或语境边界，标注该术语是否切换了游戏。
+3. 当某概念真正具有家族相似性时，允许保留多义性，而非强求单一本质定
+   义。
+
+**Overuse Failure Mode / 过用风险**: excessive disambiguation and
+game-relativism dodge.
+
+**过用风险**：过度区分与游戏相对主义式回避。
+
 ## Multi-School Pipelines / 多学派流水线
 
 Complex tasks often benefit from sequencing schools instead of forcing one
@@ -640,6 +754,12 @@ Typical patterns:
     concrete action a real person could take.
 12. `military -> yangming`: have a plan, but refuse to ship it until at
     least one concrete next action has been authored.
+13. `bacon -> logician`: scan against the four idols, revise, then
+    check name/reality.
+14. `wittgenstein -> socratic`: detect a game-shift, then pin one
+    operative definition inside the chosen game.
+15. `wittgenstein -> legal`: settle which game's rules apply, then
+    enforce them as schema.
 
 1. `dao -> military`：先探索，再承诺。
 2. `military -> legal`：先规划，再执行。
@@ -659,6 +779,11 @@ Typical patterns:
     个具体动作"。
 12. `military -> yangming`：已有计划，但在至少写出一个"下一个具体动作"
     之前不发货。
+13. `bacon -> logician`：先按四偶像清单扫描并修订，再检查名实对应。
+14. `wittgenstein -> socratic`：先检测出游戏切换，再在所选游戏内钉一个
+    可操作定义。
+15. `wittgenstein -> legal`：先定下"该按哪个游戏的规则"，再把规则锁入
+    结构契约。
 
 ## Execution Rules / 执行规则
 
@@ -759,3 +884,26 @@ user with sufficient information is stuck in decision paralysis.
 
 适用于产出了”措辞清楚但用不起来”的建议时，或用户已具备足够信息却卡在决
 策瘫痪时。
+
+### Example 10 / 示例十
+
+`/skill invoke HundredSchools --school bacon --idol-scan full`
+
+Use when the model is producing high-confidence synthesis from
+heterogeneous sources, or reusing a “best practice” framework whose
+original premises may no longer hold in the user's context.
+
+适用于模型在异质来源上产出高自信综合时，或在复用”最佳实践”框架而其原
+始前提在用户上下文中可能已不再成立时。
+
+### Example 11 / 示例十一
+
+`/skill invoke HundredSchools --school wittgenstein --game-shift-tag`
+
+Use when a single load-bearing term is doing different jobs across the
+prompt, or when an RFC, contract, or specification spans multiple
+domains and a Socratic definition attempt has failed because the term
+keeps re-shifting.
+
+适用于一个承重术语在提示词不同部分承担不同工作时，或一份 RFC、合同、
+规约横跨多个领域、且苏格拉底式定义尝试因术语持续再切换而失败时。

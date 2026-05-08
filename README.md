@@ -18,8 +18,9 @@ Complex problems tackled without a plan?<br>
 **Stop using one mindset for every problem. Choose the right philosophy.**
 
 HundredSchools is an [Agent Skill](https://agentskills.io) that maps classical philosophical schools<br>
-— six from pre-Qin China and six later additions from the Mediterranean,<br>
-modern Western philosophy, and Ming-dynasty Neo-Confucianism —<br>
+— six from pre-Qin China and eight later additions spanning early-modern empiricism,<br>
+the Mediterranean tradition, modern Western philosophy, 20th-century philosophy of language,<br>
+and Ming-dynasty Neo-Confucianism —<br>
 into concrete control strategies for LLM inference, planning, generation, and validation.
 
 [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Design Reference](#design-reference) · [Test Results](#test-results)
@@ -41,7 +42,7 @@ into concrete control strategies for LLM inference, planning, generation, and va
 | Mohism (mohist) | Frugal use (jieyong), universal love | Token throttling, minimal output, performance optimization |
 | Logicism (logician) | Control names (xingming), verify facts | Formal logic validation, hallucination detection |
 
-### Later additions (拓展六家)
+### Later additions (拓展八家)
 
 | School | Philosophy | What the Agent Does |
 |--------|-----------|---------------------|
@@ -51,6 +52,8 @@ into concrete control strategies for LLM inference, planning, generation, and va
 | Hegelian (hegelian) | Dialectic, *Aufhebung*, determinate negation | Force counter-position before commit, produce non-averaging synthesis, test on concrete instances |
 | Pragmatist (pragmatist) | Pragmatic maxim, truth as cash-value, fallibilism | Cash out meaning by practical effects, attach adoptable means to ends, pre-commit to revision |
 | Yangming (yangming) | 知行合一, 致良知, 心即理 | Demand actionable form, mental walkthrough before commit, separate info-gap from willingness-gap |
+| Bacon's Idols (bacon) | Idola tribus / specus / fori / theatri | Pre-commit four-idol pass, named-category bias inventory, mandatory substantive revision on hit |
+| Wittgenstein (wittgenstein) | *Sprachspiel*, meaning-as-use, family resemblance | Track operative meaning across domains, tag game-shifts, allow family-resemblance multiplicity |
 
 ## Quick Start
 
@@ -99,6 +102,8 @@ hundredschools/
     HEGELIAN-GUIDE.md                     # Hegelian: dialectical synthesis
     PRAGMATIST-GUIDE.md                   # Pragmatist: outcome-driven evaluation
     YANGMING-GUIDE.md                     # Yangming: knowledge-action unity
+    BACON-GUIDE.md                        # Bacon: named-category bias inventory
+    WITTGENSTEIN-GUIDE.md                 # Wittgenstein: language-game shift detection
   assets/
     school-router-guide.md               # Dynamic school selection guide
     pipeline-examples.md                 # Multi-school pipeline examples

@@ -1,9 +1,11 @@
 export type SchoolId =
   // Pre-Qin core
   | 'mohist' | 'military' | 'logician' | 'confucian' | 'dao' | 'legal'
-  // Later additions (Mediterranean, modern Western, Ming Neo-Confucian)
+  // Later additions (early-modern empiricism, Mediterranean,
+  // modern Western, 20th-c philosophy of language, Ming Neo-Confucian)
   | 'socratic' | 'stoic' | 'falsificationist'
   | 'hegelian' | 'pragmatist' | 'yangming'
+  | 'bacon' | 'wittgenstein'
 
 export type SchoolOrigin = 'pre-qin' | 'extended'
 
@@ -52,6 +54,8 @@ export const schoolColors: Record<SchoolId, string> = {
   hegelian: '#7B9AA0',         // muted teal-blue
   pragmatist: '#B89A82',       // muted tan
   yangming: '#C4B488',         // muted gold
+  bacon: '#A8907B',            // muted clay/brick
+  wittgenstein: '#908FB5',     // muted lavender
 }
 
 export const schools: SchoolInfo[] = [
@@ -209,6 +213,32 @@ export const schools: SchoolInfo[] = [
     avgChange: '—',
     color: '#C4B488',
     dotClass: 'yangming',
+    origin: 'extended',
+  },
+  {
+    id: 'bacon',
+    nameEn: "Bacon's Idols",
+    nameZh: '培根四偶像',
+    principle: 'four idols of the mind',
+    principleZh: '四偶像',
+    philosophyEn: 'Before commit, scans the draft against four named bias categories — Idols of the Tribe (species-level priors), Cave (training-data idiosyncrasy), Marketplace (loaded vocabulary), Theater (paradigm import). On hit, the substantive answer must be revised, not merely disclaimed.',
+    philosophyZh: '提交前对照四类有名称的偏误清单扫描初稿——部族偶像（物种级先验）、洞穴偶像（训练数据特异性）、市场偶像（带价值色彩词）、剧场偶像（范式输入）。命中时必须修订实质答案，不允许仅挂免责声明。',
+    avgChange: '—',
+    color: '#A8907B',
+    dotClass: 'bacon',
+    origin: 'extended',
+  },
+  {
+    id: 'wittgenstein',
+    nameEn: 'Wittgenstein',
+    nameZh: '维特根斯坦学派',
+    principle: 'Sprachspiel (language-game)',
+    principleZh: '语言游戏',
+    philosophyEn: 'Tracks the operative meaning of each load-bearing term as the task moves between domains. Marks game-shifts explicitly so a conclusion drawn in one game is not silently exported into another. Allows family-resemblance concepts to keep multiple uses rather than forcing a single essential definition.',
+    philosophyZh: '当任务在不同领域间移动时，追踪每个承重术语的操作性意义。显式标注游戏切换，避免在一个游戏中得到的结论被沉默地搬到另一个游戏中。允许家族相似型概念保留多义，而非强求单一本质定义。',
+    avgChange: '—',
+    color: '#908FB5',
+    dotClass: 'wittgenstein',
     origin: 'extended',
   },
 ]

@@ -38,6 +38,8 @@ const signatureData = [
   { school: 'hegelian' as SchoolId, questionEn: "What's the strongest case against this?", questionZh: '反对这个的最强论据是什么？' },
   { school: 'pragmatist' as SchoolId, questionEn: 'What concrete difference would this actually make?', questionZh: '这在实际上会产生什么具体差异？' },
   { school: 'yangming' as SchoolId, questionEn: 'What is the next concrete action a person could take?', questionZh: '一个真人接下来能做的具体动作是什么？' },
+  { school: 'bacon' as SchoolId, questionEn: 'Which named bias category could be contaminating this?', questionZh: '哪一类有名字的偏误可能正在污染这里？' },
+  { school: 'wittgenstein' as SchoolId, questionEn: 'Is this term doing the same work everywhere it appears?', questionZh: '这个词在出现的每个位置是不是在做同一件事？' },
 ]
 
 export function Overview() {

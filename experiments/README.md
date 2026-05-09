@@ -3,6 +3,11 @@
 Scientific layer for the technical-report deliverable described in
 [../docs/tech-report-plan.md](../docs/tech-report-plan.md).
 
+> **Working punch-list**: see [TODO.md](TODO.md) for the per-week
+> checklist (pre-GPU work, pilot, lock-down, full sweep, writing,
+> release). Update as you go; tie any post-lock-down decision to a row
+> in the §Decision log.
+
 This directory provides everything the existing
 `docs/samples/benchmarks/` runner does **not** provide:
 

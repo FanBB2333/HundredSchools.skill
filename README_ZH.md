@@ -119,6 +119,11 @@ docs/
 web/                                     # React + Vite 交互式前端
 ```
 
+## 项目路线图与文档索引
+
+[ROADMAP.md](ROADMAP.md) 是仓库内所有计划 / TODO / runbook 的**单一
+入口**——按读者 / 任务索引 8 份文档，并显示当前执行 checkpoint。
+
 ## 设计参考
 
 完整架构和设计规范见 [spec.md](spec.md)。

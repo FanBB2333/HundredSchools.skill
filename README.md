@@ -120,6 +120,12 @@ docs/
 web/                                     # React + Vite interactive frontend
 ```
 
+## Project Roadmap & Document Index
+
+See [ROADMAP.md](ROADMAP.md) for a single entry point to every plan,
+TODO, and runbook (8 documents indexed by reader / task) and the
+current execution checkpoint.
+
 ## Design Reference
 
 See [spec.md](spec.md) for the complete architecture and design specification.

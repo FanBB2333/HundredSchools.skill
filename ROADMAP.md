@@ -14,6 +14,8 @@
 | Understand the **tech-report deliverable** (RQs, hypotheses, 12-week timeline, risks) | [docs/tech-report-plan.md](docs/tech-report-plan.md) |
 | Pick up **today's actionable work** (checkboxes, decision checkpoints) | [experiments/TODO.md](experiments/TODO.md) |
 | Run a **benchmark on your hardware** | [experiments/README.md](experiments/README.md) |
+| See **what experiments are still pending** to close the data gap (extended schools, 27B full coverage, routing) | [experiments/gap-filling-plan.md](experiments/gap-filling-plan.md) |
+| See **already-derivable findings** from the current 6-school sweep | [docs/school-effects-report.md](docs/school-effects-report.md) |
 | Understand the **14 schools** (what each one does, why it's distinct) | [hundredschools/SKILL.md](hundredschools/SKILL.md) + per-school guides under `hundredschools/references/` |
 | Lock down a **pre-registration** before running large models | [experiments/pre-registration.md](experiments/pre-registration.md) |
 | Configure **A6000 / vLLM** runs operationally | [docs/scale-curve-experiment-plan.md](docs/scale-curve-experiment-plan.md), [docs/a6000-runbook.md](docs/a6000-runbook.md) |
@@ -37,12 +39,19 @@ If you only have **30 minutes**: add [docs/tech-report-plan.md](docs/tech-report
 - Pre-registration template ready (placeholders to fill before lock-down)
 - Pilot + full-sweep shell scripts with checkpoint/resume
 - Analysis driver writes 4 CSVs + hypothesis sketch
+- **Partial sweep**: 6 Pre-Qin schools × 4 Qwen sizes (0.8B/2B/4B/9B) × 6 benchmarks + 27B & Gemma on GSM8K + IFEval (224 cells in `summary.json`)
+- **School-effects report** based on the partial sweep ([docs/school-effects-report.md](docs/school-effects-report.md)) + 5 figures + tidy CSVs
+- Front-end Benchmarks tab now visualises the full 6 × 6 grid (heat-table + per-school radar + scaling curves)
 
 **Not yet done** (everything that needs GPU or external decisions)
 - Pilot run (`bash experiments/scripts/run_pilot.sh`)
 - Pre-registration lock-down (date / commit hash / OSF ID)
-- Full sweep (5 Qwen 3.5 sizes × 6–8 benchmarks × 19 conditions)
-- Cross-family sanity (Gemma / Llama)
+- **Gap-filling sweep** ([experiments/gap-filling-plan.md](experiments/gap-filling-plan.md)):
+  - Batch A — 8 extended schools + `cot` on Qwen 0.8B–9B × all 6 benchmarks
+  - Batch B — 27B & Gemma on the 4 missing benchmarks (MMLU/BBH/TQA/HumanEval), all 17 conditions
+  - Batch C — `random_school` + `router_auto` across all (preset, benchmark)
+  - Batch D — router rules in `docs/samples/benchmarks/router.py`
+- Cross-family sanity (Gemma / Llama beyond what's already covered)
 - Significance notebook (paired t-test + Bonferroni + Cohen's d)
 - Preprint draft
 

@@ -1,7 +1,17 @@
 # HundredSchools 学派效果分析报告
 
+> ⚠️ **数据缺口说明（2026-05-12 更新）**：本文件 §二之后引用的 **14 学派表格**
+> 在当前 `results/summary.json` 里 **没有对应数据**——`summary.json` 仅含 6 个先秦
+> 学派 × {0.8B/2B/4B/9B 全 benchmark + 27B/Gemma 仅 GSM8K/IFEval} = 224 行。
+> 14 学派的表格是计划值 / 旧 A6000 runbook 残留，**尚未跑出实证结果**。
+>
+> - 真实数据基础上的分析见 [../../school-effects-report.md](../../school-effects-report.md)
+> - 补齐这部分实证所需的实验见 [../../../experiments/gap-filling-plan.md](../../../experiments/gap-filling-plan.md)
+> - 跑完后请回写 §一/§二的表格并删除本横幅
+
 **分析日期**: 2026-05-11  
-**数据来源**: `results/full/` 全量评测数据 (5 模型 × 18 条件 × 6 评测集 = 2,105,460 条记录)
+**数据来源（声明）**: `results/full/` 全量评测数据 (5 模型 × 18 条件 × 6 评测集 = 2,105,460 条记录)  
+**数据来源（实际）**: `results/summary.json` 224 行，仅覆盖 8 conditions × 6 presets，详见上方横幅。
 
 ## 一、实验设计回顾
 

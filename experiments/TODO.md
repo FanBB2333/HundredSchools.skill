@@ -1,7 +1,11 @@
 # HundredSchools Tech-Report — Living TODO
 
 > **Status as of last commit**: full infrastructure layer is in place;
-> only result generation (vLLM + GPU) and downstream analysis remain.
+> the **Pre-Qin partial sweep is done** (6 schools × 4 Qwen sizes × 6
+> benchmarks + 27B/Gemma on GSM8K + IFEval); **8 extended schools and
+> 4 missing benchmarks on 27B/Gemma are pending**. See
+> [./gap-filling-plan.md](./gap-filling-plan.md) for the exact batches,
+> commands, and cost.
 >
 > This file is the working punch-list distilled from
 > [../docs/tech-report-plan.md](../docs/tech-report-plan.md) §10 (timeline)
@@ -112,23 +116,53 @@ These can be picked up by anyone, in any order, before locking down.
 
 ## 4. Full sweep (Week 5–7)
 
-- [ ] **Spin up endpoints** for the full Qwen 3.5 ladder (0.8b → 27b)
-- [ ] **Run full sweep**
+**Coverage of `docs/samples/benchmarks/results/summary.json` as of last commit**:
+
+| Preset \ Bench | MMLU | BBH | GSM8K | TQA | IFEval | HumanEval |
+|---|---|---|---|---|---|---|
+| qwen3.5-0.8b-it | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c |
+| qwen3.5-2b-it   | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c |
+| qwen3.5-4b-it   | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c |
+| qwen3.5-9b-it   | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c | ✅ 8c |
+| qwen3.5-27b-it  | ❌    | ❌    | ✅ 8c | ❌    | ✅ 8c | ❌        |
+| gemma4-e2b-it   | ❌    | ❌    | ✅ 8c | ❌    | ✅ 8c | ❌        |
+
+> "8c" = covered with 8 conditions only (baseline + neutral_long + 6 Pre-Qin). The 8 extended schools, `cot`, `random_school`, and `router_auto` are missing from every cell. Full plan: [./gap-filling-plan.md](./gap-filling-plan.md).
+
+- [x] **Spin up endpoints** for the full Qwen 3.5 ladder (0.8b → 9b)
+- [x] **Run partial sweep** — 8 conditions × 6 benchmarks × 0.8B/2B/4B/9B + GSM8K/IFEval on 27B & Gemma
+- [ ] **Batch A — extended 8 schools + `cot` on 0.8B–9B grid** (gap-filling-plan §2.A)
   ```bash
-  bash experiments/scripts/run_all.sh
+  PRESETS="qwen3.5-0.8b-it qwen3.5-2b-it qwen3.5-4b-it qwen3.5-9b-it" \
+  CONDITIONS="cot socratic stoic falsificationist hegelian pragmatist yangming bacon wittgenstein" \
+  LIMIT=0 bash experiments/scripts/run_all.sh
   ```
-  Default: 5 presets × 19 conditions × 6 benchmarks (8 once XSum +
-  planning + creative loaders land) × 200 samples
+- [ ] **Batch B — 27B & Gemma on missing benchmarks** (gap-filling-plan §2.B)
+  ```bash
+  PRESETS="qwen3.5-27b-it gemma4-e2b-it" \
+  BENCHMARKS="mmlu bbh truthfulqa humaneval" \
+  CONDITIONS="baseline neutral_long cot dao confucian legal military mohist logician socratic stoic falsificationist hegelian pragmatist yangming bacon wittgenstein" \
+  LIMIT=0 bash experiments/scripts/run_all.sh
+  ```
+- [ ] **Batch D — router rules** (no GPU; precondition for `router_auto`)
+  - Populate `docs/samples/benchmarks/router.py::pick_school` from the
+    school-effects findings (see [../docs/school-effects-report.md](../docs/school-effects-report.md))
+- [ ] **Batch C — `random_school` + `router_auto`** (gap-filling-plan §2.C)
+  ```bash
+  CONDITIONS="random_school router_auto" \
+  LIMIT=0 bash experiments/scripts/run_all.sh
+  ```
 - [ ] **Cross-family sanity** (Week 8)
   ```bash
   PRESETS="gemma4-e2b-it" \
-  CONDITIONS="baseline neutral_long $(printf '%s ' dao confucian legal military mohist logician)" \
   BENCHMARKS="gsm8k ifeval mmlu humaneval" \
   bash experiments/scripts/run_all.sh
   ```
 - [ ] **Decision checkpoint (Week 7)**
-  - If full sweep < 80% complete → switch to 4-week MVP scope
+  - If Batch A < 80 % complete → switch to 4-week MVP scope
     (drop RQ4, drop cross-family, drop 27b)
+  - If Batch B 27B inference can't sustain throughput → prioritise BBH +
+    MMLU on 27B (scaling-curve completeness) and defer TQA + HumanEval
 
 ---
 

@@ -14,64 +14,62 @@
 | Understand the **tech-report deliverable** (RQs, hypotheses, 12-week timeline, risks) | [docs/tech-report-plan.md](docs/tech-report-plan.md) |
 | Pick up **today's actionable work** (checkboxes, decision checkpoints) | [experiments/TODO.md](experiments/TODO.md) |
 | Run a **benchmark on your hardware** | [experiments/README.md](experiments/README.md) |
-| See **what experiments are still pending** to close the data gap (extended schools, 27B full coverage, routing) | [experiments/gap-filling-plan.md](experiments/gap-filling-plan.md) |
-| See **already-derivable findings** from the current 6-school sweep | [docs/school-effects-report.md](docs/school-effects-report.md) |
+| See **complete experiment results and analysis** | [docs/samples/benchmarks/ANALYSIS.md](docs/samples/benchmarks/ANALYSIS.md) |
+| See **experiment progress and system details** | [docs/samples/benchmarks/PROGRESS.md](docs/samples/benchmarks/PROGRESS.md) |
 | Understand the **14 schools** (what each one does, why it's distinct) | [hundredschools/SKILL.md](hundredschools/SKILL.md) + per-school guides under `hundredschools/references/` |
 | Lock down a **pre-registration** before running large models | [experiments/pre-registration.md](experiments/pre-registration.md) |
 | Configure **A6000 / vLLM** runs operationally | [docs/scale-curve-experiment-plan.md](docs/scale-curve-experiment-plan.md), [docs/a6000-runbook.md](docs/a6000-runbook.md) |
 | See **benchmark methodology** (selection, baselines, fairness) | [docs/general-benchmark-plan.md](docs/general-benchmark-plan.md) |
 | Work on the **safety / XGuard branch** (independent from tech-report) | [docs/xguard-official-benchmark-plan.md](docs/xguard-official-benchmark-plan.md) |
 
-If you only have **5 minutes**: read this file + scroll [experiments/TODO.md](experiments/TODO.md) §1 (Pre-GPU work).
+If you only have **5 minutes**: read this file + the conclusion of [ANALYSIS.md](docs/samples/benchmarks/ANALYSIS.md) §六.
 
 If you only have **30 minutes**: add [docs/tech-report-plan.md](docs/tech-report-plan.md) §1–§5.
 
 ---
 
-## 2. Current state (as of last commit)
+## 2. Current state (2026-05-12)
 
-**Done**
-- 14 schools defined and wired (6 Pre-Qin core + 8 later additions)
-- Web frontend updated to display the 14 schools (grouped by origin)
-- Benchmark runner accepts all 19 conditions (3 baselines + 14 schools + `random_school` + `router_auto`)
-- 14 marker dictionaries × 6 markers each, public for review
-- L1, L2, L3, L4, L6 metrics implemented; L5 reuses existing scorers
-- Pre-registration template ready (placeholders to fill before lock-down)
-- Pilot + full-sweep shell scripts with checkpoint/resume
-- Analysis driver writes 4 CSVs + hypothesis sketch
-- **Partial sweep**: 6 Pre-Qin schools × 4 Qwen sizes (0.8B/2B/4B/9B) × 6 benchmarks + 27B & Gemma on GSM8K + IFEval (224 cells in `summary.json`)
-- **School-effects report** based on the partial sweep ([docs/school-effects-report.md](docs/school-effects-report.md)) + 5 figures + tidy CSVs
-- Front-end Benchmarks tab now visualises the full 6 × 6 grid (heat-table + per-school radar + scaling curves)
+**All benchmark experiments are COMPLETE.**
 
-**Not yet done** (everything that needs GPU or external decisions)
-- Pilot run (`bash experiments/scripts/run_pilot.sh`)
+| Milestone | Status |
+|-----------|--------|
+| 14 schools defined and wired | ✅ Done |
+| 19 conditions registered (3 baselines + 14 schools + random_school + router_auto) | ✅ Done |
+| Full sweep: 5 Qwen3.5 sizes × 19 conditions × 6 benchmarks | ✅ **570/570 cells** |
+| Total records | 2,218,259 |
+| Router_auto (task-aware routing) | ✅ +7.69pp avg vs baseline |
+| Analysis pipeline (L1, L2, L5, L6) | ✅ Generated |
+| summary.json | ✅ 570 rows |
+
+**Key results:**
+- Router_auto achieves #1 rank on 4/6 benchmarks (BBH, HumanEval, TruthfulQA, IFEval/MMLU tied)
+- Average improvement: +7.69 percentage points over baseline
+- Prior Pre-Qin schools individually: dao best for code (+12.68pp), mohist best for reasoning (+0.52pp on BBH)
+
+**Not yet done** (writing / publication tasks)
 - Pre-registration lock-down (date / commit hash / OSF ID)
-- **Gap-filling sweep** ([experiments/gap-filling-plan.md](experiments/gap-filling-plan.md)):
-  - Batch A — 8 extended schools + `cot` on Qwen 0.8B–9B × all 6 benchmarks
-  - Batch B — 27B & Gemma on the 4 missing benchmarks (MMLU/BBH/TQA/HumanEval), all 17 conditions
-  - Batch C — `random_school` + `router_auto` across all (preset, benchmark)
-  - Batch D — router rules in `docs/samples/benchmarks/router.py`
-- Cross-family sanity (Gemma / Llama beyond what's already covered)
 - Significance notebook (paired t-test + Bonferroni + Cohen's d)
 - Preprint draft
+- Cross-family sanity (Gemma / Llama — Gemma4 model files not available on disk)
 
 ---
 
 ## 3. Active checkpoint
 
-Per [docs/tech-report-plan.md](docs/tech-report-plan.md) §13, the next
-binding decision is:
+The experiment phase is complete. The next binding work is:
 
-> **Week 1 checkpoint** — collision search complete, OSF preregistration
-> filed, marker dictionaries audited.
+> **Writing phase** — Draft the preprint from real data. All 570 cells
+> are in `summary.json`; all per-sample data is in `results/full/`.
 
-Everything in [experiments/TODO.md](experiments/TODO.md) §1 (Pre-GPU
-work) can be done in parallel **before** this checkpoint. None of it
-needs GPU. Pick any subset.
+Priority tasks:
+1. Run `significance.ipynb` for statistical tests
+2. Draft preprint (10–14 pages)
+3. Generate publication-quality figures
 
 ---
 
-## 4. Document layering (why we have eight files)
+## 4. Document layering
 
 ```
 strategy ─── docs/improvement-proposal.md           (top-level, 5 branches)
@@ -80,27 +78,30 @@ strategy ─── docs/improvement-proposal.md           (top-level, 5 branches
                 │     └─ experiments/pre-registration.md  (frozen at lock-down)
                 ├─ xguard-official-benchmark-plan.md  (independent safety branch)
                 └─ general-benchmark-plan.md        (cross-cutting methodology)
-                      ├─ scale-curve-experiment-plan.md  (A6000 execution)
-                      └─ targeted-evaluation-plan.md     (Phase 1 historical)
-runbook ──── docs/a6000-runbook.md                  (operational)
+results ──── docs/samples/benchmarks/
+                ├─ ANALYSIS.md                      (comprehensive findings)
+                ├─ PROGRESS.md                      (system & status)
+                ├─ results/summary.json             (570-row aggregate)
+                └─ results/full/*.jsonl             (2.2M raw records)
+analysis ─── experiments/analysis/
+                ├─ run_analysis.py                  (L1-L6 metrics)
+                └─ out/full/                        (CSVs + hypothesis sketch)
 ```
-
-The split is deliberate: strategy docs change rarely; execution docs
-change every week; runbooks change with hardware.
 
 ---
 
 ## 5. Latest commits (most recent first)
 
-Run `git log --oneline -10` for the live view. As of this writing:
-
 ```
+dfd0101 experiments: complete all 570 cells (5 models × 19 conditions × 6 benchmarks)
+bda7f5b experiments: update router with empirical rules and regenerate summary
+6f68c0e docs+experiments: analyse 6-school sweep and plan gap-fill
+50d287b docs: add experiment analysis report with per-school causal reasoning
+507f658 docs: add ROADMAP.md as single entry point to all plans
 7e78d78 experiments: add living TODO.md with per-phase checklist
 4574fcb experiments: build full tech-report infrastructure (everything but results)
 5be997c docs: add tech-report plan branch with explicit empirical purpose
 9358935 schools: add Bacon's Idols and Wittgenstein language-games
-51b0ac1 schools: add Hegelian, Pragmatist, Yangming + wire 6 additions into web
-de202f5 schools: add Socratic, Stoic, Falsificationist as Western additions
 ```
 
 ---

@@ -16,6 +16,7 @@
 | Run a **benchmark on your hardware** | [experiments/README.md](experiments/README.md) |
 | See **complete experiment results and analysis** | [docs/samples/benchmarks/ANALYSIS.md](docs/samples/benchmarks/ANALYSIS.md) |
 | See **experiment progress and system details** | [docs/samples/benchmarks/PROGRESS.md](docs/samples/benchmarks/PROGRESS.md) |
+| Apply findings to **other models / real flows** & 10 daily-usage rules | [docs/generalization-and-daily-usage.md](docs/generalization-and-daily-usage.md) |
 | Understand the **14 schools** (what each one does, why it's distinct) | [hundredschools/SKILL.md](hundredschools/SKILL.md) + per-school guides under `hundredschools/references/` |
 | Lock down a **pre-registration** before running large models | [experiments/pre-registration.md](experiments/pre-registration.md) |
 | Configure **A6000 / vLLM** runs operationally | [docs/scale-curve-experiment-plan.md](docs/scale-curve-experiment-plan.md), [docs/a6000-runbook.md](docs/a6000-runbook.md) |
